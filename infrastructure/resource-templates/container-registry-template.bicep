@@ -24,7 +24,7 @@ resource acrResource 'Microsoft.ContainerRegistry/registries@2022-12-01' = {
     type: 'SystemAssigned'
   }
   properties: {
-    adminUserEnabled: false
+    adminUserEnabled: true
   }
 }
 
