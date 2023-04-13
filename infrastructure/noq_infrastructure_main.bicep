@@ -30,6 +30,9 @@ name: 'noq_rg_${dateStamp}'
 //Creates a Azure Key Vault resource
 module keyVault 'resource-templates/key-vault-template.bicep' = {
   name: 'noq_kv_${dateStamp}'
+  dependsOn: [
+    envResourceGroup
+  ]
   scope: resourceGroup(resourceGroupName)
   params: {
     resourceName: 'kv-noq-${toLower(envShortName)}'
@@ -43,9 +46,13 @@ module keyVault 'resource-templates/key-vault-template.bicep' = {
 //Creates a Azure Storage Account and adds connection string and access keys to Key Vault
 module storageAccount 'resource-templates/storageaccount-template.bicep' = {
   name: 'noq_st_${dateStamp}'
+  dependsOn: [
+    envResourceGroup
+    keyVault
+  ]
   scope: resourceGroup(resourceGroupName)
   params: {
-    resourceName: 'st-noq-${toLower(envShortName)}'
+    resourceName: 'stnoq${toLower(envShortName)}'
     skuName: 'Standard_LRS'
     publicNetworkAccess: 'Deny'
     enableHns: false
@@ -63,9 +70,13 @@ module storageAccount 'resource-templates/storageaccount-template.bicep' = {
 //Creates a Azure Container Registry and adds url and credentials to Key Vault
 module containerRegistry 'resource-templates/container-registry-template.bicep' = {
   name: 'noq_acr_${dateStamp}'
+  dependsOn: [
+    envResourceGroup
+    keyVault
+  ]
   scope: resourceGroup(resourceGroupName)
   params: {
-    resourceName: 'acr-noq-${toLower(envShortName)}'
+    resourceName: 'acrnoq${toLower(envShortName)}'
     azureLocationName: azureLocationName
     keyVaultResource: keyVault.outputs.keyVaultResource
     acrSku: 'Basic'
@@ -76,6 +87,11 @@ module containerRegistry 'resource-templates/container-registry-template.bicep' 
 //Creates a Azure Container Apps environment
 module containerAppEnv './resource-templates/container-apps-environment-template.bicep' = {
   name: 'noq_cae_${dateStamp}'
+  dependsOn: [
+    envResourceGroup
+    containerRegistry
+    keyVault
+  ]
   scope: resourceGroup(resourceGroupName)
   params: {
     resourceName: 'cae-noq-${toLower(envShortName)}'
@@ -83,5 +99,5 @@ module containerAppEnv './resource-templates/container-apps-environment-template
   }
 }
 
-
+//TODO: Add setup of container apps for frontend and backend here.
 
