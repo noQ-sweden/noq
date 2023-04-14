@@ -98,6 +98,3 @@ module containerAppEnv './resource-templates/container-apps-environment-template
     azureLocationName: azureLocationName
   }
 }
-
-//TODO: Add setup of container apps for frontend and backend here.
-
