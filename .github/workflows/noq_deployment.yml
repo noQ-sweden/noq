@@ -1,0 +1,52 @@
+# Deployment pipeline for noQ web application
+name: noQ - Deployment
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  # TODO: Verify Bicep template with --what-if
+  
+  # TODO: Build release artifacts and store
+
+  # Run deployment to dev environment if two previous build steps are successful
+  dev-deployment:
+    name: Development
+    runs-on: ubuntu-latest
+    environment: Development
+
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v3
+    
+    # Authenticate with Azure Cloud
+    - name: 'Log into Azure'
+      uses: Azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        enable-AzPSSession: true  
+
+    # Create formatted timestamp to use as deployment name 
+    - name: Store current timestamp
+      id: date
+      run: echo "ts=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_OUTPUT
+
+    # Provision base infrastructure resources
+    - name: Provision infrastructure
+      uses: azure/arm-deploy@v1
+      with:
+        subscriptionId: ${{ vars.AZURE_SUBSCRIPTIONID }}
+        scope: subscription
+        region: swedencentral
+        template: ./infrastructure/noq-infrastructure-main.bicep
+        deploymentName: 'noq_main_${{ steps.date.outputs.ts }}'
+        parameters: 'envShortName=${{ vars.ENV_SHORTNAME }}'
+        failOnStdErr: false
+
+    # TODO: Deployment of backend service
+
+    # TODO: Deployment of frontend service
