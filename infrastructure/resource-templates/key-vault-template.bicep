@@ -1,4 +1,4 @@
-param primaryLocation string = resourceGroup().location
+param azureLocationName string = resourceGroup().location
 param enableRbacAuthorization bool
 
 @allowed([
@@ -19,7 +19,7 @@ var tenantId = subscription().tenantId
 //Azure Key Vault resource for secret management
 resource keyVault 'Microsoft.KeyVault/vaults@2022-07-01' = {
   name: resourceName
-  location: primaryLocation
+  location: azureLocationName
   properties: {
     enabledForDeployment: true
     enabledForDiskEncryption: true
@@ -49,3 +49,9 @@ output keyVaultId string = keyVault.id
 output keyVaultName string = keyVault.name
 output keyVaultUri string = keyVault.properties.vaultUri
 output keyVaultResourceGroupName string = resourceGroup().name
+output keyVaultResource object = {
+  resourceGroupName: resourceGroup().name
+  resourceId: keyVault.id
+  resourceName: keyVault.name
+  resourceUri: keyVault.properties.vaultUri
+}

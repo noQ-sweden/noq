@@ -1,0 +1,78 @@
+# Deployment pipeline for noQ web application
+name: noQ - Deployment
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  # TODO: Verify Bicep template with --what-if
+  
+  # Run deployment to dev environment if two previous build steps are successful
+  dev-deployment:
+    name: Development
+    runs-on: ubuntu-latest
+    environment: Development
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+    
+      # Authenticate with Azure Cloud
+      - name: 'Log into Azure'
+        uses: Azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          enable-AzPSSession: true  
+
+      # Create formatted timestamp to use as deployment name 
+      - name: Store current timestamp
+        id: date
+        run: echo "ts=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_OUTPUT
+        
+      # Provision base infrastructure resources
+      - name: Provision base infrastructure
+        id: arm
+        uses: azure/arm-deploy@v1
+        with:
+          subscriptionId: ${{ vars.AZURE_SUBSCRIPTIONID }}
+          scope: subscription
+          region: swedencentral
+          template: ./infrastructure/noq-infrastructure-main.bicep
+          deploymentName: 'noq_main_${{ steps.date.outputs.ts }}'
+          parameters: 'envShortName=${{ vars.ENV_SHORTNAME }}'
+          failOnStdErr: false
+
+      - name: Get container registry credentials
+        id: keyVaultSecrets
+        run: | 
+          registryUsername=$(az keyvault secret show --name ${{ steps.arm.outputs.registryUsernameSecretName }} --vault-name ${{ steps.arm.outputs.keyVaultName }} --query value)
+          echo "::add-mask::$registryUsername"
+          echo registryUsername=$registryUsername >> $GITHUB_ENV
+          registryPassword=$(az keyvault secret show --name ${{ steps.arm.outputs.registryPwdSecretName }} --vault-name ${{ steps.arm.outputs.keyVaultName }} --query value)
+          echo "::add-mask::$registryPassword"
+          echo registryPassword=$registryPassword >> $GITHUB_ENV
+
+      - name: 'Container Registry Login'
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ steps.arm.outputs.registryLoginServer }}
+          username: ${{ env.registryUsername }}
+          password: ${{ env.registryPassword }}
+      
+      - name: 'Build and push front-end container image'
+        working-directory: frontend/react
+        run: |
+          docker build . -t ${{ steps.arm.outputs.registryLoginServer }}/frontend/noq-frontend:${{ github.sha }}
+          docker push ${{ steps.arm.outputs.registryLoginServer }}/frontend/noq-frontend:${{ github.sha }}
+      
+        
+
+      # TODO: Deployment of frontend service
+      
+      # TODO: Deployment of backend service
+      
+          
