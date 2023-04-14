@@ -98,3 +98,8 @@ module containerAppEnv './resource-templates/container-apps-environment-template
     azureLocationName: azureLocationName
   }
 }
+
+output registryLoginServer string = containerRegistry.outputs.registryloginServer
+output registryUsernameSecretName string = containerRegistry.outputs.usernameSecretName
+output registryPwdSecretName string = containerRegistry.outputs.pwdPrimarySecretName
+output keyVaultName string = keyVault.outputs.keyVaultName
