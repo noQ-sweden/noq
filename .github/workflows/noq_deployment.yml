@@ -49,21 +49,25 @@ jobs:
       - name: Get container registry credentials
         id: keyVaultSecrets
         run: | 
-          echo "username=$(az keyvault secret show --name ${{ steps.arm.outputs.registryUsernameSecretName }} --vault-name ${{ steps.arm.outputs.keyVaultName }} --query value)" >> $GITHUB_OUTPUT
-          echo "password=$(az keyvault secret show --name ${{ steps.arm.outputs.registryPwdSecretName }} --vault-name ${{ steps.arm.outputs.keyVaultName }} --query value)" >> $GITHUB_OUTPUT
+          registryUsername=$(az keyvault secret show --name ${{ steps.arm.outputs.registryUsernameSecretName }} --vault-name ${{ steps.arm.outputs.keyVaultName }} --query value)
+          echo "::add-mask::$registryUsername"
+          echo registryUsername=$registryUsername >> $GITHUB_ENV
+          registryPassword=$(az keyvault secret show --name ${{ steps.arm.outputs.registryPwdSecretName }} --vault-name ${{ steps.arm.outputs.keyVaultName }} --query value)
+          echo "::add-mask::$registryPassword"
+          echo registryPassword=$registryPassword >> $GITHUB_ENV
 
-      - name: 'Azure Container Registry Login'
+      - name: 'Container Registry Login'
         uses: azure/docker-login@v1
         with:
           login-server: ${{ steps.arm.outputs.registryLoginServer }}
-          username: ${{ steps.keyVaultSecrets.outputs.username }}
-          password: ${{ steps.keyVaultSecrets.outputs.password }}
+          username: ${{ env.registryUsername }}
+          password: ${{ env.registryPassword }}
       
       - name: 'Build and push front-end container image'
-        working-directory: ./frontend/react
+        working-directory: frontend/react
         run: |
-          docker build . -t ${{ steps.arm.outputs.registryLoginServer }}/frontend:${{ github.sha }}
-          docker push ${{ steps.arm.outputs.registryLoginServer }}/frontend:${{ github.sha }}
+          docker build . -t ${{ steps.arm.outputs.registryLoginServer }}/frontend/noq-frontend:${{ github.sha }}
+          docker push ${{ steps.arm.outputs.registryLoginServer }}/frontend/noq-frontend:${{ github.sha }}
       
         
 
