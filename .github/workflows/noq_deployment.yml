@@ -64,9 +64,8 @@ jobs:
           password: ${{ env.registryPassword }}
       
       - name: 'Build and push front-end container image'
-        working-directory: frontend/react
         run: |
-          docker build . -t ${{ steps.arm.outputs.registryLoginServer }}/frontend/noq-frontend:${{ github.sha }}
+          docker build ./frontend/react -t ${{ steps.arm.outputs.registryLoginServer }}/frontend/noq-frontend:${{ github.sha }}
           docker push ${{ steps.arm.outputs.registryLoginServer }}/frontend/noq-frontend:${{ github.sha }}
       
         
