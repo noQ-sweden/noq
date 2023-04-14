@@ -3,7 +3,7 @@ name: noQ - Deployment
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "feature/azure_iac_setup" ]
   pull_request:
     branches: [ "main" ]
 
@@ -11,8 +11,6 @@ jobs:
 
   # TODO: Verify Bicep template with --what-if
   
-  # TODO: Build release artifacts and store
-
   # Run deployment to dev environment if two previous build steps are successful
   dev-deployment:
     name: Development
@@ -20,33 +18,57 @@ jobs:
     environment: Development
 
     steps:
-    - name: Check out repository
-      uses: actions/checkout@v3
+      - name: Check out repository
+        uses: actions/checkout@v3
     
-    # Authenticate with Azure Cloud
-    - name: 'Log into Azure'
-      uses: Azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
-        enable-AzPSSession: true  
+      # Authenticate with Azure Cloud
+      - name: 'Log into Azure'
+        uses: Azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          enable-AzPSSession: true  
 
-    # Create formatted timestamp to use as deployment name 
-    - name: Store current timestamp
-      id: date
-      run: echo "ts=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_OUTPUT
+      # Create formatted timestamp to use as deployment name 
+      - name: Store current timestamp
+        id: date
+        run: echo "ts=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_OUTPUT
+        
+      # Provision base infrastructure resources
+      - name: Provision base infrastructure
+        id: arm
+        uses: azure/arm-deploy@v1
+        with:
+          subscriptionId: ${{ vars.AZURE_SUBSCRIPTIONID }}
+          scope: subscription
+          region: swedencentral
+          template: ./infrastructure/noq-infrastructure-main.bicep
+          deploymentName: 'noq_main_${{ steps.date.outputs.ts }}'
+          parameters: 'envShortName=${{ vars.ENV_SHORTNAME }}'
+          failOnStdErr: false
 
-    # Provision base infrastructure resources
-    - name: Provision infrastructure
-      uses: azure/arm-deploy@v1
-      with:
-        subscriptionId: ${{ vars.AZURE_SUBSCRIPTIONID }}
-        scope: subscription
-        region: swedencentral
-        template: ./infrastructure/noq-infrastructure-main.bicep
-        deploymentName: 'noq_main_${{ steps.date.outputs.ts }}'
-        parameters: 'envShortName=${{ vars.ENV_SHORTNAME }}'
-        failOnStdErr: false
+      - name: Get container registry credentials
+        id: keyVaultSecrets
+        run: | 
+          echo "username=$(az keyvault secret show --name ${{ steps.arm.outputs.registryUsernameSecretName }} --vault-name ${{ steps.arm.outputs.keyVaultName }} --query value)" >> $GITHUB_OUTPUT
+          echo "password=$(az keyvault secret show --name ${{ steps.arm.outputs.registryPwdSecretName }} --vault-name ${{ steps.arm.outputs.keyVaultName }} --query value)" >> $GITHUB_OUTPUT
 
-    # TODO: Deployment of backend service
+      - name: 'Azure Container Registry Login'
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ steps.arm.outputs.registryLoginServer }}
+          username: ${{ steps.keyVaultSecrets.outputs.username }}
+          password: ${{ steps.keyVaultSecrets.outputs.password }}
+      
+      - name: 'Build and push front-end container image'
+        working-directory: ./frontend/react
+        run: |
+          docker build . -t ${{ steps.arm.outputs.registryLoginServer }}/frontend:${{ github.sha }}
+          docker push ${{ steps.arm.outputs.registryLoginServer }}/frontend:${{ github.sha }}
+      
+        
 
-    # TODO: Deployment of frontend service
+      # TODO: Deployment of frontend service
+      
+      # TODO: Deployment of backend service
+      
+          
