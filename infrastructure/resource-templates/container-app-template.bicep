@@ -14,6 +14,12 @@ param containerImage string
 param targetPort int
 param hasExternalIngress bool
 
+param registry string
+@secure()
+param registryUsername string
+@secure()
+param registryPassword string
+
 // Reference the managed environment resource
 resource environment 'Microsoft.App/managedEnvironments@2022-10-01' existing = {
   name: environmentName
@@ -29,11 +35,24 @@ resource containerApp 'Microsoft.App/containerApps@2022-03-01' ={
   properties:{
     managedEnvironmentId: environment.id
     configuration: {
+      secrets: [
+        { 
+          name: 'REGISTRY_PASSWORD'
+          value: registryPassword
+        }
+      ]
       ingress: {
         targetPort: targetPort
         external: hasExternalIngress
         allowInsecure: false
       }
+      registries: [
+        {
+          server: registry
+          username: registryUsername
+          passwordSecretRef: 'REGISTRY_PASSWORD'
+        }
+      ]
     }
     template: {
       containers: [

@@ -18,6 +18,12 @@ param containerImage string
 
 param containerEnvironment string
 
+param registry string
+@secure()
+param registryUsername string
+@secure()
+param registryPassword string
+
 //Resource group for environment
 var resourceGroupName = 'rg-noq-${toLower(envShortName)}'
 
@@ -32,5 +38,8 @@ module containerApp './resource-templates/container-app-template.bicep' = {
     hasExternalIngress: true
     azureLocationName: azureLocationName
     containerImage: containerImage
+    registry: registry
+    registryUsername: registryUsername
+    registryPassword: registryPassword
   }
 }
