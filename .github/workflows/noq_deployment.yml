@@ -69,6 +69,6 @@ jobs:
           region: swedencentral
           template: ./infrastructure/noq-container-app.bicep
           deploymentName: 'noq_fe_${{ steps.date.outputs.ts }}'
-          parameters: 'envShortName=${{ vars.ENV_SHORTNAME }} appName="noq-frontend" containerEnvironment=${{ steps.arm.outputs.containerEnvironmentName }}'
+          parameters: 'envShortName=${{ vars.ENV_SHORTNAME }} appName="noq-frontend" containerEnvironment=${{ steps.arm.outputs.containerEnvironmentName }} containerImage=${{ steps.arm.outputs.registryLoginServer }}/frontend/noq-frontend:${{ github.sha }}'
           failOnStdErr: false      
           
