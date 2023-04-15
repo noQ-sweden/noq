@@ -15,7 +15,6 @@ param targetPort int
 param hasExternalIngress bool
 
 param registry string
-@secure()
 param registryUsername string
 @secure()
 param registryPassword string
@@ -37,7 +36,7 @@ resource containerApp 'Microsoft.App/containerApps@2022-03-01' ={
     configuration: {
       secrets: [
         { 
-          name: 'REGISTRY_PASSWORD'
+          name: 'registry-password'
           value: registryPassword
         }
       ]
@@ -50,7 +49,7 @@ resource containerApp 'Microsoft.App/containerApps@2022-03-01' ={
         {
           server: registry
           username: registryUsername
-          passwordSecretRef: 'REGISTRY_PASSWORD'
+          passwordSecretRef: 'registry-password'
         }
       ]
     }
@@ -61,17 +60,11 @@ resource containerApp 'Microsoft.App/containerApps@2022-03-01' ={
           name: containerAppName
         }
       ]
+      scale: {
+        minReplicas: 0
+        maxReplicas: 2
+      }
     }
-  }
-}
-
-// Assign container app MI AcrPull role
-resource containerAppAcrPullRoleAssignment 'Microsoft.Authorization/roleAssignments@2020-04-01-preview' = {
-  name: guid(containerApp.id, 'AcrPull')
-  scope: resourceGroup()
-  properties: {
-    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '7f951dda-4ed3-4680-a7ca-43fe172d538d')
-    principalId: containerApp.identity.principalId
   }
 }
 

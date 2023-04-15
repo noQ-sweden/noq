@@ -19,7 +19,6 @@ param containerImage string
 param containerEnvironment string
 
 param registry string
-@secure()
 param registryUsername string
 @secure()
 param registryPassword string
