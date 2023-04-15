@@ -46,16 +46,6 @@ jobs:
           parameters: 'envShortName=${{ vars.ENV_SHORTNAME }}'
           failOnStdErr: false
 
-      # - name: Get container registry credentials
-      #   id: keyVaultSecrets
-      #   run: | 
-      #     registryUsername=$(az keyvault secret show --name ${{ steps.arm.outputs.registryUsernameSecretName }} --vault-name ${{ steps.arm.outputs.keyVaultName }} --query value)
-      #     echo "::add-mask::$registryUsername"
-      #     echo registryUsername=$registryUsername >> $GITHUB_ENV
-      #     registryPassword=$(az keyvault secret show --name ${{ steps.arm.outputs.registryPwdSecretName }} --vault-name ${{ steps.arm.outputs.keyVaultName }} --query value)
-      #     echo "::add-mask::$registryPassword"
-      #     echo registryPassword=$registryPassword >> $GITHUB_ENV
-
       - name: 'Container Registry Login'
         uses: azure/docker-login@v1
         with:
@@ -63,16 +53,22 @@ jobs:
           username: ${{ secrets.AZ_SPN_ID }}
           password: ${{ secrets.AZ_SPN_SECRET }}
       
-      - name: 'Build and push front-end container image'
+      - name: 'Build and push frontend container image'
         working-directory: frontend/react
         run: |
           docker build . -t ${{ steps.arm.outputs.registryLoginServer }}/frontend/noq-frontend:${{ github.sha }}
           docker push ${{ steps.arm.outputs.registryLoginServer }}/frontend/noq-frontend:${{ github.sha }}
       
-        
-
-      # TODO: Deployment of frontend service
-      
-      # TODO: Deployment of backend service
-      
+      # Provision container app for frontend
+      - name: Provision frontend container app
+        id: frontend
+        uses: azure/arm-deploy@v1
+        with:
+          subscriptionId: ${{ vars.AZURE_SUBSCRIPTIONID }}
+          scope: subscription
+          region: swedencentral
+          template: ./infrastructure/noq-container-app.bicep
+          deploymentName: 'noq_fe_${{ steps.date.outputs.ts }}'
+          parameters: 'envShortName=${{ vars.ENV_SHORTNAME }} appName="noq-frontend" containerEnvironment=${{ steps.arm.outputs.containerEnvironmentName }}'
+          failOnStdErr: false      
           

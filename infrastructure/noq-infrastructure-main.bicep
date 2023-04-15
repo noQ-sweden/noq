@@ -103,3 +103,4 @@ output registryLoginServer string = containerRegistry.outputs.registryloginServe
 output registryUsernameSecretName string = containerRegistry.outputs.usernameSecretName
 output registryPwdSecretName string = containerRegistry.outputs.pwdPrimarySecretName
 output keyVaultName string = keyVault.outputs.keyVaultName
+output containerEnvironmentName string = containerAppEnv.outputs.resourceName
