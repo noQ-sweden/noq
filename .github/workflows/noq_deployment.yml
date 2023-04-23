@@ -7,7 +7,26 @@ on:
 
 jobs:
 
-  # TODO: Verify build of frontend
+  # Verify build of frontend
+  build-frontend:
+    name: Build frontend
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js 18.x
+        uses: actions/setup-node@v2
+        with:
+          node-version: 18.x
+
+      - name: Install dependencies
+        working-directory: frontend/react
+        run: npm ci
+
+      - name: Build frontend
+        working-directory: frontend/react
+        run: npm run build
 
   # Verify build of backend
   build-backend:
@@ -23,7 +42,7 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Build with Maven
+      - name: Build backend
         working-directory: backend/
         run: mvn -B package --file pom.xml
 
@@ -32,7 +51,7 @@ jobs:
   # Run deployment to dev environment if two previous build steps are successful
   dev-deployment:
     name: Development
-    needs: [build-backend]
+    needs: [build-frontend, build-backend]
     runs-on: ubuntu-latest
     environment: Development
 
