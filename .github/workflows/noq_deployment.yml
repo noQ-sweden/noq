@@ -25,7 +25,7 @@ jobs:
 
       - name: Build with Maven
         working-directory: backend/
-        run: mvn --batch-mode --update-snapshots package
+        run: mvn -B package --file pom.xml
 
   # TODO: Verify Bicep template with --what-if
   
