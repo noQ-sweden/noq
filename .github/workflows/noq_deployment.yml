@@ -50,7 +50,7 @@ jobs:
   
   # Run deployment to dev environment if two previous build steps are successful
   dev-deployment:
-    name: Development
+    name: Deploy to Development
     needs: [build-frontend, build-backend]
     runs-on: ubuntu-latest
     environment: Development
@@ -118,5 +118,9 @@ jobs:
           template: ./infrastructure/noq-container-app.bicep
           deploymentName: 'noq_fe_${{ steps.date.outputs.ts }}'
           parameters: 'registryPassword=${{ env.registryPassword }} registryUsername=${{ env.registryUsername }} registry=${{ steps.arm.outputs.registryLoginServer }} envShortName=${{ vars.ENV_SHORTNAME }} appName="noq-frontend" containerEnvironment=${{ steps.arm.outputs.containerEnvironmentName }} containerImage=${{ steps.arm.outputs.registryLoginServer }}/frontend/noq-frontend:${{ github.sha }}'
-          failOnStdErr: false      
+          failOnStdErr: false
+
+      # TODO: Build and push backend container image
+
+      # TODO: Provision container app for backend
           
