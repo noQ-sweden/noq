@@ -4,16 +4,54 @@ name: noQ - Deployment
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
 
 jobs:
+
+  # Verify build of frontend
+  build-frontend:
+    name: Build frontend
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js 18.x
+        uses: actions/setup-node@v2
+        with:
+          node-version: 18.x
+
+      - name: Install dependencies
+        working-directory: frontend/react
+        run: npm install
+
+      - name: Build frontend
+        working-directory: frontend/react
+        run: npm run build
+
+  # Verify build of backend
+  build-backend:
+    name: Build backend
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Build backend
+        working-directory: backend/
+        run: mvn -B package --file pom.xml
 
   # TODO: Verify Bicep template with --what-if
   
   # Run deployment to dev environment if two previous build steps are successful
   dev-deployment:
-    name: Development
+    name: Deploy to Development
+    needs: [build-frontend, build-backend]
     runs-on: ubuntu-latest
     environment: Development
 
@@ -80,5 +118,9 @@ jobs:
           template: ./infrastructure/noq-container-app.bicep
           deploymentName: 'noq_fe_${{ steps.date.outputs.ts }}'
           parameters: 'registryPassword=${{ env.registryPassword }} registryUsername=${{ env.registryUsername }} registry=${{ steps.arm.outputs.registryLoginServer }} envShortName=${{ vars.ENV_SHORTNAME }} appName="noq-frontend" containerEnvironment=${{ steps.arm.outputs.containerEnvironmentName }} containerImage=${{ steps.arm.outputs.registryLoginServer }}/frontend/noq-frontend:${{ github.sha }}'
-          failOnStdErr: false      
+          failOnStdErr: false
+
+      # TODO: Build and push backend container image
+
+      # TODO: Provision container app for backend
           
