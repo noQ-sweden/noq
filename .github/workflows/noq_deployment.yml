@@ -3,7 +3,7 @@ name: noQ - Deployment
 
 on:
   push:
-    branches: [ "main", "feature/backend_deploy" ]
+    branches: [ "main" ]
 
 jobs:
 
