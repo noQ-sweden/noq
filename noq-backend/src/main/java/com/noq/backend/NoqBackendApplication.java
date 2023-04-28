@@ -1,13 +1,13 @@
-package help.noqsweden.noq;
+package com.noq.backend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class NoQApplication {
+public class NoqBackendApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(NoQApplication.class, args);
+        SpringApplication.run(NoqBackendApplication.class, args);
     }
 
 }
