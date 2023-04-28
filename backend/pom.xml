@@ -10,7 +10,7 @@
     </parent>
     <groupId>help.noQ-sweden</groupId>
     <artifactId>noQ</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <name>noQ</name>
     <description>noQ</description>
     <properties>
