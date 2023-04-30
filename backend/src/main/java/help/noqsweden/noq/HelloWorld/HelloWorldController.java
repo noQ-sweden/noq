@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders ="*")
 @RequestMapping("/helloworld")
 public class HelloWorldController {
 
@@ -15,7 +16,7 @@ public class HelloWorldController {
         this.helloWorldService = helloWorldService;
     }
 
-    @CrossOrigin
+
     @GetMapping()
     public String helloWorld() {
         return helloWorldService.helloWorld();

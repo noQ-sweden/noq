@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/backend/noQ.iml" filepath="$PROJECT_DIR$/backend/noQ.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/noq.iml" filepath="$PROJECT_DIR$/.idea/noq.iml" />
     </modules>
   </component>
 </project>
