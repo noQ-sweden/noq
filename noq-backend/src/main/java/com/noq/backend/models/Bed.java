@@ -15,10 +15,12 @@ public class Bed {
     @Id @Column(name = "id", nullable = false)
     private Long id;
     private int size;
+    private double price;
 
-    public Bed(int size) {
+    public Bed(int size, double price) {
         this.id= UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE;
         this.size = size;
+        this.price = price;
     }
 
 }
