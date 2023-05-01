@@ -1,28 +1,24 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import noqLogo from '/noQ.png'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, useEffect } from "react";
+import noqLogo from "/noQ.png";
+import axios from "axios";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [message, setMessage] = useState("hello world");
+
+  useEffect(() => {
+    axios.get("")
+      .then((response) => setMessage(response.data))
+      .catch((error) => console.error(error));
+  }, []);
 
   return (
-    <div className="App">
+    <div className="h-screen flex flex-col justify-center items-center bg-gray-800 text-white">
       <div>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={noqLogo} className="logo noQ" alt="noQ Logo" />
-        </a>
+        <img src={noqLogo} className="h-72 w-72 mb-5" alt="noQ-Logo" />
       </div>
-
-      
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-      </div>
+      <h1 className="text-4xl font-bold underline">{message}</h1>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
