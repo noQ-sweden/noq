@@ -1,10 +1,8 @@
 package com.noq.backend.models;
 
-import jakarta.persistence.Column;
+import jakarta.persistence;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 
 import java.util.UUID;
 
