@@ -2,10 +2,7 @@ package com.noq.backend.models;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.FetchType;
+import jakarta.persistence.*;
 
 import java.util.UUID;
 
