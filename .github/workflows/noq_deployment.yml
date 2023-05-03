@@ -44,7 +44,7 @@ jobs:
 
       - name: Build backend
         working-directory: noq-backend/
-        run: mvn -B package --file pom.xml
+        run: mvn -B package --file pom.xml -e
 
   # TODO: Verify Bicep template with --what-if
   
