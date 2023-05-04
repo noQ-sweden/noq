@@ -4,8 +4,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-
+import java.util.Set;
 import java.util.UUID;
+import jakarta.persistence.*;
+import java.util.*;
 
 @Data
 @NoArgsConstructor
@@ -16,7 +18,7 @@ public class Host {
     private Address location;
 
     @OneToMany(mappedBy = "host",  cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Bed> beds = new ArrayList<>();
+    private Set<Bed> beds = new HashSet<>();
 
 
 }

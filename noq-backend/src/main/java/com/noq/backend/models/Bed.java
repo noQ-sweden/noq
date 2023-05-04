@@ -1,10 +1,9 @@
 package com.noq.backend.models;
 
-import jakarta.persistence.Column;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import java.math.BigDecimal;
 
 import java.util.UUID;
 
@@ -19,7 +18,7 @@ public class Bed {
     private Status status;
     private Address address;
     private String picture;
-    
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "host_id")
     private Host host;
