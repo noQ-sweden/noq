@@ -10,7 +10,6 @@ public enum Status {
     Status(String name) {
         this.name = name;
     }
-
     public String getDisplayName() {
         return name;
     }
