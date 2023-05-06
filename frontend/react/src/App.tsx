@@ -4,13 +4,7 @@ import axios from "axios";
 
 function App() {
   const [message, setMessage] = useState("hello world");
-
-  useEffect(() => {
-    axios.get("")
-      .then((response) => setMessage(response.data))
-      .catch((error) => console.error(error));
-  }, []);
-
+ 
   return (
     <div className="h-screen flex flex-col justify-center items-center bg-gray-800 text-white">
       <div>
@@ -22,3 +16,4 @@ function App() {
 }
 
 export default App;
+
