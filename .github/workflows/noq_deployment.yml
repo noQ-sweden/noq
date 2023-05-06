@@ -3,7 +3,7 @@ name: noQ - Deployment
 
 on:
   push:
-    branches: [ "main", "jonsing/unaware-wildfowl" ]
+    branches: [ "main" ]
 
 jobs:
 
