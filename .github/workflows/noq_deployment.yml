@@ -123,7 +123,7 @@ jobs:
           region: swedencentral
           template: ./infrastructure/noq-container-app.bicep
           deploymentName: 'noq_fe_${{ steps.date.outputs.ts }}'
-          parameters: 'registryPassword=${{ env.registryPassword }} registryUsername=${{ env.registryUsername }} registry=${{ steps.arm.outputs.registryLoginServer }} envShortName=${{ vars.ENV_SHORTNAME }} appName="noq-frontend" containerEnvironment=${{ steps.arm.outputs.containerEnvironmentName }} containerImage=${{ steps.arm.outputs.registryLoginServer }}/frontend/noq-frontend:${{ github.sha }}'
+          parameters: 'registryPassword=${{ env.registryPassword }} registryUsername=${{ env.registryUsername }} registry=${{ steps.arm.outputs.registryLoginServer }} envShortName=${{ vars.ENV_SHORTNAME }} appName="noq-frontend" containerEnvironment=${{ steps.arm.outputs.containerEnvironmentName }} containerImage=${{ steps.arm.outputs.registryLoginServer }}/frontend/noq-frontend:${{ github.sha }} targetPort=80'
           failOnStdErr: false
 
       # TODO: Provision container app for backend
@@ -136,6 +136,6 @@ jobs:
           region: swedencentral
           template: ./infrastructure/noq-container-app.bicep
           deploymentName: 'noq_be_${{ steps.date.outputs.ts }}'
-          parameters: 'registryPassword=${{ env.registryPassword }} registryUsername=${{ env.registryUsername }} registry=${{ steps.arm.outputs.registryLoginServer }} envShortName=${{ vars.ENV_SHORTNAME }} appName="noq-backend" containerEnvironment=${{ steps.arm.outputs.containerEnvironmentName }} containerImage=${{ steps.arm.outputs.registryLoginServer }}/backend/noq-backend:${{ github.sha }}'
+          parameters: 'registryPassword=${{ env.registryPassword }} registryUsername=${{ env.registryUsername }} registry=${{ steps.arm.outputs.registryLoginServer }} envShortName=${{ vars.ENV_SHORTNAME }} appName="noq-backend" containerEnvironment=${{ steps.arm.outputs.containerEnvironmentName }} containerImage=${{ steps.arm.outputs.registryLoginServer }}/backend/noq-backend:${{ github.sha }} targetPort=8080'
           failOnStdErr: false
           
