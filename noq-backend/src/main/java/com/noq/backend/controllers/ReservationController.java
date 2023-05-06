@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/reservation")
 @CrossOrigin(origins = "*", allowedHeaders ="*")
-public class Reservation {
+public class ReservationController {
 
-    @GetMapping("hello")
+    @GetMapping("/hello")
     public String testHello() {
         return "hello";
     }
