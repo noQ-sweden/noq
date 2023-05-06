@@ -17,6 +17,7 @@
         <java.version>17</java.version>
         <springdoc.swagger-ui.path>/swagger-ui.html</springdoc.swagger-ui.path>
         <springdoc.api-docs.path>/v3/api-docs</springdoc.api-docs.path>
+        <start-class>com.noq.backend.NoqBackendApplication</start-class>
     </properties>
     <dependencies>
         <dependency>

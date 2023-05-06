@@ -43,8 +43,8 @@ jobs:
           distribution: 'temurin'
 
       - name: Build backend
-        working-directory: backend/
-        run: mvn -B package --file pom.xml
+        working-directory: noq-backend/
+        run: mvn -B package --file pom.xml -e
 
   # TODO: Verify Bicep template with --what-if
   
@@ -97,6 +97,12 @@ jobs:
           docker build . -t ${{ steps.arm.outputs.registryLoginServer }}/frontend/noq-frontend:${{ github.sha }}
           docker push ${{ steps.arm.outputs.registryLoginServer }}/frontend/noq-frontend:${{ github.sha }}
       
+      - name: 'Build and push backend container image'
+        working-directory: noq-backend
+        run: |
+          docker build . -t ${{ steps.arm.outputs.registryLoginServer }}/backend/noq-backend:${{ github.sha }}
+          docker push ${{ steps.arm.outputs.registryLoginServer }}/backend/noq-backend:${{ github.sha }}
+
       - name: Get container registry credentials
         id: keyVaultSecrets
         run: | 
@@ -120,7 +126,16 @@ jobs:
           parameters: 'registryPassword=${{ env.registryPassword }} registryUsername=${{ env.registryUsername }} registry=${{ steps.arm.outputs.registryLoginServer }} envShortName=${{ vars.ENV_SHORTNAME }} appName="noq-frontend" containerEnvironment=${{ steps.arm.outputs.containerEnvironmentName }} containerImage=${{ steps.arm.outputs.registryLoginServer }}/frontend/noq-frontend:${{ github.sha }}'
           failOnStdErr: false
 
-      # TODO: Build and push backend container image
-
       # TODO: Provision container app for backend
+      - name: Provision backend container app
+        id: backend
+        uses: azure/arm-deploy@v1
+        with:
+          subscriptionId: ${{ vars.AZURE_SUBSCRIPTIONID }}
+          scope: subscription
+          region: swedencentral
+          template: ./infrastructure/noq-container-app.bicep
+          deploymentName: 'noq_be_${{ steps.date.outputs.ts }}'
+          parameters: 'registryPassword=${{ env.registryPassword }} registryUsername=${{ env.registryUsername }} registry=${{ steps.arm.outputs.registryLoginServer }} envShortName=${{ vars.ENV_SHORTNAME }} appName="noq-backend" containerEnvironment=${{ steps.arm.outputs.containerEnvironmentName }} containerImage=${{ steps.arm.outputs.registryLoginServer }}/backend/noq-backend:${{ github.sha }}'
+          failOnStdErr: false
           
