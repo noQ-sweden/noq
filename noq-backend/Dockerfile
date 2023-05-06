@@ -1,10 +1,10 @@
 FROM maven:3.9.1-eclipse-temurin-17-alpine as builder
 WORKDIR /app
 COPY ./pom.xml .
+COPY ./src ./src
 
 RUN mvn -B -X package --file pom.xml -e
 
-COPY ./src ./src
  
 FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
