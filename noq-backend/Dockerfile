@@ -1,6 +1,14 @@
-FROM openjdk:17-jdk-alpine
+FROM maven:3.9.1-eclipse-temurin-17-alpine as builder
 WORKDIR /app
-COPY ./target/backend-0.0.1.jar /app
-EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "backend-0.0.1.jar"]
+COPY ./pom.xml .
 
+RUN mvn -B -X package --file pom.xml -e
+
+COPY ./src ./src
+ 
+FROM eclipse-temurin:17-jre-alpine
+WORKDIR /app
+EXPOSE 8080
+
+COPY --from=builder /app/target/backend-*.jar /app/backend.jar
+ENTRYPOINT ["java", "-jar", "/app/backend.jar" ]
