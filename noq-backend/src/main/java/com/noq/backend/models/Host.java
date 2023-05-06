@@ -14,7 +14,7 @@ import java.util.*;
 public class Host {
     @Id private Long hostId;
     private String name;
-    private Address location;
+    private Address location; // Should this be a ManyToMany relationship?
 
     @OneToMany(mappedBy = "host",  cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Bed> beds = new HashSet<>();

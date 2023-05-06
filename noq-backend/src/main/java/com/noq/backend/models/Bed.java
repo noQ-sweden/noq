@@ -10,14 +10,14 @@ import java.util.UUID;
 
 @Data
 @NoArgsConstructor
-@Entity(name ="bads")
+@Entity(name ="beds")
 public class Bed {
     @Id @Column(name = "id", nullable = false)
     private Long id;
     private int size;
     private BigDecimal price;
     private Status status;
-    private Address address;
+    private Address address; // Should this be a ManyToMany relationship with Address?
     private String picture;
 
     @ManyToOne(fetch = FetchType.LAZY)
