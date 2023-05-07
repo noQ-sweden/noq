@@ -20,5 +20,5 @@ public class Reservation {
     private User user;
 
     private LocalDateTime reservedTime;
-    private Status status;
+
 }
