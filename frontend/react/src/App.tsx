@@ -8,7 +8,7 @@ function App() {
   const getMessage = async () => {
       try {
           const response = await axios.get("https://ca-noq-backend--u32igcx.thankfulglacier-35d24b26.swedencentral.azurecontainerapps.io/api/reservation/hello");
-          setMessage(response.data.message);
+          setMessage(response.data);
       } catch (error) {
           console.error(error);
       }
