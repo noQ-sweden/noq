@@ -21,7 +21,7 @@ param registryPassword string
 
 param allowedOrigins string = ''
 
-var corsPolicy = allowedOrigins != '' ? [] : [allowedOrigins]
+var corsPolicy = allowedOrigins != '' ? [allowedOrigins] : null
 
 // Reference the managed environment resource
 resource environment 'Microsoft.App/managedEnvironments@2022-10-01' existing = {
@@ -46,7 +46,7 @@ resource containerApp 'Microsoft.App/containerApps@2022-10-01' ={
       ]
       ingress: {
         corsPolicy: {
-          allowedOrigins: corsPolicy
+          allowedOrigins: corsPolicy!
         }
         targetPort: targetPort
         external: hasExternalIngress
