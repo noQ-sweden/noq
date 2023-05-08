@@ -42,7 +42,9 @@ module containerApp './resource-templates/container-app-template.bicep' = {
     registry: registry
     registryUsername: registryUsername
     registryPassword: registryPassword
-    allowedOrigins: allowedOrigin
+    allowedOrigins: [
+      allowedOrigin
+    ]
   }
 }
 

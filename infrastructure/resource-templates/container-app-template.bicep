@@ -19,9 +19,9 @@ param registryUsername string
 @secure()
 param registryPassword string
 
-param allowedOrigins string = ''
+param allowedOrigins array = []
 
-var corsPolicy = allowedOrigins != '' ? [allowedOrigins] : null
+var corsPolicy = empty(allowedOrigins) ? null : allowedOrigins
 
 // Reference the managed environment resource
 resource environment 'Microsoft.App/managedEnvironments@2022-10-01' existing = {
