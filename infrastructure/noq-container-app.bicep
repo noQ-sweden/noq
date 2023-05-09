@@ -22,6 +22,8 @@ param registry string
 param registryUsername string
 @secure()
 param registryPassword string
+param targetPort int
+param allowedOrigin string = ''
 
 //Resource group for environment
 var resourceGroupName = 'rg-noq-${toLower(envShortName)}'
@@ -32,7 +34,7 @@ module containerApp './resource-templates/container-app-template.bicep' = {
   params: {
     resourceName: 'ca-${appName}'
     containerAppName: appName
-    targetPort: 80
+    targetPort: targetPort
     environmentName: containerEnvironment
     hasExternalIngress: true
     azureLocationName: azureLocationName
@@ -40,5 +42,10 @@ module containerApp './resource-templates/container-app-template.bicep' = {
     registry: registry
     registryUsername: registryUsername
     registryPassword: registryPassword
+    allowedOrigins: [
+      allowedOrigin
+    ]
   }
 }
+
+output containerFqdn string = containerApp.outputs.resourceFqdn

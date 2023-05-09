@@ -102,7 +102,7 @@ resource container 'Microsoft.Storage/storageAccounts/blobServices/containers@20
 }]
 
 module accessKey './key-vault-secret-template.bicep' = if (addToKeyVault) {
-  name: 'cribwise_api_${resourceName}-accessKey-${dateStamp}'
+  name: 'noq_api_${resourceName}-accessKey-${dateStamp}'
   scope: resourceGroup(keyVaultResource.resourceGroupName)
   params: {
     keyVaultResourceName: keyVaultResource.resourceName

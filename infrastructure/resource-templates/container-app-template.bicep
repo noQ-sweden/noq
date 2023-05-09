@@ -19,13 +19,17 @@ param registryUsername string
 @secure()
 param registryPassword string
 
+param allowedOrigins array = []
+
+var corsPolicy = empty(allowedOrigins) ? null : allowedOrigins
+
 // Reference the managed environment resource
 resource environment 'Microsoft.App/managedEnvironments@2022-10-01' existing = {
   name: environmentName
 }
 
 // Create a container app resource
-resource containerApp 'Microsoft.App/containerApps@2022-03-01' ={
+resource containerApp 'Microsoft.App/containerApps@2022-10-01' ={
   name: resourceName
   location: azureLocationName
   identity: {
@@ -41,6 +45,9 @@ resource containerApp 'Microsoft.App/containerApps@2022-03-01' ={
         }
       ]
       ingress: {
+        corsPolicy: {
+          allowedOrigins: corsPolicy!
+        }
         targetPort: targetPort
         external: hasExternalIngress
         allowInsecure: false
