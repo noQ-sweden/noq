@@ -1,6 +1,5 @@
 package com.noq.backend.models;
 import jakarta.persistence.Column;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import jakarta.persistence.Id;
@@ -11,16 +10,13 @@ import java.util.*;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
-@Entity(name="hosts")
+@Entity(name="host")
 public class Host {
-    @Id @Column(name = "id", nullable = false)
-    private Long hostId;
+    @Id private UUID hostId;
     private String name;
-    private Address location; // Should this be a ManyToMany relationship?
+    private Address address;
 
     @OneToMany(mappedBy = "host",  cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Bed> beds = new HashSet<>();
-
+    private Set<UUID> bedIds = new HashSet<>();
 
 }

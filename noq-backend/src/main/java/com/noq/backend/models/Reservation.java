@@ -5,20 +5,22 @@ import lombok.NoArgsConstructor;
 import jakarta.persistence.Id;
 import java.time.LocalDateTime;
 import jakarta.persistence.*;
+import java.util.UUID;
 
+@Data
 @Entity
 public class Reservation {
     @Id @Column(name = "id", nullable = false)
-    private Long id;
+    private UUID id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "bed_id")
     private Bed bed;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;
 
-    private LocalDateTime reservedTime;
+    private LocalDateTime reservedTime; // Date
 
 }

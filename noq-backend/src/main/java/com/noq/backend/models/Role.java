@@ -1,15 +1,16 @@
 package com.noq.backend.models;
 
-public enum Status {
-    WAITING("Waiting"),
-    ACCEPTED("Accepted"),
-    DECLINED("Decline");
+public enum Role {
+    ADMINSTRATOR("Administrator"),
+    SHELTER("Shelter"),
+    CLIENT("Client");
 
     private final String name;
 
-    Status(String name) {
+    Role(String name) {
         this.name = name;
     }
+
     public String getName() {
         return name;
     }

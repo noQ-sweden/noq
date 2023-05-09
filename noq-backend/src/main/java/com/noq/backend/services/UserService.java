@@ -17,10 +17,12 @@ public class UserService {
             new User(
                     UUID.randomUUID(),
                     "Person Personsson",
+                    "Person Personsson",
                     false
             ),
             new User(
                     UUID.randomUUID(),
+                    "Individ Individson",
                     "Individ Individson",
                     true
             )

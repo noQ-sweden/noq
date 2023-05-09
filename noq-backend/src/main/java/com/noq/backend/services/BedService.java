@@ -27,17 +27,15 @@ public class BedService {
     public BedDTO createBed(BedDTO bedDTO) {
         Bed bed = new Bed();
         bed.setId(UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE);
-        bed.setSize(bedDTO.size());
         bed.setPrice(bedDTO.price());
-        bed.setPicture(bedDTO.picture());
+        // add more
         return toBedDTO(bedRepository.save(bed));
     }
 
     public BedDTO updateBed(Long id, BedDTO bedDTO) {
         Bed existingBed = getExistingBed(id);
-        existingBed.setSize(bedDTO.size());
         existingBed.setPrice(bedDTO.price());
-        existingBed.setPicture(bedDTO.picture());
+        // more here
         return toBedDTO(bedRepository.save(existingBed));
     }
 
@@ -51,9 +49,8 @@ public class BedService {
 
     public BedDTO toBedDTO(Bed bed) {
         return new BedDTO(
-                bed.getSize(),
                 bed.getPrice(),
-                bed.getPicture()
+                bed.getHost()
         );
     }
 }

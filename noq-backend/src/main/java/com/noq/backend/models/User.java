@@ -1,20 +1,19 @@
 package com.noq.backend.models;
 import jakarta.persistence.Column;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import jakarta.persistence.*;
-import jakarta.persistence.Id;
-
+//import jakarta.persistence.Id;
 import java.util.UUID;
 
 @Data
-@Entity(name="users")
-@AllArgsConstructor
-@NoArgsConstructor
+@Entity(name="user")
 public class User {
     @Id @Column(name = "id", nullable = false)
     private UUID id;
-    private String name;
-    private Boolean reservation;
+
+    private String username;
+    private String password;
+
+    private boolean reservation;
 }

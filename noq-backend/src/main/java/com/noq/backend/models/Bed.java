@@ -10,15 +10,11 @@ import java.util.UUID;
 
 @Data
 @NoArgsConstructor
-@Entity(name ="beds")
+@Entity(name ="bed")
 public class Bed {
     @Id @Column(name = "id", nullable = false)
-    private Long id;
-    private int size;
-    private BigDecimal price;
-    private Status status;
-    private Address address; // Should this be a ManyToMany relationship with Address?
-    private String picture;
+    private UUID bedId;
+    private double price;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "host_id")

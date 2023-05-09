@@ -3,8 +3,9 @@ import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import jakarta.persistence.Id;
+import jakarta.persistence.Entity;
 import jakarta.persistence.*;
+import java.util.UUID;
 
 @Data
 @Entity(name="address")
@@ -12,10 +13,10 @@ import jakarta.persistence.*;
 @AllArgsConstructor
 public class Address {
     @Id @Column(name = "id", nullable = false)
-    private Long id;
-    private String streetAddress;
+    private UUID id;
+    private String street;
     private String city;
-    private String state;
+    private String region;
     private String zipCode;
 }
 
