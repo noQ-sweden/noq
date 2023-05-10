@@ -17,7 +17,10 @@ public class Bed {
     private int size;
     private BigDecimal price;
     private Status status;
-    private Address address; // Should this be a ManyToMany relationship with Address?
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id")
+    private Address address;
     private String picture;
 
     @ManyToOne(fetch = FetchType.LAZY)

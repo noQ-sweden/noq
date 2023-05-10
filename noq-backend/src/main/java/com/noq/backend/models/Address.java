@@ -6,17 +6,20 @@ import lombok.NoArgsConstructor;
 import jakarta.persistence.Id;
 import jakarta.persistence.*;
 
+import java.util.UUID;
+
 @Data
 @Entity(name="address")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Address {
+
     @Id @Column(name = "id", nullable = false)
-    private Long id;
-    private String streetAddress;
-    private String city;
-    private String state;
-    private String zipCode;
+    private UUID id;
+    private String street;
+    private String streetNum;
+    private String postalCode;
+    private String cityName;
 }
 
 

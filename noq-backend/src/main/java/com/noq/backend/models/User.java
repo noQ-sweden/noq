@@ -13,6 +13,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class User {
+
     @Id @Column(name = "id", nullable = false)
     private UUID id;
     private String name;
