@@ -8,7 +8,7 @@ import jakarta.persistence.*;
 import java.util.UUID;
 
 @Data
-@Entity(name="address")
+@Embedded
 @NoArgsConstructor
 @AllArgsConstructor
 public class Address {

@@ -15,16 +15,12 @@ public class UserService {
 
     List<User> userList = List.of( // Mock Data for testing
             new User(
-                    UUID.randomUUID(),
                     "Person Personsson",
-                    "Person Personsson",
-                    false
+                    "Person Personsson"
             ),
             new User(
-                    UUID.randomUUID(),
                     "Individ Individson",
-                    "Individ Individson",
-                    true
+                    "Individ Individson"
             )
     );
 }

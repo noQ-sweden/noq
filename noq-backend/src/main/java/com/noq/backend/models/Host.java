@@ -14,6 +14,7 @@ import java.util.*;
 public class Host {
     @Id private UUID hostId;
     private String name;
+    @Embedded
     private Address address;
 
     @OneToMany(mappedBy = "host",  cascade = CascadeType.ALL, orphanRemoval = true)

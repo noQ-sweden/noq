@@ -15,7 +15,7 @@ public class BedService {
     public BedService(BedRepository bedRepository) {
         this.bedRepository = bedRepository;
     }
-
+/*
     public List<BedDTO> getAllBeds() {
         return bedRepository.findAll().stream().map(this::toBedDTO).collect(Collectors.toList());
     }
@@ -26,7 +26,7 @@ public class BedService {
 
     public BedDTO createBed(BedDTO bedDTO) {
         Bed bed = new Bed();
-        bed.setId(UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE);
+        bed.setBedId(UUID.randomUUID());
         bed.setPrice(bedDTO.price());
         // add more
         return toBedDTO(bedRepository.save(bed));
@@ -52,5 +52,5 @@ public class BedService {
                 bed.getPrice(),
                 bed.getHost()
         );
-    }
+    }*/
 }

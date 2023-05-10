@@ -12,12 +12,14 @@ import java.util.List;
 @CrossOrigin(origins = "*", allowedHeaders ="*")
 public class BedController {
 
+
+    //Refactor and so that it is reservation isntead of Bed.
     private final BedService bedService;
 
     public BedController(BedService bedService) {
         this.bedService = bedService;
     }
-
+/*
     @GetMapping
     public List<BedDTO> getAllBeds() {
         return bedService.getAllBeds();
@@ -43,5 +45,5 @@ public class BedController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteBed(@PathVariable Long id) {
         bedService.deleteBed(id);
-    }
+    }*/
 }

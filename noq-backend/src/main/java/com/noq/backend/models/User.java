@@ -8,6 +8,7 @@ import java.util.UUID;
 
 @Data
 @Entity(name="user")
+@NoArgsConstructor
 public class User {
     @Id @Column(name = "id", nullable = false)
     private UUID id;
@@ -16,4 +17,11 @@ public class User {
     private String password;
 
     private boolean reservation;
+
+    public User(String username, String password) {
+        this.id = UUID.randomUUID();
+        this.username = username;
+        this.password = password;
+        this.reservation = false;
+    }
 }
