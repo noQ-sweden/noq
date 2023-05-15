@@ -1,4 +1,4 @@
-import Ibooking from "../interface/Booking";
+import Ibooking from "../interfaces/Booking";
 
 function BookingCard({ booking }: { booking: Ibooking }) {
   const { status } = booking;
