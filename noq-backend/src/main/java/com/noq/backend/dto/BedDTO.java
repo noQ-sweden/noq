@@ -2,8 +2,6 @@ package com.noq.backend.dto;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.*;
-
 public record BedDTO (double price, HostDTO hostDTO) {
     @JsonCreator
     public BedDTO(@JsonProperty("price") double price,
