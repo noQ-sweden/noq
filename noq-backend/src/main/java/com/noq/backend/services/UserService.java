@@ -1,16 +1,18 @@
 package com.noq.backend.services;
 
+import com.noq.backend.dto.UserDTO;
 import com.noq.backend.models.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
 
-    public List<User> getAllUsers() {
-        return userList;
+    public List<UserDTO> getAllUsers() {
+        return userList.stream().map(this::toUserDTO)
+                .collect(Collectors.toList());
     }
 
     List<User> userList = List.of( // Mock Data for testing
@@ -23,4 +25,12 @@ public class UserService {
                     "Individ Individson"
             )
     );
+
+    private UserDTO toUserDTO(User user) {
+        return new UserDTO(
+                user.getUsername(),
+                user.getPassword(),
+                user.isReservation()
+        );
+    }
 }

@@ -1,9 +1,9 @@
 package com.noq.backend.models;
 
 public enum Status {
-    WAITING("Waiting"),
-    ACCEPTED("Accepted"),
-    DECLINED("Decline");
+    PENDING("Pending"),
+    RESERVED("Reserved"),
+    CANCELLED("Cancelled");
 
     private final String name;
 

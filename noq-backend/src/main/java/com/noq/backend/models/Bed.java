@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import jakarta.persistence.Id;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.math.BigDecimal;
 
 import java.util.UUID;
 

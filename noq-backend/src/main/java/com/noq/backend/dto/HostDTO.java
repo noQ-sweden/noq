@@ -1,24 +1,40 @@
 package com.noq.backend.dto;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.noq.backend.models.Address;
+import com.noq.backend.models.Bed;
 
-import java.util.*;
+import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.UUID;
 
-public record HostDTO (String name, AddressDTO addressDTO) {
+
+public record HostDTO(String name, Address address, HashSet<Bed> bedIds) {
+
     @JsonCreator
-    public HostDTO(@JsonProperty("name") String name,
-                  @JsonProperty("addressDTO") AddressDTO addressDTO) {
+    public HostDTO(
+            @JsonProperty("name") String name,
+            @JsonProperty("address") Address address,
+            @JsonProperty("bedIds") HashSet<Bed> bedIds) {
         this.name = name;
-        this.addressDTO = addressDTO;
+        this.address = address;
+        this.bedIds = bedIds;
     }
-    @java.lang.Override
+
+    @Override
     public String name() {
         return name;
     }
 
-    @java.lang.Override
-    public AddressDTO addressDTO() {
-        return addressDTO;
+    @Override
+    public Address address() {
+        return address;
+    }
+
+    @Override
+    public HashSet<Bed> bedIds() {
+        return bedIds;
     }
 
 }

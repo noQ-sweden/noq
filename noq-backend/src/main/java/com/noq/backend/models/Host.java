@@ -1,9 +1,7 @@
 package com.noq.backend.models;
-import jakarta.persistence.Column;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import jakarta.persistence.Id;
-import java.util.Set;
 import java.util.UUID;
 import jakarta.persistence.*;
 import java.util.*;
@@ -14,7 +12,8 @@ import java.util.*;
 public class Host {
     @Id private String hostId;
     private String name;
-    @Embedded
+
+    @OneToOne()
     private Address address;
 
     @OneToMany(mappedBy = "bed",  cascade = CascadeType.ALL, orphanRemoval = true)

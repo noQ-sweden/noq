@@ -22,6 +22,14 @@ public class Reservation {
     @JoinColumn(name = "user_id")
     private User user;
 
+    private Status status;
     private LocalDateTime reservedTime; // Date
 
+    public Reservation(Bed  bed, User user, Status status, LocalDateTime reservedTime) {
+        this.id = UUID.randomUUID().toString();
+        this.bed = bed;
+        this.user = user;
+        this.status = status;
+        this.reservedTime = reservedTime;
+    }
 }

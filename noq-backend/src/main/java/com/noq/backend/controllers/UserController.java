@@ -1,7 +1,6 @@
 package com.noq.backend.controllers;
 
-import com.noq.backend.DTO.UserDTO;
-import com.noq.backend.models.User;
+import com.noq.backend.dto.UserDTO;
 import com.noq.backend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -24,20 +23,10 @@ public class UserController {
     }
 
 
-    @GetMapping("/getall")
+    @GetMapping("/get-all")
     public List<UserDTO> getAllUsers() {
-        return userService.getAllUsers()
-                .stream()
-                .map(UserController::userDTO)
-                .collect(Collectors.toList());
+        return userService.getAllUsers();
     }
 
 
-    private static UserDTO userDTO(User user) { // DO WE INCLUDE THE ID property? Unsure here!
-        return new UserDTO(
-               user.getId(), // null?
-                user.getName(),
-                user.getReservation()
-        );
-    }
 }
