@@ -8,10 +8,11 @@ import jakarta.persistence.*;
 import java.util.UUID;
 
 @Data
-@Entity
+@Entity(name="reservation")
+@NoArgsConstructor
 public class Reservation {
     @Id @Column(name = "id", nullable = false)
-    private UUID id;
+    private String id;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "bed_id")

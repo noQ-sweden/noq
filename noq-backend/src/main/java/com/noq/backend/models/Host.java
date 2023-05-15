@@ -12,12 +12,18 @@ import java.util.*;
 @NoArgsConstructor
 @Entity(name="host")
 public class Host {
-    @Id private UUID hostId;
+    @Id private String hostId;
     private String name;
     @Embedded
     private Address address;
 
-    @OneToMany(mappedBy = "host",  cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<UUID> bedIds = new HashSet<>();
+    @OneToMany(mappedBy = "bed",  cascade = CascadeType.ALL, orphanRemoval = true)
+    private HashSet<Bed> bedIds = new HashSet<>();
 
+    public Host(String name, Address address, HashSet<Bed> beds) {
+        this.hostId = UUID.randomUUID().toString();
+        this.name = name;
+        this.address = address;
+        this.bedIds = beds;
+    }
 }

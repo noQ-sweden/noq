@@ -13,11 +13,17 @@ import java.util.UUID;
 @Entity(name ="bed")
 public class Bed {
     @Id @Column(name = "id", nullable = false)
-    private UUID bedId;
+    private String bedId;
     private double price;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "host_id")
     private Host host;
+
+    public Bed(double price, Host host){
+        this.bedId = UUID.randomUUID().toString();
+        this.price = price;
+        this.host = host;
+    }
 
 }

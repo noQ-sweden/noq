@@ -11,7 +11,7 @@ import java.util.UUID;
 @NoArgsConstructor
 public class User {
     @Id @Column(name = "id", nullable = false)
-    private UUID id;
+    private String id;
 
     private String username;
     private String password;
@@ -19,7 +19,7 @@ public class User {
     private boolean reservation;
 
     public User(String username, String password) {
-        this.id = UUID.randomUUID();
+        this.id = UUID.randomUUID().toString();
         this.username = username;
         this.password = password;
         this.reservation = false;

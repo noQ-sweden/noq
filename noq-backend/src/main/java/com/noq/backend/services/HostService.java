@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class HostService {
@@ -19,10 +20,8 @@ public class HostService {
 
     List<Host> hostList = List.of( // Service with Mock-Data for test
             new Host(
-                    1L,
                     "Test-Härberget 1",
                     new Address(
-                            1L,
                             "Gatgatan 12",
                             "Stockholm",
                             "Södermanland",
@@ -31,10 +30,8 @@ public class HostService {
                     new HashSet<Bed>(5)
             ),
             new Host(
-                    2L,
                     "Test-Härberget 2",
                     new Address(
-                            2L,
                             "Vägvägen 21",
                             "Lund",
                             "Skåne",

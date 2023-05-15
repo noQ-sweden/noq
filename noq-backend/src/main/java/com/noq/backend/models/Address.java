@@ -8,16 +8,23 @@ import jakarta.persistence.*;
 import java.util.UUID;
 
 @Data
-@Embedded
 @NoArgsConstructor
 @AllArgsConstructor
 public class Address {
     @Id @Column(name = "id", nullable = false)
-    private UUID id;
+    private String id;
     private String street;
     private String city;
     private String region;
     private String zipCode;
+
+    public Address(String street, String city, String region, String zipCode) {
+        this.id = UUID.randomUUID().toString();
+        this.street = street;
+        this.city = city;
+        this.region = region;
+        this.zipCode = zipCode;
+    }
 }
 
 
