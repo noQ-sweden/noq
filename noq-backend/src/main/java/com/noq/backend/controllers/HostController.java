@@ -1,6 +1,5 @@
 package com.noq.backend.controllers;
 
-import com.noq.backend.DTO.HostDTO;
 import com.noq.backend.models.Host;
 import com.noq.backend.services.HostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +23,7 @@ public class HostController {
         this.hostService = hostService;
     }
 
-
+/*
     @GetMapping("/getall")
     public List<HostDTO> getAllHosts() {
         return hostService.getAllHosts()
@@ -41,6 +40,6 @@ public class HostController {
                 host.getImage(),
                 host.getBeds()
         );
-    }
+    }*/
 }
 

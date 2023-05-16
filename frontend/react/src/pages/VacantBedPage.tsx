@@ -5,11 +5,13 @@ import {RxDotsHorizontal} from "react-icons/rx";
 import {IHost} from "../interfaces/IHost";
 import {Host} from "../mocks/Host";
 import HostCard from "../components/HostCard";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 
 const VacantBedPage = () => {
     const [hosts, setHosts] = useState<IHost[]>(Host);
     const navigate = useNavigate()
+
+    let {userId} = useParams<{ userId: string }>();
 
     // const getHosts = async () => {
     //   try {
@@ -26,8 +28,22 @@ const VacantBedPage = () => {
     //   getHosts();
     // }, []);
 
-    const handleOnClick = () => {
-        // post createReseravtaion userId + bedId -> good enough hostId?
+
+    const createReservation = async (host: IHost, userId: string | undefined) => {
+        try {
+            const reservationData = { host, userId };
+             await axios.post("https://ca-noq-backend.thankfulglacier-35d24b26.swedencentral.azurecontainerapps.io/api/reservation/create", reservationData);
+          //  await axios.post("http://localhost:8080/api/reservation/create", reservationData)
+
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    const handleOnClick = (host: IHost, userId: string | undefined) => {
+        // post createReseravtaion userId + bedId -> good enough host?
+
+        createReservation(host, userId)
 
         navigate("/reservation")
     };
@@ -57,7 +73,7 @@ const VacantBedPage = () => {
             </div>
             {hosts.map((host) => (
                 <div
-                    onClick={handleOnClick}
+                    onClick={() => handleOnClick(host, userId)}
                 >
                     <HostCard host={host}/>
                 </div>

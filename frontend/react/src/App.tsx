@@ -25,7 +25,7 @@ function App() {
             <BrowserRouter>
                 <Routes>
                     <Route path="/" element={<Login/>}/>
-                    <Route path="/vacancies" element={<VacantBedPage/>}/>
+                    <Route path="/vacancies/:userId" element={<VacantBedPage/>}/>
                     <Route path="/reservation" element={<MyReservations/>}/>
                 </Routes>
             </BrowserRouter>
