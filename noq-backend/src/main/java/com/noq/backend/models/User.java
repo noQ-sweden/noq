@@ -15,7 +15,7 @@ import java.util.UUID;
 public class User {
 
     @Id @Column(name = "id", nullable = false)
-    private UUID id;
+    private String id;
     private String name;
     private Boolean reservation;
 }

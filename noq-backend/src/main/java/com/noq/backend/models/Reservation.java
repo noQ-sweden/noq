@@ -1,19 +1,24 @@
 package com.noq.backend.models;
-import jakarta.persistence.Column;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import jakarta.persistence.Id;
+
 import java.time.LocalDateTime;
-import jakarta.persistence.*;
+import java.util.UUID;
 
 @Entity
+@NoArgsConstructor
+@Data
+@AllArgsConstructor
 public class Reservation {
     @Id @Column(name = "id", nullable = false)
-    private Long id;
+    private String id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "bed_id")
-    private Bed bed;
+    @JoinColumn(name = "host_id")
+    private Host host;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -21,4 +26,11 @@ public class Reservation {
 
     private LocalDateTime reservedTime;
     private Status status;
+
+    public Reservation(Host host, User user, Status status) {
+        this.id = UUID.randomUUID().toString();
+        this.host = host;
+        this.user = user;
+        this.status = status;
+    }
 }

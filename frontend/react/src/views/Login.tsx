@@ -1,36 +1,53 @@
 import "./Login.css";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
+import {useState} from "react";
+import axios from "axios";
+
+
+interface IUser {
+    id: string;
+    name: string;
+    reservation: boolean;
+}
 
 const Login = () => {
+        const navigate = useNavigate();
 
-  const navigate = useNavigate();
+        const getUser = async () => {
+            try {
+                 const response = await axios.get("https://ca-noq-backend.thankfulglacier-35d24b26.swedencentral.azurecontainerapps.io/api/user/user");
+                //const response = await axios.get("http://localhost:8080/api/user/user");
+                navigate(`/vacancies/${response.data.id}`);
+            } catch (error) {
+                console.error(error);
+            }
+        }
 
 
-  const handleClick = () => {
-    navigate("/vacancies")
+        const handleClick = async () => {
+            await getUser()
+        }
 
-  }
 
-  
+        return (
+            <>
+                <div className="page text-white">
+                    <h1 className="text-2xl">Logga in</h1>
+                    <div className="input-container">
+                        <label className="mail-label" htmlFor="mail">E-post</label>
+                        <input type="email" name="mail" id="mail"/>
+                    </div>
 
-  return (
-    <>
-      <div className="page text-white">
-        <h1 className="text-2xl">Logga in</h1>
-        <div className="input-container">
-          <label className="mail-label" htmlFor="mail">E-post</label>
-          <input type="email" name="mail" id="mail" />
-        </div>
+                    <div className="input-container">
+                        <label htmlFor="password">Lösenord</label>
+                        <input type="password" name="password" id="password"/>
+                    </div>
 
-        <div className="input-container">
-          <label htmlFor="password">Lösenord</label>
-          <input type="password" name="password" id="password" />
-        </div>
-
-        <button className="bg-gray-400 my-4" type="button" onClick={handleClick}>Logga in</button>
-      </div>
-    </>
-  );
-};
+                    <button className="bg-gray-400 my-4" type="button" onClick={handleClick}>Logga in</button>
+                </div>
+            </>
+        );
+    }
+;
 
 export default Login;

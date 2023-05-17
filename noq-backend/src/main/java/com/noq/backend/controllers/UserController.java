@@ -32,6 +32,11 @@ public class UserController {
                 .collect(Collectors.toList());
     }
 
+    @GetMapping("/user")
+    public UserDTO getUser() {
+        return userDTO(userService.getUser());
+    }
+
 
     private static UserDTO userDTO(User user) { // DO WE INCLUDE THE ID property? Unsure here!
         return new UserDTO(

@@ -13,14 +13,22 @@ public class UserService {
         return userList;
     }
 
+    public User getUser() {
+        return new User(
+                UUID.randomUUID().toString(),
+                "Person Personsson",
+                false
+        );
+    }
+
     List<User> userList = List.of( // Mock Data for testing
             new User(
-                    UUID.randomUUID(),
+                    UUID.randomUUID().toString(),
                     "Person Personsson",
                     false
             ),
             new User(
-                    UUID.randomUUID(),
+                    UUID.randomUUID().toString(),
                     "Individ Individson",
                     true
             )
