@@ -17,7 +17,7 @@ The below image shows the current state of the resource graph for the noQ infras
 
 ![noQ resource graph](../resources/infrastructure-resource-graph.png)
 
-### Annotation
+### Annotation's
 
 - `GitHub` - Source code management for the noQ project and GitHub Actions for CI/CD.
 - `Azure Subscription` - Azure subscription for hosting the noQ infrastructure.
@@ -35,9 +35,17 @@ The below image shows the current state of the resource graph for the noQ infras
 - Traffic between frontend and backend app is only possible within Container Apps Environment.
 
 ## Continuous Integration
-T.B.D.
+
+When you create a new Pull Request (PR) to the `main` branch, a GitHub Action ([workflow](../.github/workflows/noq-pr-validation.yml)) will run. The workflow will perform the following steps:
+
+- `Validate front-end build` - Validate that the build of the front end application is successful.
+- `Validate back-end build` - Validate that the build of the back end application is successful.
+- `Dependency review` - Validate that the PR does not introduce any new unwanted dependencies with known vulnerabilities.
+
+We require these three steps to pass before a PR can be merged into the `main` branch. This is done to ensure that the `main` branch is always in a deployable state.
 
 ## Continuous Delivery
+
 Infrastructure resources are deployed using GitHub Actions. The following steps are performed ([workflow file](../.github/workflows/noq_deployment.yml)):
 
 - `Log into Azure` - Log into Azure using service principal credentials, stored as GitHub secrets.
