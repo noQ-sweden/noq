@@ -3,7 +3,7 @@ WORKDIR /app
 COPY ./pom.xml .
 COPY ./src ./src
 
-RUN mvn -B -X package --file pom.xml -e
+RUN mvn -B package --file pom.xml -e
 
  
 FROM eclipse-temurin:17-jre-alpine
