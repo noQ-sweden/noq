@@ -15,7 +15,7 @@ import java.util.UUID;
 public class Address {
 
     @Id @Column(name = "id", nullable = false)
-    private UUID id;
+    private String id;
     private String street;
     private String streetNum;
     private String postalCode;

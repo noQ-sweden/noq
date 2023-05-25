@@ -20,10 +20,10 @@ public class HostService {
 
     List<Host> hostList = List.of( // Service with Mock-Data for test
             new Host(
-                    UUID.randomUUID(),
+                    UUID.randomUUID().toString(),
                     "Test-Härberget 1",
                     new Address(
-                            UUID.randomUUID(),
+                            UUID.randomUUID().toString(),
                             "Gatgatan",
                             "12",
                             "12345",
@@ -33,10 +33,10 @@ public class HostService {
                     15L
             ),
             new Host(
-                    UUID.randomUUID(),
+                    UUID.randomUUID().toString(),
                     "Test-Härberget 2",
                     new Address(
-                            UUID.randomUUID(),
+                            UUID.randomUUID().toString(),
                             "Vägvägen",
                             "21",
                             "23546",
