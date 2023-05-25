@@ -34,6 +34,7 @@ const VacantBedPage = () => {
             const reservationData = {hostId, userId};
             //   await axios.post("https://ca-noq-backend.thankfulglacier-35d24b26.swedencentral.azurecontainerapps.io/api/reservation/create", reservationData);
             await axios.post("http://localhost:8080/api/reservation/create", reservationData)
+            navigate(`/reservation/${userId}`)
         } catch (error) {
             console.error(error);
         }
@@ -41,7 +42,7 @@ const VacantBedPage = () => {
 
     const handleOnClick = (hostId: string, userId: string | undefined) => {
           createReservation(hostId, userId)
-        navigate(`/reservation/${userId}`)
+        console.log(hostId)
     };
 
 
@@ -69,7 +70,7 @@ const VacantBedPage = () => {
             </div>
             {hosts?.map((host) => (
 
-                <HostCard host={host} handleOnClick={handleOnClick}/>
+                <HostCard key={host.hostId} host={host} handleOnClick={handleOnClick}/>
 
             ))}
         </div>

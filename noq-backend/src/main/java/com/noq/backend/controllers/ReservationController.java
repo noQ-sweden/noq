@@ -19,14 +19,13 @@ public class ReservationController {
     }
 
 
-    @GetMapping("/hello")
-    public String testHello() {
-        return "hello";
+    @GetMapping("/{userId}")
+    public ReservationDTO getReservation(@PathVariable String userId) {
+        return toReservationDTO(reservationService.getReservationByUserId(userId));
     }
 
     @PostMapping("/create")
-    public ReservationDTO createReservation(@RequestBody CreateReservation createReservation)
-    {
+    public ReservationDTO createReservation(@RequestBody CreateReservation createReservation) {
         return toReservationDTO(reservationService.createReservation(createReservation));
     }
 

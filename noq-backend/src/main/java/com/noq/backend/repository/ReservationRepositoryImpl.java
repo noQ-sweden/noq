@@ -2,14 +2,18 @@ package com.noq.backend.repository;
 
 import com.noq.backend.models.Host;
 import com.noq.backend.models.Reservation;
+import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+@Repository
 public class ReservationRepositoryImpl implements ReservationRepository {
-
+    @PersistenceContext
+    private EntityManager entityManager;
     private final Map<String, Reservation> reservations = new HashMap<>();
 
     @Override
@@ -26,4 +30,6 @@ public class ReservationRepositoryImpl implements ReservationRepository {
     public List<Reservation> getAllReservations() {
         return new ArrayList<>(reservations.values());
     }
+
+
 }
