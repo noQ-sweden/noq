@@ -20,7 +20,7 @@ public class UserService {
     }
 
     public List<User> getAllUsers() {
-        return createUsers();
+        return userRepository.getAllUsers();
     }
 
     public List<User> createUsers() {
@@ -40,7 +40,11 @@ public class UserService {
     }
 
     public User getUserById(String userId) {
-        createUsers();
-        return userRepository.getUserByUserId(userId);
+        User existingUser = userRepository.getUserByUserId(userId);
+        if (existingUser != null) {
+            return existingUser;
+        } else {
+            return userRepository.getUserByUserId(userId);
+        }
     }
 }

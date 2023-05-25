@@ -19,6 +19,7 @@ const {userId} = useContext(UserContext)
             try {
                 // const response = await axios.get("https://ca-noq-backend.thankfulglacier-35d24b26.swedencentral.azurecontainerapps.io/api/user/${userId}");
                 const response = await axios.get(`http://localhost:8080/api/user/${userId}`);
+                console.log(response.data.reservation )
                 response.data.reservation ? navigate(`/reservation/${response.data.id}`)
                     : navigate(`/vacancies/${response.data.id}`)
             } catch (error) {

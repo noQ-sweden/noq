@@ -23,8 +23,11 @@ public class ReservationService {
 
     public Reservation createReservation(CreateReservation createReservation) {
         User user = userRepository.getUserByUserId(createReservation.getUserId());
+        user.setReservation(true);
+        userRepository.save(user);
+
         Host host = hostRepository.getHostByHostId(createReservation.getHostId());
-        System.out.print(createReservation.getHostId());
+
         Reservation reservation = new Reservation(host, user, Status.RESERVED);
         System.out.print(reservation);
         return reservation;

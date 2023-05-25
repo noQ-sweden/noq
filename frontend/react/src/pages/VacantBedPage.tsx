@@ -18,6 +18,7 @@ const VacantBedPage = () => {
                 "http://localhost:8080/api/host/get-all"
             );
             setHosts(response.data);
+            console.log(response.data)
         } catch (error) {
             console.error(error);
         }
