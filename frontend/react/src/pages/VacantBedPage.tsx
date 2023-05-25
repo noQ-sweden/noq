@@ -5,18 +5,16 @@ import {RxDotsHorizontal} from "react-icons/rx";
 import {IHost} from "../interfaces/IHost";
 import HostCard from "../components/HostCard";
 import {useNavigate, useParams} from "react-router-dom";
-import {UserContext} from "../App";
 
 const VacantBedPage = () => {
     const [hosts, setHosts] = useState<IHost[]>([]);
     const navigate = useNavigate()
 
-    const {userId} = useContext(UserContext)
 
     const getHosts = async () => {
         try {
             const response = await axios.get(
-               // "https://ca-noq-backend.thankfulglacier-35d24b26.swedencentral.azurecontainerapps.io/api/host/get-all"
+                // "https://ca-noq-backend.thankfulglacier-35d24b26.swedencentral.azurecontainerapps.io/api/host/get-all"
                 "http://localhost:8080/api/host/get-all"
             );
             setHosts(response.data);
@@ -35,16 +33,14 @@ const VacantBedPage = () => {
             const reservationData = {hostId, userId};
             //   await axios.post("https://ca-noq-backend.thankfulglacier-35d24b26.swedencentral.azurecontainerapps.io/api/reservation/create", reservationData);
             await axios.post("http://localhost:8080/api/reservation/create", reservationData)
-
-
         } catch (error) {
             console.error(error);
         }
     }
 
     const handleOnClick = (hostId: string, userId: string | undefined) => {
-        createReservation(hostId, userId)
-        navigate("/reservation")
+          createReservation(hostId, userId)
+        navigate(`/reservation/${userId}`)
     };
 
 
@@ -71,11 +67,9 @@ const VacantBedPage = () => {
         </span>
             </div>
             {hosts?.map((host) => (
-                <div
-                    onClick={() => handleOnClick(host.hostId, userId)}
-                >
-                   <HostCard host={host}/>
-                </div>
+
+                <HostCard host={host} handleOnClick={handleOnClick}/>
+
             ))}
         </div>
     );

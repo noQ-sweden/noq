@@ -1,18 +1,24 @@
 import {IHost} from "../interfaces/IHost";
+import {useContext} from "react";
+import {UserContext} from "../App";
 
 
 interface IHostCard{
     host: IHost;
+    handleOnClick: (hostId : string, userId: string | undefined) => void
 }
 
-export default function HostCard({host} : IHostCard) {
+export default function HostCard({host, handleOnClick} : IHostCard) {
+
+    const {userId} = useContext(UserContext)
+
     return ( <>
             <div
 
                 className="flex items-center justify-center py-8"
             >
                 <div className="flex items-center border rounded-md shadow-xl p-5">
-                    <div className="flex flex-col">
+                    <div className="flex flex-col" onClick={() => handleOnClick(host.hostId, userId)}>
                         <h4 className="text-xl font-semibold mb-2">{host.name}</h4>
                         <span>{`${host.address.street} ${host.address.streetNum},`}</span>
                         <span>{`${host.address.postalCode} ${host.address.cityName}`}</span>

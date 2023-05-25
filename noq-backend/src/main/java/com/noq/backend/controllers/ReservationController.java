@@ -27,15 +27,13 @@ public class ReservationController {
     @PostMapping("/create")
     public ReservationDTO createReservation(@RequestBody CreateReservation createReservation)
     {
-        Host host = createReservation.getHost();
-        String userId = createReservation.getUserId();
-        return toReservationDTO(reservationService.createReservation(host, userId));
+        return toReservationDTO(reservationService.createReservation(createReservation));
     }
 
 
     private static ReservationDTO toReservationDTO(Reservation reservation) {
         return new ReservationDTO(
-                reservation.getId(),
+                reservation.getReservationId(),
                 reservation.getHost(),
                 reservation.getUser(),
                 reservation.getStatus());

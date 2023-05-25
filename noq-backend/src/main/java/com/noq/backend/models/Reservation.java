@@ -14,7 +14,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class Reservation {
     @Id @Column(name = "id", nullable = false)
-    private String id;
+    private String reservationId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "host_id")
@@ -28,7 +28,7 @@ public class Reservation {
     private Status status;
 
     public Reservation(Host host, User user, Status status) {
-        this.id = UUID.randomUUID().toString();
+        this.reservationId = UUID.randomUUID().toString();
         this.host = host;
         this.user = user;
         this.status = status;

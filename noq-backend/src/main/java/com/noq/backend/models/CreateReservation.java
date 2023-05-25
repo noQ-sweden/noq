@@ -6,6 +6,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class CreateReservation {
-    private Host host;
+    private String hostId;
     private String userId;
 }
