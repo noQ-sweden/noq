@@ -1,10 +1,15 @@
 import Ibooking from "../interfaces/Booking";
+import {useContext} from "react";
+import {UserContext} from "../App";
+import {IHost} from "../interfaces/IHost";
 
-function BookingCard({ booking }: { booking: Ibooking }) {
-  const { status } = booking;
+interface IBookingCard{
+  host: IHost;
+}
+
+function BookingCard({host} : IBookingCard) {
+
   let cardColour;
-  /// Whoever makes ENUM-models for reservation status -
-  /// make sure to read the model description in the google-drive folder.
 
   switch (status) {
     case "PENDING":
@@ -19,9 +24,19 @@ function BookingCard({ booking }: { booking: Ibooking }) {
   }
   return (
     <div className={`p-4 ${cardColour}`}>
-      <h2>{booking.name}</h2>
-      <p>Datum: {booking.date}</p>
-      <p>Adress: {booking.address}</p>
+      <div
+          className="flex items-center justify-center py-8"
+      >
+        <div className="flex items-center border rounded-md shadow-xl p-5">
+          <div className="flex flex-col">
+            <h4 className="text-xl font-semibold mb-2">{host.name}</h4>
+            <span>{`${host.address.street} ${host.address.streetNum},`}</span>
+            <span>{`${host.address.postalCode} ${host.address.cityName}`}</span>
+            <span className="mt-2">20kr</span>
+          </div>
+          <div className="w-24 h-24 bg-gray-300 rounded-full ml-6"></div>
+        </div>
+      </div>
     </div>
   );
 }

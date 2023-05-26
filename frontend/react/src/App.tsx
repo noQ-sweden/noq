@@ -1,4 +1,4 @@
-import {useState, useEffect} from "react";
+import {useState, useEffect, createContext} from "react";
 import noqLogo from "/noQ.png";
 import axios from "axios";
 import MyReservations from "./pages/myReservations";
@@ -6,28 +6,28 @@ import {BrowserRouter, Route, Routes} from "react-router-dom";
 import VacantBedPage from "./pages/VacantBedPage";
 import Login from "./views/Login";
 
-function App() {
-    const [message, setMessage] = useState("");
+interface IUserContext{
+    userId: string
+}
 
-    const getMessage = async () => {
-        try {
-            const response = await axios.get(
-                "https://ca-noq-backend.thankfulglacier-35d24b26.swedencentral.azurecontainerapps.io/api/reservation/hello"
-            );
-            setMessage(response.data);
-        } catch (error) {
-            console.error(error);
-        }
-    };
+export const UserContext = createContext<IUserContext>({userId: ""})
+
+function App() {
+    const [userId, setUserId] = useState("1")
+
+
 
     return (
         <>
             <BrowserRouter>
-                <Routes>
-                    <Route path="/" element={<Login/>}/>
-                    <Route path="/vacancies/:userId" element={<VacantBedPage/>}/>
-                    <Route path="/reservation" element={<MyReservations/>}/>
-                </Routes>
+                <UserContext.Provider value={{userId}}>
+                    <Routes>
+                        <Route path="/" element={<Login/>}/>
+                        <Route path="/vacancies/:userId" element={<VacantBedPage/>}/>
+                        <Route path="/reservation/:userId" element={<MyReservations/>}/>
+                    </Routes>
+                </UserContext.Provider>
+
             </BrowserRouter>
 
         </>

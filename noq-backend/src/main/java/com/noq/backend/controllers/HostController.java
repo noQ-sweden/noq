@@ -1,5 +1,7 @@
 package com.noq.backend.controllers;
 
+import com.noq.backend.DTO.AddressDTO;
+import com.noq.backend.DTO.HostDTO;
 import com.noq.backend.models.Host;
 import com.noq.backend.services.HostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +25,8 @@ public class HostController {
         this.hostService = hostService;
     }
 
-/*
-    @GetMapping("/getall")
+
+    @GetMapping("/get-all")
     public List<HostDTO> getAllHosts() {
         return hostService.getAllHosts()
                 .stream()
@@ -32,14 +34,22 @@ public class HostController {
                 .collect(Collectors.toList());
     }
 
-    private static HostDTO hostDTO(Host host) { // DO WE INCLUDE THE ID property? Unsure here!
-        return new HostDTO(
-                host.getHostId(), // null?
-                host.getName(),
-                host.getAddress(),
-                host.getImage(),
-                host.getBeds()
+    private static HostDTO hostDTO(Host host) {
+        AddressDTO addressDTO = new AddressDTO(
+                host.getAddress().getId(),
+                host.getAddress().getStreet(),
+                host.getAddress().getStreetNum(),
+                host.getAddress().getPostalCode(),
+                host.getAddress().getCityName()
         );
-    }*/
+
+        return new HostDTO(
+                host.getHostId(),
+                host.getName(),
+                addressDTO,
+                host.getImage(),
+                host.getBed()
+        );
+    }
 }
 
