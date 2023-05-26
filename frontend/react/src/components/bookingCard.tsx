@@ -5,6 +5,7 @@ import {IHost} from "../interfaces/IHost";
 
 interface IBookingCard{
   host: IHost;
+  status: string;
 }
 
 function BookingCard({host} : IBookingCard) {
