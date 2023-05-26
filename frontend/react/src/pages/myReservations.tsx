@@ -18,8 +18,8 @@ function MyReservations() {
 
     const getReservation = async (userId: string | undefined) => {
         try {
-            const response =  await axios.post(`https://ca-noq-backend.thankfulglacier-35d24b26.swedencentral.azurecontainerapps.io/api/reservation${userId}`);
-            // const response = await axios.get(`http://localhost:8080/api/reservation/${userId}`)
+            //const response =  await axios.post(`https://ca-noq-backend.thankfulglacier-35d24b26.swedencentral.azurecontainerapps.io/api/reservation${userId}`);
+             const response = await axios.get(`http://localhost:8080/api/reservation/${userId}`)
             setStatus(response.data.status)
             setHost(response.data.host)
         } catch (error) {
@@ -41,20 +41,20 @@ function MyReservations() {
             </nav>
 
             <header className="p-3 container-3 flex justify-center">
-                <h1 className="text-3xl">Mina bokningar</h1>
+                <h1 className="text-3xl">Din bokning</h1>
             </header>
-            <section className="flex container-3">
+    {/*        <section className="flex container-3">
                 <div className="bg-blue-200 flex flex-1 m-1 justify-center">
                     Bekräftade
                 </div>
                 <div className="flex flex-1 m-1 justify-center border-grey border-2 ">
                     Behandlas
                 </div>
-            </section>
+            </section>*/}
             <main>
                 <div className="grid grid-rows-3 gap-4">
-                    <div>
-                        <h2>{status}</h2>
+                    <div >
+                        <h2 className="flex justify-center">{status}</h2>
                         <BookingCard key={host?.hostId} host={host}/>
                     </div>
                 </div>

@@ -5,10 +5,7 @@ import com.noq.backend.DTO.HostDTO;
 import com.noq.backend.models.Host;
 import com.noq.backend.services.HostService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,6 +30,8 @@ public class HostController {
                 .map(HostController::hostDTO)
                 .collect(Collectors.toList());
     }
+
+
 
     private static HostDTO hostDTO(Host host) {
         AddressDTO addressDTO = new AddressDTO(

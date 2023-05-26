@@ -7,10 +7,7 @@ import com.noq.backend.repository.HostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class HostService {
@@ -28,11 +25,12 @@ public class HostService {
         }
 
     public List<Host> createHosts() {
-        Host host1 = new Host(UUID.randomUUID().toString(), "Test-Härberget 1", new Address(UUID.randomUUID().toString(), "Gatgatan", "12", "12345", "Stockholm"), "url/till/bild/pa/Harberget1.png", 15L);
-        Host host2 = new Host(UUID.randomUUID().toString(), "Test-Härberget 2", new Address(UUID.randomUUID().toString(), "Vägvägen", "21", "23546", "Lund"), "url/till/bild/pa/Harberget2.png", 20L);
+        Host host1 = new Host("3", "Test-Härberget 1", new Address(UUID.randomUUID().toString(), "Gatgatan", "12", "12345", "Stockholm"), "url/till/bild/pa/Harberget1.png", 15L);
+        Host host2 = new Host("4", "Test-Härberget 2", new Address(UUID.randomUUID().toString(), "Vägvägen", "21", "23546", "Lund"), "url/till/bild/pa/Harberget2.png", 20L);
         hostRepository.save(host1);
         hostRepository.save(host2);
         return new ArrayList<>(hostRepository.getAllHosts());
     }
+
 }
 

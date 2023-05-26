@@ -7,8 +7,10 @@ import com.noq.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class ReservationService {
@@ -30,7 +32,6 @@ public class ReservationService {
                 .filter(res -> res.getUser().getId().equals(userId))
                 .findFirst()
                 .orElse(null);
-        System.out.print(reservation);
         return reservation;
     }
 
@@ -43,7 +44,15 @@ public class ReservationService {
 
         Reservation reservation = new Reservation(host, user, Status.RESERVED);
         reservationRepository.save(reservation);
-        System.out.print(reservation);
         return reservation;
+    }
+
+    // returns empty array...??
+    public List<Reservation> getReservationsByHostId(String hostId) {
+        List<Reservation> reservations = reservationRepository.getAllReservations().stream()
+                .filter(res -> res.getHost().getHostId().equals(hostId))
+                .collect(Collectors.toList());
+        System.out.print(reservations);
+        return reservations;
     }
 }
