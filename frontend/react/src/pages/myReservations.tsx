@@ -18,7 +18,7 @@ function MyReservations() {
 
     const getReservation = async (userId: string | undefined) => {
         try {
-            const response =  await axios.post(`https://ca-noq-backend.thankfulglacier-35d24b26.swedencentral.azurecontainerapps.io/api/reservation${userId}`);
+            const response =  await axios.post(`https://ca-noq-backend.thankfulglacier-35d24b26.swedencentral.azurecontainerapps.io/api/reservation/${userId}`);
             // const response = await axios.get(`http://localhost:8080/api/reservation/${userId}`)
             setStatus(response.data.status)
             setHost(response.data.host)
@@ -55,7 +55,7 @@ function MyReservations() {
                 <div className="grid grid-rows-3 gap-4">
                     <div>
                         <h2>{status}</h2>
-                        <BookingCard key={host?.hostId} host={host}/>
+                        <BookingCard key={host?.hostId} host={host} status={status}/>
                     </div>
                 </div>
             </main>
