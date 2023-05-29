@@ -5,6 +5,7 @@ import MyReservations from "./pages/myReservations";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import VacantBedPage from "./pages/VacantBedPage";
 import Login from "./views/Login";
+import HostView from "./views/hostView/HostView";
 
 interface IUserContext{
     userId: string
@@ -23,6 +24,7 @@ function App() {
                 <UserContext.Provider value={{userId}}>
                     <Routes>
                         <Route path="/" element={<Login/>}/>
+                        <Route path="/host" element={<HostView/>}/>
                         <Route path="/vacancies/:userId" element={<VacantBedPage/>}/>
                         <Route path="/reservation/:userId" element={<MyReservations/>}/>
                     </Routes>
