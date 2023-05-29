@@ -3,7 +3,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import {useContext, useState} from "react";
 import axios from "axios";
 import {UserContext} from "../App";
-import {BsFillFilePersonFill, TbPassword} from "react-icons/all";
+import {FaPortrait,FaLock} from "react-icons/fa";
 
 
 interface IUser {
@@ -42,7 +42,7 @@ const Login = () => {
                         <div className="flex flex-col space-y-4">
                             <div className="flex items-center rounded-md border border-gray-300">
             <span className="rounded-l-md px-3 py-2">
-            <BsFillFilePersonFill/>
+            <FaPortrait/>
             </span>
                                 <input
                                     type="email"
@@ -52,7 +52,7 @@ const Login = () => {
                             </div>
                             <div className="flex items-center rounded-md border border-gray-300">
             <span className=" rounded-l-md px-3 py-2">
-                <TbPassword/>
+                <FaLock/>
             </span>
                                 <input
                                     type="password"
