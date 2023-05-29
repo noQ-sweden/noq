@@ -53,8 +53,10 @@ function MyReservations() {
             </section>*/}
             <main>
                 <div className="grid grid-rows-3 gap-4">
+
                     <div >
                         <h2 className="flex justify-center">{status}</h2>
+                    <div>
                         <BookingCard key={host?.hostId} host={host} status={status}/>
                     </div>
                 </div>
