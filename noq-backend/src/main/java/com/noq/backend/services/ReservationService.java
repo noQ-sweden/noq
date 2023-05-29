@@ -42,7 +42,7 @@ public class ReservationService {
 
         Host host = hostRepository.getHostByHostId(createReservation.getHostId());
 
-        Reservation reservation = new Reservation(host, user, Status.RESERVED);
+        Reservation reservation = new Reservation(host, user, Status.PENDING);
         reservationRepository.save(reservation);
         return reservation;
     }
