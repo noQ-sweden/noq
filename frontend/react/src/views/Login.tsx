@@ -3,7 +3,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import {useContext, useState} from "react";
 import axios from "axios";
 import {UserContext} from "../App";
-import {FaPortrait,FaLock} from "react-icons/fa";
+import {FaPortrait, FaLock} from "react-icons/fa";
 
 
 interface IUser {
@@ -16,10 +16,12 @@ const Login = () => {
         const {userId} = useContext(UserContext)
         const navigate = useNavigate();
 
-        const getUser = async () => {
+        const hostId = "4"
+
+        const getClient = async () => {
             try {
-                const response = await axios.get(`https://ca-noq-backend.thankfulglacier-35d24b26.swedencentral.azurecontainerapps.io/api/user/${userId}`);
-                //const response = await axios.get(`http://localhost:8080/api/user/${userId}`);
+                //const response = await axios.get(`https://ca-noq-backend.thankfulglacier-35d24b26.swedencentral.azurecontainerapps.io/api/user/${userId}`);
+                const response = await axios.get(`http://localhost:8080/api/user/${userId}`);
                 console.log(response.data.reservation)
                 response.data.reservation ? navigate(`/reservation/${response.data.id}`)
                     : navigate(`/vacancies/${response.data.id}`)
@@ -28,9 +30,21 @@ const Login = () => {
             }
         }
 
+        const getHost = async () => {
+            try {
+                navigate(`/host/${hostId}`)
+            } catch (error) {
+                console.error(error);
+            }
+        }
 
-        const handleClick = async () => {
-            await getUser()
+
+        const loginClient = async () => {
+            await getClient()
+        }
+
+        const loginHost = async () => {
+            await getHost()
         }
 
 
@@ -61,8 +75,11 @@ const Login = () => {
                                 />
                             </div>
                         </div>
-                        <button className="bg-blue-500 text-white rounded-full px-1 mt-6" onClick={handleClick}>
-                            Logga in
+                        <button className="bg-blue-500 text-white rounded-full px-1 mt-6" onClick={loginClient}>
+                            Brukare
+                        </button>
+                        <button className="bg-blue-500 text-white rounded-full px-1 mt-6" onClick={loginHost}>
+                            Härberge
                         </button>
                     </div>
                 </div>

@@ -11,12 +11,12 @@ export default function Host() {
     const [requests, setRequests] = useState<IRequest[]>([]);
     const [approvedIds, setApprovedIds] = useState<string[]>([]);
 
-    const hostId = "3"
+    const hostId = "4"
 
     const getAllRequests = async () =>{
         try {
-            const response = await axios.get(`https://ca-noq-backend.thankfulglacier-35d24b26.swedencentral.azurecontainerapps.io/api/get-reservations/${hostId}`);
-            //const response = await axios.get(`http://localhost:8080/api/reservation/get-reservations/${hostId}`);
+            //const response = await axios.get(`https://ca-noq-backend.thankfulglacier-35d24b26.swedencentral.azurecontainerapps.io/api/get-reservations/${hostId}`);
+            const response = await axios.get(`http://localhost:8080/api/reservation/get-reservations/${hostId}`);
             console.log(response.data)
             setRequests(response.data)
         } catch (error) {

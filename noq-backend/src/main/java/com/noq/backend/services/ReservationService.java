@@ -49,6 +49,7 @@ public class ReservationService {
 
     // returns empty array...??
     public List<Reservation> getReservationsByHostId(String hostId) {
+        System.out.print(hostId);
         List<Reservation> reservations = reservationRepository.getAllReservations().stream()
                 .filter(res -> res.getHost().getHostId().equals(hostId))
                 .collect(Collectors.toList());
