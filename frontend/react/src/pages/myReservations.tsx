@@ -23,7 +23,7 @@ function MyReservations() {
 
   const getReservation = async (userId: string | undefined) => {
     try {
-      const response = await axios.post(
+      const response = await axios.get(
         `https://ca-noq-backend.thankfulglacier-35d24b26.swedencentral.azurecontainerapps.io/api/reservation/${userId}`
       );
       // const response = await axios.get(`http://localhost:8080/api/reservation/${userId}`)
