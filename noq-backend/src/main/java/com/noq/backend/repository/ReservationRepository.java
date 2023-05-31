@@ -13,4 +13,5 @@ public interface ReservationRepository {
     List<Reservation> getAllReservations();
 
 
+    void saveAll(List<Reservation> reservations);
 }

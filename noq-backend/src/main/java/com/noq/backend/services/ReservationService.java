@@ -1,5 +1,6 @@
 package com.noq.backend.services;
 
+import com.noq.backend.DTO.ReservationDTO;
 import com.noq.backend.models.*;
 import com.noq.backend.repository.HostRepository;
 import com.noq.backend.repository.ReservationRepository;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -54,6 +56,20 @@ public class ReservationService {
                 .filter(res -> res.getHost().getHostId().equals(hostId))
                 .collect(Collectors.toList());
         System.out.print(reservations);
+        return reservations;
+    }
+
+    public List<Reservation> approveReservations(List<String> reservationsId) {
+        List<Reservation> reservations = reservationRepository.getAllReservations().stream()
+                .filter(res -> {
+                    if (reservationsId.contains(res.getReservationId())) {
+                        res.setStatus(Status.RESERVED);
+                        return true;
+                    }
+                    return false;
+                })
+                .collect(Collectors.toList());
+reservationRepository.saveAll(reservations);
         return reservations;
     }
 }

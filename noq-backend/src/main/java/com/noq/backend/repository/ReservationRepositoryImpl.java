@@ -17,6 +17,12 @@ public class ReservationRepositoryImpl implements ReservationRepository {
     public Reservation save(Reservation reservation) {
         return reservations.put(reservation.getReservationId(), reservation);
     }
+    @Override
+    public void saveAll(List<Reservation> reservations){
+        for (Reservation reservation : reservations) {
+            this.reservations.put(reservation.getReservationId(), reservation);
+        }
+    };
 
     @Override
     public Reservation getReservationByReservationId(String reservationId) {
