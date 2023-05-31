@@ -50,10 +50,10 @@ public class ReservationService {
     }
 
     // returns empty array...??
-    public List<Reservation> getReservationsByHostId(String hostId) {
+    public List<Reservation> getReservationsByHostIdStatusPending(String hostId) {
         System.out.print(hostId);
         List<Reservation> reservations = reservationRepository.getAllReservations().stream()
-                .filter(res -> res.getHost().getHostId().equals(hostId))
+                .filter(res -> res.getHost().getHostId().equals(hostId) && res.getStatus().equals(Status.PENDING))
                 .collect(Collectors.toList());
         System.out.print(reservations);
         return reservations;
@@ -69,7 +69,7 @@ public class ReservationService {
                     return false;
                 })
                 .collect(Collectors.toList());
-reservationRepository.saveAll(reservations);
+        reservationRepository.saveAll(reservations);
         return reservations;
     }
 }

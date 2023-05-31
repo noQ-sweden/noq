@@ -34,7 +34,7 @@ public class ReservationController {
     }
     @GetMapping("/get-reservations/{hostId}")
     public List<ReservationDTO> getReservationsByHostId(@PathVariable String hostId) {
-        return reservationService.getReservationsByHostId(hostId)
+        return reservationService.getReservationsByHostIdStatusPending(hostId)
                 .stream()
                 .map(ReservationController::toReservationDTO)
                 .collect(Collectors.toList());
