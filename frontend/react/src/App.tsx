@@ -24,7 +24,7 @@ function App() {
                 <UserContext.Provider value={{userId}}>
                     <Routes>
                         <Route path="/" element={<Login/>}/>
-                        <Route path="/host" element={<HostView/>}/>
+                        <Route path="/host/:hostId" element={<HostView/>}/>
                         <Route path="/vacancies/:userId" element={<VacantBedPage/>}/>
                         <Route path="/reservation/:userId" element={<MyReservations/>}/>
                     </Routes>

@@ -34,11 +34,20 @@ public class ReservationController {
     }
     @GetMapping("/get-reservations/{hostId}")
     public List<ReservationDTO> getReservationsByHostId(@PathVariable String hostId) {
-        return reservationService.getReservationsByHostId(hostId)
+        return reservationService.getReservationsByHostIdStatusPending(hostId)
                 .stream()
                 .map(ReservationController::toReservationDTO)
                 .collect(Collectors.toList());
     }
+
+    @PutMapping("/approve-reservations/{hostId}")
+    public List<ReservationDTO> approveReservations(@RequestBody List<String> reservationsId) {
+        return reservationService.approveReservations(reservationsId)
+                .stream()
+                .map(ReservationController::toReservationDTO)
+                .collect(Collectors.toList());
+    }
+
 
     private static ReservationDTO toReservationDTO(Reservation reservation) {
         return new ReservationDTO(
