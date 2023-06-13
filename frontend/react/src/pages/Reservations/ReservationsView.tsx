@@ -3,7 +3,7 @@ import { UserContext } from "../../App";
 import axios from "axios";
 import BookingCard from "./components/BookingCard";
 import { IHost } from "../../interfaces/IHost";
-
+import { getReservation } from "../../api/GetReservation";
 function MyReservations() {
   const [status, setStatus] = useState("");
   const [host, setHost] = useState<IHost>({
@@ -21,21 +21,19 @@ function MyReservations() {
   });
   const { userId } = useContext(UserContext);
 
-  const getReservation = async (userId: string | undefined) => {
+  const fetchReservation = async (userId: string | undefined) => {
     try {
-      const response = await axios.get(
-        `https://ca-noq-backend.thankfulglacier-35d24b26.swedencentral.azurecontainerapps.io/api/reservation/${userId}`
-      );
-      // const response = await axios.get(`http://localhost:8080/api/reservation/${userId}`)
-      setStatus(response.data.status);
-      setHost(response.data.host);
+      const response = await getReservation(userId)
+
+      setStatus(response?.data.status);
+      setHost(response?.data.host);
     } catch (error) {
       console.error(error);
     }
   };
 
   useEffect(() => {
-    getReservation(userId);
+    fetchReservation(userId);
   }, []);
 
   return (
