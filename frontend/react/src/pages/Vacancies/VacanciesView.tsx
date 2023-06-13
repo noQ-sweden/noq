@@ -5,7 +5,7 @@ import { RxDotsHorizontal } from "react-icons/rx";
 import { IHost } from "../../interfaces/IHost";
 import HostCard from "../Host/components/HostCard";
 import { useNavigate, useParams } from "react-router-dom";
-import { getHosts } from "../../api/API";
+import { getHosts } from "../../api/FetchData";
 const VacantBedPage = () => {
   const [hosts, setHosts] = useState<IHost[]>([]);
   const navigate = useNavigate();
