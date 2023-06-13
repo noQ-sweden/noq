@@ -3,16 +3,16 @@ import { IUser } from "../interfaces/IUser";
 import { IHost } from "../interfaces/IHost";
 export async function fetchData<T>(endpoint: string): Promise<T> {
   ///! FOR PRODUCTION ! Please rename ROOT_URL = process.env.REACT_APP_API_URL
-  const ROOT_URL = "http://localhost:8080"
-  ///"https://ca-noq-backend.thankfulglacier-35d24b26.swedencentral.azurecontainerapps.io/"
-   const url = `${ROOT_URL}/${endpoint}`;
-console.log("Request URL:", url) 
-   
-   try {
-       const response: AxiosResponse<T> = await axios.get(url);
-      return response.data;
-    } catch (error) {
-        throw new Error(`Error fetching data`);
+  const ROOT_URL =
+    "https://ca-noq-backend.thankfulglacier-35d24b26.swedencentral.azurecontainerapps.io/";
+  const url = `${ROOT_URL}/${endpoint}`;
+  console.log("Request URL:", url);
+
+  try {
+    const response: AxiosResponse<T> = await axios.get(url);
+    return response.data;
+  } catch (error) {
+    throw new Error(`Error fetching data`);
   }
 }
 
@@ -21,10 +21,10 @@ export const getClient = async (userId: string) => {
     const response = await fetchData<IUser>(`api/user/${userId}`);
 
     console.log(response);
-/*     response.reservation
+    /*     response.reservation
       ? navigate(`/reservation/${response.id}`)
       : navigate(`/vacancies/${response.id}`); */
-      return response
+    return response;
   } catch (error) {
     console.error(error);
   }
