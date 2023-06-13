@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from "react";
-import { UserContext } from "../App";
+import { UserContext } from "../../App";
 import axios from "axios";
-import BookingCard from "../components/bookingCard";
-import { IHost } from "../interfaces/IHost";
+import BookingCard from "./components/BookingCard";
+import { IHost } from "../../interfaces/IHost";
 
 function MyReservations() {
   const [status, setStatus] = useState("");
@@ -23,8 +23,10 @@ function MyReservations() {
 
   const getReservation = async (userId: string | undefined) => {
     try {
-     const response = await axios.get(`https://ca-noq-backend.thankfulglacier-35d24b26.swedencentral.azurecontainerapps.io/api/reservation/${userId}`);
-       // const response = await axios.get(`http://localhost:8080/api/reservation/${userId}`)
+      const response = await axios.get(
+        `https://ca-noq-backend.thankfulglacier-35d24b26.swedencentral.azurecontainerapps.io/api/reservation/${userId}`
+      );
+      // const response = await axios.get(`http://localhost:8080/api/reservation/${userId}`)
       setStatus(response.data.status);
       setHost(response.data.host);
     } catch (error) {
