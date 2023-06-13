@@ -1,15 +1,14 @@
-import Ibooking from "../interfaces/Booking";
-import {useContext} from "react";
-import {UserContext} from "../App";
-import {IHost} from "../interfaces/IHost";
+import Ibooking from "../../../interfaces/IBooking";
+import { useContext } from "react";
+import { UserContext } from "../../../App";
+import { IHost } from "../../../interfaces/IHost";
 
-interface IBookingCard{
+interface IBookingCard {
   host: IHost;
-  status: string
+  status: string;
 }
 
-function BookingCard({host, status} : IBookingCard) {
-
+function BookingCard({ host, status }: IBookingCard) {
   let cardColour;
 
   switch (status) {
@@ -25,9 +24,7 @@ function BookingCard({host, status} : IBookingCard) {
   }
   return (
     <div className={`p-4 ${cardColour}`}>
-      <div
-          className="flex items-center justify-center py-8"
-      >
+      <div className="flex items-center justify-center py-8">
         <div className="flex items-center border rounded-md shadow-xl p-5">
           <div className="flex flex-col">
             <h4 className="text-xl font-semibold mb-2">{host.name}</h4>

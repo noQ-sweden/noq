@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { IUser } from "../interfaces/User";
+import { IUser } from "../interfaces/IUser";
 import { IHost } from "../interfaces/IHost";
 export async function fetchData<T>(endpoint: string): Promise<T> {
   ///! FOR PRODUCTION ! Please rename ROOT_URL = process.env.REACT_APP_API_URL
@@ -16,14 +16,15 @@ console.log("Request URL:", url)
   }
 }
 
-export const getClient = async (userId: string, navigate: Function) => {
+export const getClient = async (userId: string) => {
   try {
     const response = await fetchData<IUser>(`api/user/${userId}`);
 
     console.log(response);
-    response.reservation
+/*     response.reservation
       ? navigate(`/reservation/${response.id}`)
-      : navigate(`/vacancies/${response.id}`);
+      : navigate(`/vacancies/${response.id}`); */
+      return response
   } catch (error) {
     console.error(error);
   }

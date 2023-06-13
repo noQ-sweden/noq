@@ -1,4 +1,4 @@
-import Host from "./Host";
+import Host from "./components/Host";
 
 
 export default function HostView () {

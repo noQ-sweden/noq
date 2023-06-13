@@ -2,10 +2,10 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { FaBed, FaCheck, FaRegCalendarAlt } from "react-icons/fa";
 import { RxDotsHorizontal } from "react-icons/rx";
-import { IHost } from "../interfaces/IHost";
-import HostCard from "../components/HostCard";
+import { IHost } from "../../interfaces/IHost";
+import HostCard from "../Host/components/HostCard";
 import { useNavigate, useParams } from "react-router-dom";
-import { getHosts } from "../API/API";
+import { getHosts } from "../../api/API";
 const VacantBedPage = () => {
   const [hosts, setHosts] = useState<IHost[]>([]);
   const navigate = useNavigate();

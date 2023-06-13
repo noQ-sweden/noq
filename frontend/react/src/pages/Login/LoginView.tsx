@@ -1,10 +1,10 @@
 import "./Login.css";
 import { useNavigate, useParams } from "react-router-dom";
 import { useContext, useState } from "react";
-import axios from "axios";
-import { UserContext } from "../App";
+import { UserContext } from "../../App";
 import { FaPortrait, FaLock } from "react-icons/fa";
-import { getClient } from "../API/API";
+import { getClient } from "../../api/API";
+
 
 const Login = () => {
   const { userId } = useContext(UserContext);
@@ -20,8 +20,22 @@ const Login = () => {
     }
   };
 
+  const fetchClient = async () => {
+    try {
+        const response = await getClient(userId)
+
+       console.log(response?.reservation)
+        response?.reservation ? navigate(`/reservation/${response.id}`)
+            : navigate(`/vacancies/${response?.id}`)
+            console.log(response)
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+
   const loginClient = async () => {
-    await getClient(userId, navigate);
+    await fetchClient();
   };
 
   const loginHost = async () => {
