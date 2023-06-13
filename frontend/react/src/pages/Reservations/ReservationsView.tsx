@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../App";
 import axios from "axios";
-import BookingCard from "./components/bookingCard";
+import BookingCard from "./components/BookingCard";
 import { IHost } from "../../interfaces/IHost";
 
 function MyReservations() {
