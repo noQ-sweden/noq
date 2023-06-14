@@ -1,4 +1,4 @@
-import api from "./ApiInstance";
+import api from "./ApiRootUrl";
 
 export const createReservation = async (
   hostId: string,
@@ -7,7 +7,7 @@ export const createReservation = async (
   try {
     const reservationData = { hostId, userId };
     const response = await api.post("api/reservation/create", reservationData);
-    return response
+    return response;
   } catch (error) {
     console.error(error);
   }

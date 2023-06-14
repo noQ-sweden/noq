@@ -1,4 +1,4 @@
-import api from "./ApiInstance";
+import api from "./ApiRootUrl";
 
 export const getReservation = async (userId: string | undefined) => {
   try {

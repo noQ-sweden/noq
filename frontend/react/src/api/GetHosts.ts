@@ -1,4 +1,4 @@
-import api from "./ApiInstance";
+import api from "./ApiRootUrl";
 import { IHost } from "../interfaces/IHost";
 
 export const getHosts = async () => {

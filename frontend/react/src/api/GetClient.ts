@@ -1,4 +1,4 @@
-import api from "./ApiInstance";
+import api from "./ApiRootUrl";
 import { IUser } from "../interfaces/IUser";
 
 export const getClient = async (userId: string | undefined) => {
