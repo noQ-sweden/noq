@@ -5,35 +5,36 @@ import { RxDotsHorizontal } from "react-icons/rx";
 import { IHost } from "../../interfaces/IHost";
 import HostCard from "../Host/components/HostCard";
 import { useNavigate, useParams } from "react-router-dom";
-import { getHosts } from "../../api/FetchData";
+import { getHosts } from "../../api/GetHosts";
+import { createReservation } from "../../api/CreateReservation";
 const VacantBedPage = () => {
   const [hosts, setHosts] = useState<IHost[]>([]);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    getHosts(setHosts);
-  }, []);
-
-  const createReservation = async (
-    hostId: string,
-    userId: string | undefined
-  ) => {
+  const fetchHosts = async () => {
     try {
-      const reservationData = { hostId, userId };
-      await axios.post(
-        "https://ca-noq-backend.thankfulglacier-35d24b26.swedencentral.azurecontainerapps.io/api/reservation/create",
-        reservationData
-      );
-      // await axios.post("http://localhost:8080/api/reservation/create", reservationData)
-      navigate(`/reservation/${userId}`);
+      const response = await getHosts();
+      if (response?.data) {
+        setHosts(response.data);
+      }
     } catch (error) {
       console.error(error);
     }
   };
 
-  const handleOnClick = (hostId: string, userId: string | undefined) => {
-    createReservation(hostId, userId);
-    console.log(hostId);
+  useEffect(() => {
+    fetchHosts();
+  }, []);
+
+  const handleOnClick = async (hostId: string, userId: string | undefined) => {
+    try {
+      const reservationData = { hostId, userId };
+      await createReservation(reservationData.hostId, userId);
+      console.log(userId);
+      navigate(`/reservation/${userId}`);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
