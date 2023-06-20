@@ -46,6 +46,14 @@ export default function Host() {
         }
     };
 
+    const handleDecline = async () => {
+        try {
+
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     const toggleCheckbox = (id: string) => {
         if (approvedIds.includes(id)) {
             setApprovedIds(approvedIds.filter((approvedId) => approvedId !== id));
@@ -124,6 +132,12 @@ export default function Host() {
                             className="bg-green-500 text-white rounded p-2 mt-4"
                         >
                             Godkänn
+                        </button>
+                        <button
+                            onClick={handleDecline}
+                            className="bg-red-500 text-white rounded p-2 mt-4"
+                        >
+                            Neka
                         </button>
                     </div>
                 </div>
