@@ -1,13 +1,8 @@
 import {useEffect, useState} from "react";
 import {getAllHostRequests} from "../../../api/GetAllHostRequests";
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import {IoSettingsSharp} from "react-icons/all";
+import {IoMdSettings} from "react-icons/io";
 import {FaRegCalendarAlt} from "react-icons/fa";
-import {Checkbox, FormControlLabel, FormGroup} from "@mui/material";
+import {Checkbox, FormControlLabel, FormGroup, List, ListItem, ListItemButton, ListItemIcon, ListItemText} from "@mui/material";
 import * as React from "react";
 import {IReservation} from "../../../interfaces/IReservation";
 import {approveReservations} from "../../../api/ApproveReservations";
@@ -79,7 +74,7 @@ export default function Host() {
                             <ListItem disablePadding>
                                 <ListItemButton>
                                     <ListItemIcon>
-                                        <IoSettingsSharp style={{color: "black"}}/>
+                                        <IoMdSettings style={{color: "black"}}/>
                                     </ListItemIcon>
                                     <ListItemText primary="Inställningar"/>
                                 </ListItemButton>
