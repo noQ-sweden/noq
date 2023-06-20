@@ -49,7 +49,7 @@ public class ReservationService {
         return reservation;
     }
 
-    // returns empty array...??
+
     public List<Reservation> getReservationsByHostIdStatusPending(String hostId) {
         System.out.print(hostId);
         List<Reservation> reservations = reservationRepository.getAllReservations().stream()
@@ -70,6 +70,7 @@ public class ReservationService {
                 })
                 .collect(Collectors.toList());
         reservationRepository.saveAll(reservations);
+        System.out.print(reservations);
         return reservations;
     }
 }

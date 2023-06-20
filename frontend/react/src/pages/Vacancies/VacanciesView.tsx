@@ -1,7 +1,5 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
-import { FaBed, FaCheck, FaRegCalendarAlt } from "react-icons/fa";
-import { RxDotsHorizontal } from "react-icons/rx";
 import { IHost } from "../../interfaces/IHost";
 import HostCard from "../Host/components/HostCard";
 import { useNavigate, useParams } from "react-router-dom";
