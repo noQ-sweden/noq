@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import {getAllHostRequests} from "../../../api/GetAllHostRequests";
 import {IoMdSettings} from "react-icons/io";
 import {FaRegCalendarAlt} from "react-icons/fa";
-import {Checkbox, FormControlLabel, FormGroup, List, ListItem, ListItemButton, ListItemIcon, ListItemText} from "@mui/material";
+import {List, ListItem, ListItemPrefix} from "@material-tailwind/react";
 import * as React from "react";
 import {IReservation} from "../../../interfaces/IReservation";
 import {approveReservations} from "../../../api/ApproveReservations";
@@ -39,6 +39,7 @@ export default function Host() {
         } catch (error) {
             console.error(error);
         }
+        getAllRequests();
     };
 
     const handleDecline = async () => {
@@ -64,20 +65,16 @@ export default function Host() {
                     <nav aria-label="main bookings settings">
                         <List>
                             <ListItem disablePadding>
-                                <ListItemButton>
-                                    <ListItemIcon>
+                                    <ListItemPrefix>
                                         <FaRegCalendarAlt style={{color: "black"}}/>
-                                    </ListItemIcon>
-                                    <ListItemText primary="Bokningar"/>
-                                </ListItemButton>
+                                    </ListItemPrefix>
+                                    Bokningar
                             </ListItem>
                             <ListItem disablePadding>
-                                <ListItemButton>
-                                    <ListItemIcon>
+                                    <ListItemPrefix>
                                         <IoMdSettings style={{color: "black"}}/>
-                                    </ListItemIcon>
-                                    <ListItemText primary="Inställningar"/>
-                                </ListItemButton>
+                                    </ListItemPrefix>
+                                    Inställningar
                             </ListItem>
                         </List>
                     </nav>
@@ -113,12 +110,8 @@ export default function Host() {
                         <div className="mt-2">
                             {requests.map((request) => (
                                 <div key={request.reservationId} className="flex items-center space-x-2 mt-2">
-                                    <FormGroup>
-                                        <FormControlLabel control={
-                                            <Checkbox checked={approvedIds.includes(request.reservationId)}
-                                                      onChange={() => toggleCheckbox(request.reservationId)}/>}
-                                                          label={request.user.name}/>
-                                    </FormGroup>
+                                            <input type="checkbox" checked={approvedIds.includes(request.reservationId)}
+                                                      onChange={() => toggleCheckbox(request.reservationId)}/>
                                 </div>
                             ))}
                         </div>
