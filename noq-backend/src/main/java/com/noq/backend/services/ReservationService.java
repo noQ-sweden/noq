@@ -8,10 +8,7 @@ import com.noq.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -49,7 +46,7 @@ public class ReservationService {
         return reservation;
     }
 
-    // returns empty array...??
+
     public List<Reservation> getReservationsByHostIdStatusPending(String hostId) {
         System.out.print(hostId);
         List<Reservation> reservations = reservationRepository.getAllReservations().stream()
@@ -70,6 +67,16 @@ public class ReservationService {
                 })
                 .collect(Collectors.toList());
         reservationRepository.saveAll(reservations);
+        System.out.print(reservations);
+        return reservations;
+    }
+
+    public List<Reservation> getReservationsByHostIdStatusReserved(String hostId) {
+        System.out.print(hostId);
+        List<Reservation> reservations = reservationRepository.getAllReservations().stream()
+                .filter(res -> res.getHost().getHostId().equals(hostId) && res.getStatus().equals(Status.RESERVED))
+                .collect(Collectors.toList());
+        System.out.print(reservations);
         return reservations;
     }
 }

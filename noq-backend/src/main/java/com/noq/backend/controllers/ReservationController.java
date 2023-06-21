@@ -32,6 +32,8 @@ public class ReservationController {
     public ReservationDTO createReservation(@RequestBody CreateReservation createReservation) {
         return toReservationDTO(reservationService.createReservation(createReservation));
     }
+
+    // returns too much data - need refactoring for host/reservationsViewDTO
     @GetMapping("/get-reservations/{hostId}")
     public List<ReservationDTO> getReservationsByHostId(@PathVariable String hostId) {
         return reservationService.getReservationsByHostIdStatusPending(hostId)
@@ -40,9 +42,17 @@ public class ReservationController {
                 .collect(Collectors.toList());
     }
 
-    @PutMapping("/approve-reservations/{hostId}")
+    @PutMapping("/approve-reservations")
     public List<ReservationDTO> approveReservations(@RequestBody List<String> reservationsId) {
         return reservationService.approveReservations(reservationsId)
+                .stream()
+                .map(ReservationController::toReservationDTO)
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("/get-approved/{hostId}")
+    public List<ReservationDTO> getApprovedByHostId(@PathVariable String hostId) {
+        return reservationService.getReservationsByHostIdStatusReserved(hostId)
                 .stream()
                 .map(ReservationController::toReservationDTO)
                 .collect(Collectors.toList());
