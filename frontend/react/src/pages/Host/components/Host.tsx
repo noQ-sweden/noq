@@ -64,13 +64,13 @@ export default function Host() {
                 <div className="flex items-center justify-center">
                     <nav aria-label="main bookings settings">
                         <List>
-                            <ListItem disablePadding>
+                            <ListItem>
                                     <ListItemPrefix>
                                         <FaRegCalendarAlt style={{color: "black"}}/>
                                     </ListItemPrefix>
                                     Bokningar
                             </ListItem>
-                            <ListItem disablePadding>
+                            <ListItem>
                                     <ListItemPrefix>
                                         <IoMdSettings style={{color: "black"}}/>
                                     </ListItemPrefix>
