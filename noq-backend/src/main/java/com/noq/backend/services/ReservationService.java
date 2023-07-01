@@ -72,4 +72,13 @@ public class ReservationService {
         reservationRepository.saveAll(reservations);
         return reservations;
     }
+
+    public List<Reservation> getReservationsByHostIdStatusReserved(String hostId) {
+        System.out.print(hostId);
+        List<Reservation> reservations = reservationRepository.getAllReservations().stream()
+                .filter(res -> res.getHost().getHostId().equals(hostId) && res.getStatus().equals(Status.RESERVED))
+                .collect(Collectors.toList());
+        System.out.print(reservations);
+        return reservations;
+    }
 }
