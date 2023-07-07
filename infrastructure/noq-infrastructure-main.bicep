@@ -120,3 +120,4 @@ output registryPwdSecretName string = containerRegistry.outputs.pwdPrimarySecret
 output keyVaultName string = keyVault.outputs.keyVaultName
 output containerEnvironmentName string = containerAppEnv.outputs.resourceName
 output cosmosDbAccountName string = cosmosDbAccount.outputs.resourceName
+output cosmosDbAccountEndpoint string = cosmosDbAccount.outputs.accountUrl

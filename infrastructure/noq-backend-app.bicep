@@ -25,6 +25,7 @@ param registryPassword string
 param targetPort int
 param allowedOrigin string = ''
 param cosmosDbAccountName string
+param cosmosDbAccountEndpoint string
 
 //Resource group for environment
 var resourceGroupName = 'rg-noq-${toLower(envShortName)}'
@@ -46,6 +47,7 @@ module containerApp './resource-templates/container-app-template.bicep' = {
     allowedOrigins: [
       allowedOrigin
     ]
+    cosmosDbAccountEndpoint: cosmosDbAccountEndpoint
   }
 }
 
