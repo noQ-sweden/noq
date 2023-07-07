@@ -13,6 +13,16 @@ Edit the [noq-backend-app-bicep](../infrastructure/noq-backend-app.bicep) file a
 
 Please review this information on how [partitioning](https://learn.microsoft.com/en-us/azure/cosmos-db/partitioning-overview) works in Azure Cosmos DB before adding new containers. The partition key cannot be changed after container creation and is a key factor when it comes to query performance.
 
+### Authentication
+
+When connection to Cosmos DB account you should use the managed identity of the container app the backend application is running in. This container app has already been granted the needed roles to read or write data to the containers. Below is an example of how to connect to Cosmos DB using the managed identity of the container app using the JAVA SDK.
+
+```java
+CosmosAsyncClient Client = new CosmosClientBuilder().endpoint("<account-endpoint>").credential(new ManagedIdentityCredential()).build();
+```
+
+The account endpoint can be read from environment variable `COSMOS_DB_ACCOUNT_ENDPOINT`.
+
 ### Development tools
 
 #### Data Explorer
