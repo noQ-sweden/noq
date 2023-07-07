@@ -84,6 +84,21 @@ module containerRegistry 'resource-templates/container-registry-template.bicep' 
   }
 }
 
+//Create a Azure Cosmos DB account
+module cosmosDbAccount 'resource-templates/cosmos-db-account-template.bicep' = {
+  name: 'now_cdb_${dateStamp}'
+  dependsOn: [
+    envResourceGroup
+    keyVault
+  ]
+  scope: resourceGroup(resourceGroupName)
+  params: {
+    keyVaultResource: keyVault.outputs.keyVaultResource
+    resourceName: 'cosno-noq-${toLower(envShortName)}'
+    azureLocationName: azureLocationName
+  }
+}
+
 //Creates a Azure Container Apps environment
 module containerAppEnv './resource-templates/container-apps-environment-template.bicep' = {
   name: 'noq_cae_${dateStamp}'
@@ -104,3 +119,4 @@ output registryUsernameSecretName string = containerRegistry.outputs.usernameSec
 output registryPwdSecretName string = containerRegistry.outputs.pwdPrimarySecretName
 output keyVaultName string = keyVault.outputs.keyVaultName
 output containerEnvironmentName string = containerAppEnv.outputs.resourceName
+output cosmosDbAccountName string = cosmosDbAccount.outputs.resourceName
