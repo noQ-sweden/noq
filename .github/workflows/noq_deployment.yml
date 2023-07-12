@@ -3,10 +3,9 @@ name: noQ - Deployment
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
-
   # Verify build of frontend
   build-frontend:
     name: Build frontend
@@ -39,15 +38,15 @@ jobs:
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
-          java-version: '17'
-          distribution: 'temurin'
+          java-version: "17"
+          distribution: "temurin"
 
       - name: Build backend
         working-directory: noq-backend/
         run: mvn -B package --file pom.xml -e
 
   # TODO: Verify Bicep template with --what-if
-  
+
   # Run deployment to dev environment if two previous build steps are successful
   dev-deployment:
     name: Deploy to Development
@@ -58,19 +57,19 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v3
-    
+
       # Authenticate with Azure Cloud
-      - name: 'Log into Azure'
+      - name: "Log into Azure"
         uses: Azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-          enable-AzPSSession: true  
+          enable-AzPSSession: true
 
-      # Create formatted timestamp to use as deployment name 
+      # Create formatted timestamp to use as deployment name
       - name: Store current timestamp
         id: date
         run: echo "ts=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_OUTPUT
-        
+
       # Provision base infrastructure resources
       - name: Provision base infrastructure
         id: arm
@@ -80,24 +79,24 @@ jobs:
           scope: subscription
           region: swedencentral
           template: ./infrastructure/noq-infrastructure-main.bicep
-          deploymentName: 'noq_main_${{ steps.date.outputs.ts }}'
-          parameters: 'envShortName=${{ vars.ENV_SHORTNAME }}'
+          deploymentName: "noq_main_${{ steps.date.outputs.ts }}"
+          parameters: "envShortName=${{ vars.ENV_SHORTNAME }}"
           failOnStdErr: false
 
-      - name: 'Container Registry Login'
+      - name: "Container Registry Login"
         uses: azure/docker-login@v1
         with:
           login-server: ${{ steps.arm.outputs.registryLoginServer }}
           username: ${{ secrets.AZ_SPN_ID }}
           password: ${{ secrets.AZ_SPN_SECRET }}
-      
-      - name: 'Build and push frontend container image'
+
+      - name: "Build and push frontend container image"
         working-directory: frontend/react
         run: |
           docker build . -t ${{ steps.arm.outputs.registryLoginServer }}/frontend/noq-frontend:${{ github.sha }}
           docker push ${{ steps.arm.outputs.registryLoginServer }}/frontend/noq-frontend:${{ github.sha }}
-      
-      - name: 'Build and push backend container image'
+
+      - name: "Build and push backend container image"
         working-directory: noq-backend
         run: |
           docker build . -t ${{ steps.arm.outputs.registryLoginServer }}/backend/noq-backend:${{ github.sha }}
@@ -105,7 +104,7 @@ jobs:
 
       - name: Get container registry credentials
         id: keyVaultSecrets
-        run: | 
+        run: |
           registryUsername=$(az keyvault secret show --name ${{ steps.arm.outputs.registryUsernameSecretName }} --vault-name ${{ steps.arm.outputs.keyVaultName }} --query value)
           echo "::add-mask::$registryUsername"
           echo registryUsername=$registryUsername >> $GITHUB_ENV
@@ -121,12 +120,12 @@ jobs:
           subscriptionId: ${{ vars.AZURE_SUBSCRIPTIONID }}
           scope: subscription
           region: swedencentral
-          template: ./infrastructure/noq-container-app.bicep
-          deploymentName: 'noq_fe_${{ steps.date.outputs.ts }}'
+          template: ./infrastructure/noq-frontend-app.bicep
+          deploymentName: "noq_fe_${{ steps.date.outputs.ts }}"
           parameters: 'registryPassword=${{ env.registryPassword }} registryUsername=${{ env.registryUsername }} registry=${{ steps.arm.outputs.registryLoginServer }} envShortName=${{ vars.ENV_SHORTNAME }} appName="noq-frontend" containerEnvironment=${{ steps.arm.outputs.containerEnvironmentName }} containerImage=${{ steps.arm.outputs.registryLoginServer }}/frontend/noq-frontend:${{ github.sha }} targetPort=80'
           failOnStdErr: false
 
-      # TODO: Provision container app for backend
+      # Provision container app for backend
       - name: Provision backend container app
         id: backend
         uses: azure/arm-deploy@v1
@@ -134,8 +133,7 @@ jobs:
           subscriptionId: ${{ vars.AZURE_SUBSCRIPTIONID }}
           scope: subscription
           region: swedencentral
-          template: ./infrastructure/noq-container-app.bicep
-          deploymentName: 'noq_be_${{ steps.date.outputs.ts }}'
-          parameters: 'registryPassword=${{ env.registryPassword }} registryUsername=${{ env.registryUsername }} registry=${{ steps.arm.outputs.registryLoginServer }} envShortName=${{ vars.ENV_SHORTNAME }} appName="noq-backend" containerEnvironment=${{ steps.arm.outputs.containerEnvironmentName }} containerImage=${{ steps.arm.outputs.registryLoginServer }}/backend/noq-backend:${{ github.sha }} targetPort=8080 allowedOrigin=${{ steps.frontend.outputs.containerFqdn }}'
+          template: ./infrastructure/noq-backend-app.bicep
+          deploymentName: "noq_be_${{ steps.date.outputs.ts }}"
+          parameters: 'registryPassword=${{ env.registryPassword }} registryUsername=${{ env.registryUsername }} registry=${{ steps.arm.outputs.registryLoginServer }} envShortName=${{ vars.ENV_SHORTNAME }} appName="noq-backend" containerEnvironment=${{ steps.arm.outputs.containerEnvironmentName }} containerImage=${{ steps.arm.outputs.registryLoginServer }}/backend/noq-backend:${{ github.sha }} targetPort=8080 allowedOrigin=${{ steps.frontend.outputs.containerFqdn }} cosmosDbAccountName=${{ steps.arm.outputs.cosmosDbAccountName }} cosmosDbAccountEndpoint=${{ steps.arm.outputs.cosmosDbAccountEndpoint }}'
           failOnStdErr: false
-          
