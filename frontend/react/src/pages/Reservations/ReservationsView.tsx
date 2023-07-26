@@ -2,8 +2,12 @@ import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../App";
 import axios from "axios";
 import BookingCard from "./components/BookingCard";
-import { IHost } from "../../interfaces/IHost";
+import { IHost } from "../../interfaces/IReservation";
 import { getReservation } from "../../api/GetReservation";
+import {Typography} from "@material-tailwind/react";
+
+
+
 function MyReservations() {
   const [status, setStatus] = useState("");
   const [host, setHost] = useState<IHost>({
@@ -62,6 +66,7 @@ function MyReservations() {
             <h2 className="flex justify-center">{status}</h2>
           </div>
           <div>
+            <Typography>{host.hostId}</Typography>
             <BookingCard key={host?.hostId} host={host} status={status} />
           </div>
         </div>

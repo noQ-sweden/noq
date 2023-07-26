@@ -1,7 +1,5 @@
-import Ibooking from "../../../interfaces/IBooking";
-import { useContext } from "react";
-import { UserContext } from "../../../App";
-import { IHost } from "../../../interfaces/IHost";
+
+import { IHost } from "../../../interfaces/IReservation";
 
 interface IBookingCard {
   host: IHost;

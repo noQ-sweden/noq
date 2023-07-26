@@ -1,6 +1,7 @@
 import { IHost } from "../../../interfaces/IHost";
 import { useContext } from "react";
 import { UserContext } from "../../../App";
+import {Typography} from "@material-tailwind/react";
 
 interface IHostCard {
   host: IHost;
@@ -12,6 +13,7 @@ export default function HostCard({ host, handleOnClick }: IHostCard) {
 
   return (
     <>
+      <Typography>{host.hostId}</Typography>
       <div className="flex items-center justify-center py-8">
         <div className="flex items-center border rounded-md shadow-xl p-5">
           <div

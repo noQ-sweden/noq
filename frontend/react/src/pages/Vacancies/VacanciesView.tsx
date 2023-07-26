@@ -5,7 +5,7 @@ import { RxDotsHorizontal } from "react-icons/rx";
 import { IHost } from "../../interfaces/IHost";
 import HostCard from "../Host/components/HostCard";
 import { useNavigate, useParams } from "react-router-dom";
-import { getHosts } from "../../api/GetHosts";
+import { getAllHostsWithBeds } from "../../api/GetHosts";
 import { createReservation } from "../../api/CreateReservation";
 const VacantBedPage = () => {
   const [hosts, setHosts] = useState<IHost[]>([]);
@@ -13,8 +13,9 @@ const VacantBedPage = () => {
 
   const fetchHosts = async () => {
     try {
-      const response = await getHosts();
+      const response = await getAllHostsWithBeds();
       if (response?.data) {
+        console.log(response.data)
         setHosts(response.data);
       }
     } catch (error) {

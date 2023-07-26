@@ -41,7 +41,7 @@ public class ReservationController {
     }
 
     @PutMapping("/approve-reservations/{hostId}")
-    public List<ReservationDTO> approveReservations(@RequestBody List<String> reservationsId) {
+    public List<ReservationDTO> approveReservations(@RequestBody List<String> reservationsId,@PathVariable String hostId ) {
         return reservationService.approveReservations(reservationsId)
                 .stream()
                 .map(ReservationController::toReservationDTO)

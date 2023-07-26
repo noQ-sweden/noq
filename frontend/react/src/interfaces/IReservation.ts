@@ -6,7 +6,7 @@ export interface IReservation {
 }
 
 
-interface IHost {
+export interface IHost {
     hostId: string;
     name: string;
     address: {
@@ -21,7 +21,7 @@ interface IHost {
 }
 
 
-interface IUser{
+export interface IUser{
     id: string
     name: string
     reservation: boolean

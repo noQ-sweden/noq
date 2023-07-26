@@ -3,9 +3,8 @@ import jakarta.persistence.Column;
 import lombok.*;
 import jakarta.persistence.Id;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
+
 import jakarta.persistence.*;
 
 @Data
@@ -22,11 +21,13 @@ public class Host {
     @JoinColumn(name = "id")
     private Address address;
     private String image;
-    private Long bed;
 
-    /*
+
     @OneToMany(mappedBy = "host",  cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Bed> beds = new HashSet<>();
-*/
+    private List<Bed> beds = new ArrayList<>();
 
+    public void addBed(Bed bed) {
+        beds.add(bed);
+        bed.setHost(this);
+    }
 }
