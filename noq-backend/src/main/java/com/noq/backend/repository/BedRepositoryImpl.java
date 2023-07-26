@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.*;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Repository
 public class BedRepositoryImpl implements BedRepository {
@@ -20,6 +21,13 @@ public class BedRepositoryImpl implements BedRepository {
     public Bed save(Bed bed) {
         beds.put(bed.getId(), bed);
         return bed;
+    }
+
+    @Override
+    public void saveAll(List<Bed> bedsList) {
+        for (Bed bed : bedsList) {
+            beds.put(bed.getId(), bed);
+        }
     }
 
     @Override

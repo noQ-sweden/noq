@@ -7,7 +7,7 @@ import {putNrBeds} from "../../../api/PutNrBeds";
 export default function HandleBedsComponent() {
     const [selectedBeds, setSelectedBeds] = useState(0);
 
-    const hostId = "4"
+    const hostId = "host4"
 
     const handleSave = async () => {
         try {

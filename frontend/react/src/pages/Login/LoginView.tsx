@@ -9,7 +9,7 @@ const Login = () => {
   const { userId } = useContext(UserContext);
   const navigate = useNavigate();
 
-  const hostId = "4";
+  const hostId = "host4";
 
   const getHost = async () => {
     try {

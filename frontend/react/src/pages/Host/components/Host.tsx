@@ -10,7 +10,6 @@ import HandleBedsComponent from "./HandleBedsComponent";
 
 
 export default function Host() {
-    const [selectedBeds, setSelectedBeds] = useState(0);
     const [requests, setRequests] = useState<IReservation[]>([]);
     const [approvedIds, setApprovedIds] = useState<string[]>([]);
 

@@ -13,4 +13,5 @@ public interface BedRepository {
 
     List<Bed> getBedsByHostId(String hostId);
 
+    void saveAll(List<Bed> beds);
 }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Service
 public class HostService {
@@ -65,11 +66,23 @@ public class HostService {
 
     public Host createBeds(String hostId, int numberOfBeds) {
         Host host = hostRepository.getHostByHostId(hostId);
-        Bed bed = new Bed("newBed", host);
-        host.addBed(bed);
-        hostRepository.save(host);
+
+        if (host != null) {
+            List<Bed> beds = IntStream.range(0, numberOfBeds)
+                    .mapToObj(i -> new Bed("newBed" + (i + 1), host))
+                    .collect(Collectors.toList());
+
+            host.getBeds().addAll(beds);
+            bedRepository.saveAll(beds);
+            hostRepository.save(host);
+        } else {
+            System.out.println("Host not found for hostId: " + hostId);
+        }
 
         return host;
     }
+
+
+
 }
 
