@@ -1,17 +1,10 @@
-import Host from "./components/Host";
-import {useEffect, useState} from "react";
+import React from 'react'
+import Host from './components/Host'
 
-
-export default function HostView () {
-    const [hostId, setHostId] = useState("")
-
-    useEffect(() => {
-        setHostId("4")
-    })
-
-    return (
-        <>
-            <Host></Host>
-        </>
-    )
+export default function HostView() {
+  return (
+    <>
+    <Host></Host>
+    </>
+  )
 }
