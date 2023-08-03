@@ -1,11 +1,11 @@
-import { Typography } from "@material-tailwind/react";
-import { SideBarComponenet } from "./components/SideBarComponent";
-import { Outlet } from "react-router";
+import React from 'react'
+import { SideBarComponenet } from './components/SideBarComponent'
+import { Outlet } from 'react-router-dom'
 
-export default function GuestPage() {
+export default function HostPage() {
   return (
     <>
-      <div className="mt-12 flex">
+     <div className="mt-12 flex">
         <div className="flex-none">
           <aside>
             <SideBarComponenet></SideBarComponenet>
@@ -16,5 +16,5 @@ export default function GuestPage() {
         </div>
       </div>
     </>
-  );
+  )
 }
