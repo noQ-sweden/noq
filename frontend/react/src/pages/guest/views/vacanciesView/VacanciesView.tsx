@@ -41,13 +41,14 @@ export default function VacanciesView() {
                 </Typography>
                 <div className="mt-12 grid gap-8 ">
                     {vacancies?.map(vacancy => (
-                        <HostCardComponent onClick={() => makeReservation(vacancy.hostId, vacancy.bedId)} key={vacancy.hostId}
-                                           hostId={vacancy.hostId}
-                                           bedId={vacancy.bedId}
+                        <div onClick={() => makeReservation(vacancy.hostId, vacancy.bedId)} key={vacancy.hostId}>
+                            {vacancy.bedId}
+                            <HostCardComponent key={vacancy.id}
                                            hostName={vacancy.hostName}
                                            address={vacancy.address}
                                            hostImg={vacancy.hostImg}
                         />
+                        </div>
                     ))}
                 </div>
             </div>

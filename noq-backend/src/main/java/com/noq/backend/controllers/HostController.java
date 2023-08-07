@@ -48,13 +48,6 @@ public class HostController {
 
 
     private static HostDTO toHostDTO(Host host) {
-        AddressDTO addressDTO = new AddressDTO(
-                host.getAddress().getId(),
-                host.getAddress().getStreet(),
-                host.getAddress().getStreetNum(),
-                host.getAddress().getPostalCode(),
-                host.getAddress().getCityName()
-        );
 
         List<BedDTO> bedDTOs = host.getBeds().stream()
                 .map(bed -> new BedDTO(bed.getId(), null))
@@ -63,7 +56,7 @@ public class HostController {
         return new HostDTO(
                 host.getHostId(),
                 host.getName(),
-                addressDTO,
+                host.getAddress(),
                 host.getImage(),
                 bedDTOs
         );

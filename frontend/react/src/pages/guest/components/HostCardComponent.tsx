@@ -3,20 +3,15 @@ import {IAddress} from "../views/vacanciesView/IVacanciesViewModel";
 
 
 interface IHostCardComponent{
-  hostId: string,
-  bedId: string
   hostName: string,
   address: IAddress,
   hostImg: string,
-  onClick: (hostId: string, bedId: string) => {}
 }
 
-export default function HostCardComponent({hostId, bedId, hostName, address, hostImg, onClick} : IHostCardComponent) {
+export default function HostCardComponent({hostName, address, hostImg} : IHostCardComponent) {
   return (
     <>
-      {bedId}
-      <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl "
-           onClick={() => onClick(hostId, bedId)}>
+      <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl ">
         <div className="md:flex">
           <div className="md:shrink-0">
             <img

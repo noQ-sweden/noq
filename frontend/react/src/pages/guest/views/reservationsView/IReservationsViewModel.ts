@@ -1,15 +1,12 @@
-export interface IReservationsViewModel{
+export interface IReservationsViewModel {
     reservationId: string,
-    host: IHost;
-}
-
-export interface IHost{
     hostName: string;
     hostImage: string;
-    address: IAddress;
+    address: IAddress
 }
 
 export interface IAddress {
+    id: string;
     street: string;
     streetNum: string;
     postalCode: string;

@@ -1,35 +1,29 @@
 package com.noq.backend.controllers;
 
-import com.noq.backend.DTO.HostDTO;
 import com.noq.backend.DTO.ReservationDTO;
 import com.noq.backend.DTO.ReservationsViewDTO;
-import com.noq.backend.models.CreateReservation;
-import com.noq.backend.models.Host;
 import com.noq.backend.models.Reservation;
 import com.noq.backend.services.ReservationService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 @RestController
-@RequestMapping("/api/reservation")
+@RequestMapping("/api/reservations")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
-public class ReservationController {
+public class ReservationsViewController {
 
     private final ReservationService reservationService;
 
-    public ReservationController(ReservationService reservationService) {
+    public ReservationsViewController(ReservationService reservationService) {
         this.reservationService = reservationService;
     }
 
 
-/*    @GetMapping("/{userId}")
-    public ReservationDTO getReservation(@PathVariable String userId) {
-        return toReservationDTO(reservationService.getReservationByUserId(userId));
+   @GetMapping("/{userId}")
+    public ReservationsViewDTO getReservation(@PathVariable String userId) {
+        return toDTO(reservationService.getReservationByUserId(userId));
     }
 
-
+/*
     @GetMapping("/get-reservations/{hostId}")
     public List<ReservationDTO> getReservationsByHostId(@PathVariable String hostId) {
         return reservationService.getReservationsByHostIdStatusPending(hostId)
@@ -54,12 +48,12 @@ public class ReservationController {
                 .collect(Collectors.toList());
     }*/
 
-    private static ReservationsViewDTO toDTO(ReservationDTO reservationDTO) {
+    private static ReservationsViewDTO toDTO(Reservation reservation) {
         return new ReservationsViewDTO(
-                reservationDTO.reservationId(),
-                reservationDTO.hostDTO().name(),
-                reservationDTO.hostDTO().image(),
-                reservationDTO.hostDTO().address());
+                reservation.getReservationId(),
+                reservation.getHost().getName(),
+                reservation.getHost().getImage(),
+                reservation.getHost().getAddress());
     }
 
 }

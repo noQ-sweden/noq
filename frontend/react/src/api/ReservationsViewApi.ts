@@ -11,7 +11,7 @@ export const getReservationsView= async () => {
 };
 export const getReservation = async (userId: string | undefined) => {
     try {
-        const response = await api.get(`/api/reservation/${userId}`);
+        const response = await api.get(`/api/reservations/${userId}`);
         return response;
     } catch (error) {
         console.error(error);

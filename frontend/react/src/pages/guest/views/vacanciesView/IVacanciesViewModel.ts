@@ -9,6 +9,7 @@ export interface IVacanciesViewModel {
 
 
 export interface IAddress {
+    id: string;
     street: string;
     streetNum: string;
     postalCode: string;
