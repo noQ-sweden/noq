@@ -24,6 +24,9 @@ public class HostService {
         this.bedRepository = bedRepository;
     }
 
+    public Host getHostById(String id){
+        return hostRepository.getHostByHostId(id);
+    }
 
     public List<Host> getAllHosts() {
         return hostRepository.getAllHosts();
@@ -31,28 +34,33 @@ public class HostService {
 
     public List<Host> createHosts() {
 
-        Host host1 = new Host("host3", "Test-Härberget 3", new Address(UUID.randomUUID().toString(), "Gatgatan", "12", "12345", "Stockholm"), "url/till/bild/pa/Harberget1.png", new ArrayList<>());
-        Host host2 = new Host("host4", "Test-Härberget 4", new Address(UUID.randomUUID().toString(), "Vägvägen", "21", "23546", "Lund"), "url/till/bild/pa/Harberget2.png", new ArrayList<>());
+        /* skapar  3 st hosts, host3 har två sämngar, host4 en säng, och host5 ingen säng */
+
+        Host host3 = new Host("host3", "Test-Härberget 3", new Address(UUID.randomUUID().toString(), "Gatgatan", "12", "12345", "Stockholm"), "url/till/bild/pa/Harberget1.png", new ArrayList<>());
+        Host host4 = new Host("host4", "Test-Härberget 4", new Address(UUID.randomUUID().toString(), "Vägvägen", "21", "23546", "Lund"), "url/till/bild/pa/Harberget2.png", new ArrayList<>());
+        Host host5 = new Host("host5", "Test-Härberget 5", new Address(UUID.randomUUID().toString(), "Vägvägen", "21", "23546", "Lund"), "url/till/bild/pa/Harberget2.png", new ArrayList<>());
 
 
-        hostRepository.save(host1);
-        hostRepository.save(host2);
+        hostRepository.save(host3);
+        hostRepository.save(host4);
+        hostRepository.save(host5);
 
-        Bed bed1 = new Bed("bed1", host1);
-        Bed bed2 = new Bed("bed2", host1);
-        Bed bed3 = new Bed("bed3", host1);
+        Bed bed1 = new Bed("bed1", host3);
+        Bed bed2 = new Bed("bed2", host3);
+        Bed bed3 = new Bed("bed3", host4);
 
-        /* the beds have host as null. But are connected to the host. ???  */
+        /* beds har host som null men de är kopplade ???  */
 
-        host1.addBed(bed1);
-        host1.addBed(bed2);
-        host1.addBed(bed3);
+        host3.addBed(bed1);
+        host3.addBed(bed2);
+        host4.addBed(bed3);
 
         bedRepository.save(bed1);
         bedRepository.save(bed2);
         bedRepository.save(bed3);
 
-        hostRepository.save(host1);
+        hostRepository.save(host3);
+        hostRepository.save(host4);
 
         return new ArrayList<>(hostRepository.getAllHosts());
     }

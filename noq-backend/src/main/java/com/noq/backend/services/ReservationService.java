@@ -39,15 +39,23 @@ public class ReservationService {
 
     public Reservation createReservation(CreateReservation createReservation) {
         User user = userRepository.getUserByUserId(createReservation.getUserId());
-        user.setReservation(true);
-        userRepository.save(user);
-
         Host host = hostRepository.getHostByHostId(createReservation.getHostId());
 
-        Reservation reservation = new Reservation(host, user, Status.PENDING);
-        reservationRepository.save(reservation);
-        return reservation;
+        Bed reservedBed = host.getBeds().stream()
+                .filter(bed -> bed.getId().equals(createReservation.getBedId()))
+                .findFirst()
+                .orElse(null);
+
+        if (reservedBed != null) {
+            reservedBed.setReserved(true);
+            Reservation reservation = new Reservation(host, user, Status.RESERVED);
+            reservationRepository.save(reservation);
+            return reservation;
+        } else {
+            throw new IllegalArgumentException("Bed with the specified bedId not found in the host's list of beds.");
+        }
     }
+
 
     // returns empty array...??
     public List<Reservation> getReservationsByHostIdStatusPending(String hostId) {

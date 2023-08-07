@@ -56,7 +56,6 @@ public class HostController {
                 host.getAddress().getCityName()
         );
 
-
         List<BedDTO> bedDTOs = host.getBeds().stream()
                 .map(bed -> new BedDTO(bed.getId(), null))
                 .collect(Collectors.toList());

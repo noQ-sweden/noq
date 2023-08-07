@@ -1,5 +1,6 @@
 package com.noq.backend.controllers;
 
+import com.noq.backend.DTO.ReservationDTO;
 import com.noq.backend.DTO.UserDTO;
 import com.noq.backend.models.User;
 import com.noq.backend.services.UserService;
@@ -26,23 +27,30 @@ public class UserController {
     public List<UserDTO> getAllUsers() {
         return userService.getAllUsers()
                 .stream()
-                .map(UserController::userDTO)
+                .map(UserController::toUserDTO)
                 .collect(Collectors.toList());
     }
 
     @GetMapping("/{userId}")
     public UserDTO getUserById(@PathVariable String userId) {
         User user = userService.getUserById(userId);
-        return userDTO(user);
+        return toUserDTO(user);
     }
 
 
 
-    private static UserDTO userDTO(User user) {
+    private static UserDTO toUserDTO(User user) {
+        ReservationDTO reservationDTO = new ReservationDTO(
+                user.getReservtaion().getReservationId(),
+                user.getReservtaion().getHost(),
+                user,
+                user.getReservtaion().getStatus()
+        );
+
         return new UserDTO(
                 user.getId(),
                 user.getName(),
-                user.getReservation()
+                reservationDTO
         );
     }
 }

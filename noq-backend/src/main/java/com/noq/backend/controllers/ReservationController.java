@@ -2,6 +2,7 @@ package com.noq.backend.controllers;
 
 import com.noq.backend.DTO.HostDTO;
 import com.noq.backend.DTO.ReservationDTO;
+import com.noq.backend.DTO.ReservationsViewDTO;
 import com.noq.backend.models.CreateReservation;
 import com.noq.backend.models.Host;
 import com.noq.backend.models.Reservation;
@@ -23,15 +24,12 @@ public class ReservationController {
     }
 
 
-    @GetMapping("/{userId}")
+/*    @GetMapping("/{userId}")
     public ReservationDTO getReservation(@PathVariable String userId) {
         return toReservationDTO(reservationService.getReservationByUserId(userId));
     }
 
-    @PostMapping("/create")
-    public ReservationDTO createReservation(@RequestBody CreateReservation createReservation) {
-        return toReservationDTO(reservationService.createReservation(createReservation));
-    }
+
     @GetMapping("/get-reservations/{hostId}")
     public List<ReservationDTO> getReservationsByHostId(@PathVariable String hostId) {
         return reservationService.getReservationsByHostIdStatusPending(hostId)
@@ -41,7 +39,7 @@ public class ReservationController {
     }
 
     @PutMapping("/approve-reservations/{hostId}")
-    public List<ReservationDTO> approveReservations(@RequestBody List<String> reservationsId,@PathVariable String hostId ) {
+    public List<ReservationDTO> approveReservations(@RequestBody List<String> reservationsId, @PathVariable String hostId) {
         return reservationService.approveReservations(reservationsId)
                 .stream()
                 .map(ReservationController::toReservationDTO)
@@ -52,16 +50,16 @@ public class ReservationController {
     public List<ReservationDTO> getApprovedByHostId(@PathVariable String hostId) {
         return reservationService.getReservationsByHostIdStatusReserved(hostId)
                 .stream()
-                .map(ReservationController::toReservationDTO)
+                .map(ReservationController::toDTO)
                 .collect(Collectors.toList());
+    }*/
+
+    private static ReservationsViewDTO toDTO(ReservationDTO reservationDTO) {
+        return new ReservationsViewDTO(
+                reservationDTO.reservationId(),
+                reservationDTO.hostDTO().name(),
+                reservationDTO.hostDTO().image(),
+                reservationDTO.hostDTO().address());
     }
 
-
-    private static ReservationDTO toReservationDTO(Reservation reservation) {
-        return new ReservationDTO(
-                reservation.getReservationId(),
-                reservation.getHost(),
-                reservation.getUser(),
-                reservation.getStatus());
-    }
 }

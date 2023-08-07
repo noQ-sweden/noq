@@ -11,14 +11,16 @@ import java.util.UUID;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
-@Entity(name ="beds")
 public class Bed {
-    @Id @Column(name = "id", nullable = false)
-    private String id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "host_id")
+    private String id;
     private Host host;
+    private Boolean reserved;
+
+    public Bed(String id, Host host){
+        this.id = id;
+        this.host = host;
+        this.reserved = false;
+    }
 
 }

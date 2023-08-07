@@ -1,5 +1,6 @@
 package com.noq.backend.services;
 
+import com.noq.backend.models.Reservation;
 import com.noq.backend.models.User;
 import com.noq.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,13 +27,12 @@ public class UserService {
     public List<User> createUsers() {
         User user1 = new User(
                 "1",
-                "Person Personsson",
-                false
+                "Person Personsson", new Reservation()
         );
         User user2 = new User(
                 "2",
                 "Individ Individson",
-                true
+                new Reservation()
         );
         userRepository.save(user1);
         userRepository.save(user2);

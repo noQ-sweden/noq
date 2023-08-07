@@ -8,4 +8,5 @@ import lombok.NoArgsConstructor;
 public class CreateReservation {
     private String hostId;
     private String userId;
+    private String bedId;
 }

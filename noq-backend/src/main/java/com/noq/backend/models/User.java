@@ -9,13 +9,11 @@ import jakarta.persistence.Id;
 import java.util.UUID;
 
 @Data
-@Entity(name="users")
 @AllArgsConstructor
 @NoArgsConstructor
 public class User {
 
-    @Id @Column(name = "id", nullable = false)
     private String id;
     private String name;
-    private Boolean reservation;
+    private Reservation reservtaion;
 }
