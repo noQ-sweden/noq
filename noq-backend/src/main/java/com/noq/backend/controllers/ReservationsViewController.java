@@ -23,30 +23,7 @@ public class ReservationsViewController {
         return toDTO(reservationService.getReservationByUserId(userId));
     }
 
-/*
-    @GetMapping("/get-reservations/{hostId}")
-    public List<ReservationDTO> getReservationsByHostId(@PathVariable String hostId) {
-        return reservationService.getReservationsByHostIdStatusPending(hostId)
-                .stream()
-                .map(ReservationController::toReservationDTO)
-                .collect(Collectors.toList());
-    }
 
-    @PutMapping("/approve-reservations/{hostId}")
-    public List<ReservationDTO> approveReservations(@RequestBody List<String> reservationsId, @PathVariable String hostId) {
-        return reservationService.approveReservations(reservationsId)
-                .stream()
-                .map(ReservationController::toReservationDTO)
-                .collect(Collectors.toList());
-    }
-
-    @GetMapping("/get-approved/{hostId}")
-    public List<ReservationDTO> getApprovedByHostId(@PathVariable String hostId) {
-        return reservationService.getReservationsByHostIdStatusReserved(hostId)
-                .stream()
-                .map(ReservationController::toDTO)
-                .collect(Collectors.toList());
-    }*/
 
     private static ReservationsViewDTO toDTO(Reservation reservation) {
         return new ReservationsViewDTO(

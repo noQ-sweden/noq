@@ -48,7 +48,7 @@ public class ReservationService {
 
         if (reservedBed != null) {
             reservedBed.setReserved(true);
-            Reservation reservation = new Reservation(host, user, Status.RESERVED);
+            Reservation reservation = new Reservation(host, user, Status.PENDING);
             reservationRepository.save(reservation);
             return reservation;
         } else {
@@ -57,15 +57,14 @@ public class ReservationService {
     }
 
 
-    // returns empty array...??
     public List<Reservation> getReservationsByHostIdStatusPending(String hostId) {
-        System.out.print(hostId);
-        List<Reservation> reservations = reservationRepository.getAllReservations().stream()
-                .filter(res -> res.getHost().getHostId().equals(hostId) && res.getStatus().equals(Status.PENDING))
+        return reservationRepository.getAllReservations().stream()
+                .filter(reservation ->
+                        reservation.getHost().getHostId().equals(hostId) &&
+                                reservation.getStatus() == Status.PENDING)
                 .collect(Collectors.toList());
-        System.out.print(reservations);
-        return reservations;
     }
+
 
     public List<Reservation> approveReservations(List<String> reservationsId) {
         List<Reservation> reservations = reservationRepository.getAllReservations().stream()

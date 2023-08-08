@@ -1,6 +1,6 @@
 import * as React from "react";
 import {useState} from "react";
-import {putNrBeds} from "../../../api/PutNrBeds";
+import {putNrBeds} from "../../../api/BedsViewApi";
 
 
 
