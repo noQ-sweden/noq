@@ -3,7 +3,6 @@ import React, {useEffect, useState} from "react";
 import HostCardComponent from "../../components/HostCardComponent";
 import {IReservationsViewModel} from "./IReservationsViewModel";
 import {getReservation, getReservationsView} from "../../../../api/ReservationsViewApi";
-import {createReservation} from "../../../../api/VacanciesViewApi";
 
 export default function ReservationsView() {
     const [reservation, setReservation] = useState<IReservationsViewModel>({
@@ -33,16 +32,6 @@ export default function ReservationsView() {
     useEffect(() => {
         fetchView()
     }, [])
-
-    async function makeReservation( hostId: string, bedId: string) {
-        console.log(bedId, hostId)
-        try {
-            await createReservation(hostId, userId, bedId)
-        } catch (error) {
-            console.error(error);
-        }
-        fetchView()
-    }
 
 
     return (

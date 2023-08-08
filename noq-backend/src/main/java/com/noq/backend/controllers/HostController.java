@@ -41,11 +41,6 @@ public class HostController {
     }
 
 
-    @PostMapping("/create-beds/{hostId}")
-    public HostDTO createBeds(@RequestParam int numberOfBeds, @PathVariable String hostId){
-        return toHostDTO(hostService.createBeds(hostId, numberOfBeds));
-    }
-
 
     private static HostDTO toHostDTO(Host host) {
 

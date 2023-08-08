@@ -25,13 +25,11 @@ import java.util.stream.Collectors;
 public class VacanciesViewController {
 
     private final VacanciesViewService vacanciesViewService;
-    private final HostService hostService;
     private final ReservationService reservationService;
 
     @Autowired
-    public VacanciesViewController(VacanciesViewService vacanciesViewService, HostService hostService, ReservationService reservationService) {
+    public VacanciesViewController(VacanciesViewService vacanciesViewService, ReservationService reservationService) {
         this.vacanciesViewService = vacanciesViewService;
-        this.hostService = hostService;
         this.reservationService = reservationService;
     }
 

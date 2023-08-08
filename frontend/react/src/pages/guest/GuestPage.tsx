@@ -1,4 +1,3 @@
-import { Typography } from "@material-tailwind/react";
 import { SideBarComponenet } from "./components/SideBarComponent";
 import { Outlet } from "react-router";
 

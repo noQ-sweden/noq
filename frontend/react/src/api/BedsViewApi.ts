@@ -3,7 +3,7 @@ import api from "./ApiRootUrl";
 export const putNrBeds = async (numberOfBeds : number, hostId: string) => {
 
     try {
-        const response = await api.post(`api/host/create-beds/${hostId}`, null, {
+        const response = await api.put(`api/bed/create-beds/${hostId}`, null, {
             params: {
                 numberOfBeds: numberOfBeds,
             },
