@@ -1,6 +1,8 @@
 package com.noq.backend.DTO;
 
-public record RequestsViewDTO(String reservationId, UserDTO user) {
+import com.noq.backend.models.Status;
+
+public record RequestsViewDTO(String reservationId, Status status, UserDTO user) {
 
     public record UserDTO(String id, String name) {
     }

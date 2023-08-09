@@ -56,6 +56,13 @@ public class ReservationService {
         }
     }
 
+    public List<Reservation> getReservationsByHostId(String hostId) {
+        return reservationRepository.getAllReservations().stream()
+                .filter(reservation ->
+                        reservation.getHost().getHostId().equals(hostId))
+                .collect(Collectors.toList());
+    }
+
 
     public List<Reservation> getReservationsByHostIdStatusPending(String hostId) {
         return reservationRepository.getAllReservations().stream()

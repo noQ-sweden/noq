@@ -24,6 +24,14 @@ public class RequestsViewController {
 
     @GetMapping("/get-reservations/{hostId}")
     public List<RequestsViewDTO> getReservationsByHostId(@PathVariable String hostId) {
+        return reservationService.getReservationsByHostId(hostId)
+                .stream()
+                .map(RequestsViewController::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("/get-pending/{hostId}")
+    public List<RequestsViewDTO> getPendingByHostId(@PathVariable String hostId) {
         return reservationService.getReservationsByHostIdStatusPending(hostId)
                 .stream()
                 .map(RequestsViewController::toDTO)
@@ -52,6 +60,7 @@ public class RequestsViewController {
 
         return new RequestsViewDTO(
                 reservation.getReservationId(),
+                reservation.getStatus(),
                 user
         );
     }
