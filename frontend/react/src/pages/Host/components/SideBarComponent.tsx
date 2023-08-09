@@ -31,13 +31,13 @@ export function SideBarComponenet() {
           <ListItemPrefix>
             <CalendarDaysIcon className="h-7 w-7" />
           </ListItemPrefix>
-          <Link to="/host/host3/beds">Förfrågningar</Link>
+          <Link to="/host/host3/requests">Förfrågningar</Link>
         </ListItem>
         <ListItem>
           <ListItemPrefix>
             <FolderArrowDownIcon className="h-7 w-7" />
           </ListItemPrefix>
-          <Link to="/host/host3/requests">Sängplatser </Link>
+          <Link to="/host/host3/beds">Sängplatser </Link>
         </ListItem>
 
         {/* Finns inga vyer för ännu */}
