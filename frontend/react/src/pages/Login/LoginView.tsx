@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useContext, useState } from "react";
 import { UserContext } from "../../App";
 import { FaPortrait, FaLock } from "react-icons/fa";
-import { getClient } from "../../api/GetClient";
+import { getClient } from "../../api/GuestPageApi";
 
 const Login = () => {
   const { userId } = useContext(UserContext);

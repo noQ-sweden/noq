@@ -1,6 +1,5 @@
 package com.noq.backend.controllers;
 
-import com.noq.backend.DTO.AddressDTO;
 import com.noq.backend.DTO.BedDTO;
 import com.noq.backend.DTO.HostDTO;
 import com.noq.backend.models.Host;
@@ -14,12 +13,12 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/host")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
-public class HostController {
+public class HostPageController {
 
     private final HostService hostService;
 
     @Autowired
-    public HostController(HostService hostService) {
+    public HostPageController(HostService hostService) {
         this.hostService = hostService;
     }
 
@@ -28,7 +27,7 @@ public class HostController {
     public List<HostDTO> getAllHosts() {
         return hostService.getAllHosts()
                 .stream()
-                .map(HostController::toHostDTO)
+                .map(HostPageController::toHostDTO)
                 .collect(Collectors.toList());
     }
 
@@ -36,7 +35,7 @@ public class HostController {
     public List<HostDTO> getAllHostsWithBeds() {
         return hostService.getAllHostsWithBeds()
                 .stream()
-                .map(HostController::toHostDTO)
+                .map(HostPageController::toHostDTO)
                 .collect(Collectors.toList());
     }
 

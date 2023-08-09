@@ -81,11 +81,10 @@ public class ReservationService {
     }
 
     public List<Reservation> getReservationsByHostIdStatusReserved(String hostId) {
-        System.out.print(hostId);
-        List<Reservation> reservations = reservationRepository.getAllReservations().stream()
-                .filter(res -> res.getHost().getHostId().equals(hostId) && res.getStatus().equals(Status.RESERVED))
+        return reservationRepository.getAllReservations().stream()
+                .filter(reservation ->
+                        reservation.getHost().getHostId().equals(hostId) &&
+                                reservation.getStatus() == Status.RESERVED)
                 .collect(Collectors.toList());
-        System.out.print(reservations);
-        return reservations;
     }
 }

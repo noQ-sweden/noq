@@ -24,4 +24,13 @@ export const approveReservations = async (reservationData : string[], hostId: st
 };
 
 
-/* "/get-approved/{hostId}" */
+export const getApprovedReservations = async (hostId: string) => {
+    try {
+        const response = await api.get(
+            `api/requests/get-approved/${hostId}`
+        );
+        return response;
+    } catch (error) {
+        console.error(error);
+    }
+};

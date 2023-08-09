@@ -22,12 +22,11 @@ public class RequestsViewController {
         this.reservationService = reservationService;
     }
 
-/*error: Could not write JSON: Infinite recursion (StackOverflowError)]*/
     @GetMapping("/get-reservations/{hostId}")
-    public List<ReservationDTO> getReservationsByHostId(@PathVariable String hostId) {
+    public List<RequestsViewDTO> getReservationsByHostId(@PathVariable String hostId) {
         return reservationService.getReservationsByHostIdStatusPending(hostId)
                 .stream()
-                .map(RequestsViewController::reservationDTO)
+                .map(RequestsViewController::toDTO)
                 .collect(Collectors.toList());
     }
 
@@ -48,21 +47,13 @@ public class RequestsViewController {
 
 
     private static RequestsViewDTO toDTO(Reservation reservation){
-        RequestsViewDTO.UserDTO userDTO = new RequestsViewDTO.UserDTO(reservation.getUser().getId(), reservation.getUser().getName());
+        RequestsViewDTO.UserDTO user = new RequestsViewDTO.UserDTO(reservation.getUser().getId(), reservation.getUser().getName());
 
 
         return new RequestsViewDTO(
                 reservation.getReservationId(),
-                userDTO
+                user
         );
     }
 
-    private static ReservationDTO reservationDTO(Reservation reservation){
-        return new ReservationDTO(
-                reservation.getReservationId(),
-                reservation.getHost(),
-                reservation.getUser(),
-                reservation.getStatus()
-        );
-    }
 }

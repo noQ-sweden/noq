@@ -4,6 +4,7 @@ import React from 'react'
 
 export default function LandingComponent() {
   return (
-    <div></div>
+    <div><img src="/images/NoQ_loggo.png"/>
+    </div>
   )
 }
