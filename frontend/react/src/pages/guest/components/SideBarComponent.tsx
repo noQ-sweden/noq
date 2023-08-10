@@ -7,15 +7,7 @@ import {
   ListItemSuffix,
   Chip,
 } from "@material-tailwind/react";
-import {
-  UserCircleIcon,
-  Cog6ToothIcon,
-  InboxIcon,
-  PowerIcon,
-  CalendarDaysIcon,
-  FolderArrowDownIcon,
-  
-} from "@heroicons/react/24/solid";
+
 import { Link } from "react-router-dom";
 
 interface ISideBarComponent{
@@ -33,13 +25,13 @@ export function SideBarComponenet({name} : ISideBarComponent) {
       <List>
         <ListItem>
           <ListItemPrefix>
-            <CalendarDaysIcon className="h-7 w-7" />
+            icon
           </ListItemPrefix>
           <Link to="/guest/1/vacancies">Boka sängplats </Link>
         </ListItem>
         <ListItem>
           <ListItemPrefix>
-            <FolderArrowDownIcon className="h-7 w-7" />
+            icon
           </ListItemPrefix>
           <Link to="/guest/1/reservations">Reservationer </Link>
         </ListItem>

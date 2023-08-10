@@ -11,8 +11,10 @@ export default function GuestPage() {
     const fetchView = async () => {
         try {
             const response = await getGuest(userId);
-            setUser(response?.data);
-            console.log(response?.data);
+            if (response?.data) {
+                setUser(response.data);
+                console.log(response.data);
+              }
         } catch (error) {
             console.error(error);
         }
