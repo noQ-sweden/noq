@@ -42,6 +42,8 @@ public class UserPageController {
 private static UserPageDTO toDTO (User user) {
         return new UserPageDTO(user.getId(), user.getName());
 }
+
+
     private static UserDTO toUserDTO(User user) {
         ReservationDTO reservationDTO = new ReservationDTO(
                 user.getReservtaion().getReservationId(),
