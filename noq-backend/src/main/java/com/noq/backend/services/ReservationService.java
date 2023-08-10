@@ -39,25 +39,39 @@ public class ReservationService {
 
     public Reservation createReservation(CreateReservation createReservation) {
         User user = userRepository.getUserByUserId(createReservation.getUserId());
-        user.setReservation(true);
-        userRepository.save(user);
-
         Host host = hostRepository.getHostByHostId(createReservation.getHostId());
 
-        Reservation reservation = new Reservation(host, user, Status.PENDING);
-        reservationRepository.save(reservation);
-        return reservation;
+        Bed reservedBed = host.getBeds().stream()
+                .filter(bed -> bed.getId().equals(createReservation.getBedId()))
+                .findFirst()
+                .orElse(null);
+
+        if (reservedBed != null) {
+            reservedBed.setReserved(true);
+            Reservation reservation = new Reservation(host, user, Status.PENDING);
+            reservationRepository.save(reservation);
+            return reservation;
+        } else {
+            throw new IllegalArgumentException("Bed with the specified bedId not found in the host's list of beds.");
+        }
     }
 
-    // returns empty array...??
-    public List<Reservation> getReservationsByHostIdStatusPending(String hostId) {
-        System.out.print(hostId);
-        List<Reservation> reservations = reservationRepository.getAllReservations().stream()
-                .filter(res -> res.getHost().getHostId().equals(hostId) && res.getStatus().equals(Status.PENDING))
+    public List<Reservation> getReservationsByHostId(String hostId) {
+        return reservationRepository.getAllReservations().stream()
+                .filter(reservation ->
+                        reservation.getHost().getHostId().equals(hostId))
                 .collect(Collectors.toList());
-        System.out.print(reservations);
-        return reservations;
     }
+
+
+    public List<Reservation> getReservationsByHostIdStatusPending(String hostId) {
+        return reservationRepository.getAllReservations().stream()
+                .filter(reservation ->
+                        reservation.getHost().getHostId().equals(hostId) &&
+                                reservation.getStatus() == Status.PENDING)
+                .collect(Collectors.toList());
+    }
+
 
     public List<Reservation> approveReservations(List<String> reservationsId) {
         List<Reservation> reservations = reservationRepository.getAllReservations().stream()
@@ -74,11 +88,10 @@ public class ReservationService {
     }
 
     public List<Reservation> getReservationsByHostIdStatusReserved(String hostId) {
-        System.out.print(hostId);
-        List<Reservation> reservations = reservationRepository.getAllReservations().stream()
-                .filter(res -> res.getHost().getHostId().equals(hostId) && res.getStatus().equals(Status.RESERVED))
+        return reservationRepository.getAllReservations().stream()
+                .filter(reservation ->
+                        reservation.getHost().getHostId().equals(hostId) &&
+                                reservation.getStatus() == Status.RESERVED)
                 .collect(Collectors.toList());
-        System.out.print(reservations);
-        return reservations;
     }
 }

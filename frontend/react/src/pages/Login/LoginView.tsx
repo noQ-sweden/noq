@@ -1,15 +1,11 @@
 import "./Login.css";
-import { useNavigate, useParams } from "react-router-dom";
-import { useContext, useState } from "react";
-import { UserContext } from "../../App";
-import { FaPortrait, FaLock } from "react-icons/fa";
-import { getClient } from "../../api/GetClient";
+
 
 const Login = () => {
-  const { userId } = useContext(UserContext);
+  /* const { userId } = useContext(UserContext);
   const navigate = useNavigate();
 
-  const hostId = "4";
+  const hostId = "host4";
 
   const getHost = async () => {
     try {
@@ -83,6 +79,6 @@ const Login = () => {
         </div>
       </div>
     </>
-  );
+  ); */
 };
 export default Login;

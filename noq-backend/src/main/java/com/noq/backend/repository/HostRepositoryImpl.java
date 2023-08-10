@@ -27,4 +27,6 @@ public class HostRepositoryImpl implements HostRepository {
     public List<Host> getAllHosts() {
         return new ArrayList<>(hosts.values());
     }
+
+
 }

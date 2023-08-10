@@ -9,5 +9,11 @@ export interface IHost {
     cityName: string;
   };
   image: string;
-  beds: number;
+  beds: IBed[]
+}
+
+
+interface IBed {
+  id: string;
+  Host: IHost;
 }
