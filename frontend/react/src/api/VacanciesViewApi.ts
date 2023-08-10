@@ -3,7 +3,7 @@ import {IVacanciesViewModel} from "../pages/guest/views/vacanciesView/IVacancies
 
 export const getVacanciesView = async () => {
     try {
-        const response = await api.get<IVacanciesViewModel>("api/vacancies");
+        const response = await api.get<IVacanciesViewModel[]>("api/vacancies");
         return response;
     } catch (error) {
         console.error(error);
