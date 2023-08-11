@@ -1,5 +1,6 @@
 package com.noq.backend.controllers;
 
+import com.noq.backend.DTO.AddressDTO;
 import com.noq.backend.DTO.BedDTO;
 import com.noq.backend.DTO.HostDTO;
 import com.noq.backend.models.Host;
@@ -43,6 +44,10 @@ public class HostPageController {
 
     private static HostDTO toHostDTO(Host host) {
 
+        AddressDTO addressDTO = new AddressDTO(host.getAddress().getStreet(),
+                host.getAddress().getStreetNum(), host.getAddress().getPostalCode(),
+                host.getAddress().getCityName());
+
         List<BedDTO> bedDTOs = host.getBeds().stream()
                 .map(bed -> new BedDTO(bed.getId(), null))
                 .collect(Collectors.toList());
@@ -50,7 +55,7 @@ public class HostPageController {
         return new HostDTO(
                 host.getHostId(),
                 host.getName(),
-                host.getAddress(),
+                addressDTO,
                 host.getImage(),
                 bedDTOs
         );

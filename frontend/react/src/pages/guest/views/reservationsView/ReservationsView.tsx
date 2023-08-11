@@ -2,7 +2,7 @@ import { Typography } from "@material-tailwind/react";
 import React, {useEffect, useState} from "react";
 import HostCardComponent from "../../components/HostCardComponent";
 import {IReservationsViewModel} from "./IReservationsViewModel";
-import {getReservation, getReservationsView} from "../../../../api/ReservationsViewApi";
+import {getReservation} from "../../../../api/ReservationsViewApi";
 
 export default function ReservationsView() {
     const [reservation, setReservation] = useState<IReservationsViewModel>({
@@ -36,13 +36,18 @@ export default function ReservationsView() {
 
     return (
     <>
-      <div>ReservationsView</div>
+
       <Typography>Status</Typography>
-        <HostCardComponent key={reservation?.reservationId}
-                           hostName={reservation.hostName}
-                           hostImg={reservation.hostImage}
-                           address={reservation.address}
-        />
+        {reservation ? (
+            <HostCardComponent
+                key={reservation.reservationId}
+                hostName={reservation.hostName}
+                hostImg={reservation.hostImage}
+                address={reservation.address}
+            />
+        ) : (
+            <Typography>Du har inte bokat nått ännu</Typography>
+        )}
     </>
   );
 }
