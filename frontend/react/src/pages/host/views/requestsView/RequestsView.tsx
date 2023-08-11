@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
-import {IRequestsViewModel, Status} from "./IRequestsViewModel";
+import {IRequestsViewModel, IReservation, Status} from "./IRequestsViewModel";
 import {approveReservations, getAllHostRequests} from "../../../../api/RequestsViewApi";
 
 export default function RequestsView() {
-    const [requests, setRequests] = useState<IRequestsViewModel[]>([]);
+    const [requests, setRequests] = useState<IReservation[]>([]);
    const [approvedIds, setApprovedIds] = useState<string[]>([]);
 
     const hostId = "host3";
@@ -12,7 +12,6 @@ export default function RequestsView() {
         try {
             const response = await getAllHostRequests(hostId);
             setRequests(response?.data);
-            console.log(response?.data);
         } catch (error) {
             console.error(error);
         }
@@ -55,7 +54,7 @@ export default function RequestsView() {
                     <div className="p-4">
                         <h2 className="text-2xl font-bold mt-8">Förfrågningar:</h2>
                         <div className="mt-2">
-                            {requests
+                            {requests.filter((request) => request.Status === "PENDING")
                                 .map((request) => (
                                 <div
                                     key={request.reservationId}

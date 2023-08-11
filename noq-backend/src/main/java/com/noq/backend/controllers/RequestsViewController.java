@@ -40,9 +40,9 @@ public class RequestsViewController {
 
     @PutMapping("/approve-reservations/{hostId}")
     public ResponseEntity<String> approveReservations(@RequestBody List<String> reservationsId, @PathVariable String hostId) {
-       reservationService.approveReservations(reservationsId);
+        reservationService.approveReservations(reservationsId);
         String responseMessage = " approved reservation for ";
-       return ResponseEntity.status(HttpStatus.CREATED).body(responseMessage);
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseMessage);
     }
 
     @GetMapping("/get-approved/{hostId}")
@@ -54,14 +54,17 @@ public class RequestsViewController {
     }
 
 
-    private static RequestsViewDTO toDTO(Reservation reservation){
-        RequestsViewDTO.UserDTO user = new RequestsViewDTO.UserDTO(reservation.getUser().getId(), reservation.getUser().getName());
-
-
-        return new RequestsViewDTO(
+    private static RequestsViewDTO toDTO(Reservation reservation) {
+        RequestsViewDTO.UserDTO user = new RequestsViewDTO.UserDTO(
+                reservation.getUser().getId(),
+                reservation.getUser().getName());
+        RequestsViewDTO.ReservationDTO res = new RequestsViewDTO.ReservationDTO(
                 reservation.getReservationId(),
                 reservation.getStatus(),
-                user
+                user);
+
+        return new RequestsViewDTO(
+                res
         );
     }
 

@@ -1,11 +1,14 @@
+export interface IRequestsViewModel {
+    reservations: IReservation[];
+}
 
-export interface IRequestsViewModel{
+export interface IReservation {
     reservationId: string;
     user: IUser;
     Status: Status;
 }
 
-export interface IUser{
+export interface IUser {
     id: string
     name: string
 }
