@@ -57,7 +57,7 @@ console.log(requests)
                     <div className="p-4">
                         <h2 className="text-2xl font-bold mt-8">Förfrågningar:</h2>
                         <div className="mt-2">
-                            {requests.reservations.filter(request => request.status === "PENDING")
+                            {requests?.reservations.filter(request => request.status === "PENDING")
                                 .map((request) => (
                                 <div
                                     key={request.reservationId}
@@ -91,7 +91,7 @@ console.log(requests)
                     <div className="p-4">
                         <h2 className="text-2xl font-bold mt-8">Godkända:</h2>
                         <div className="mt-2">
-                            {requests.reservations.filter(request => request.status === "RESERVED")
+                            {requests?.reservations.filter(request => request.status === "RESERVED")
                                 .map((request) => (
                                     <div
                                         key={request.reservationId}
@@ -113,7 +113,7 @@ console.log(requests)
                     <div className="p-4">
                         <h2 className="text-2xl font-bold mt-8">Nekade:</h2>
                         <div className="mt-2">
-                            {requests.reservations.filter(request => request.status === "CANCELLED")
+                            {requests?.reservations.filter(request => request.status === "CANCELLED")
                                 .map((request) => (
                                     <div
                                         key={request.reservationId}
