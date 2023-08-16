@@ -2,10 +2,12 @@ package com.noq.backend.DTO;
 
 import com.noq.backend.models.Status;
 
-public record RequestsViewDTO(ReservationDTO reservation) {
+import java.util.List;
 
-    public record ReservationDTO(String reservationId, Status status, UserDTO user){}
+public record RequestsViewDTO(List<Reservation> reservations) {
 
-    public record UserDTO(String id, String name) {
+    public record Reservation(String reservationId, Status status, User user){}
+
+    public record User(String id, String name) {
     }
 }

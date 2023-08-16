@@ -5,7 +5,7 @@ export interface IRequestsViewModel {
 export interface IReservation {
     reservationId: string;
     user: IUser;
-    Status: Status;
+    status: Status;
 }
 
 export interface IUser {

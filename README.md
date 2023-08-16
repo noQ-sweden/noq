@@ -1,21 +1,10 @@
 # noQ
 
 Webbapp for people in need of housing for the night at shelters. 
-Written in React with Typescript, Java Spring Boot and Azure Cosmos db.
+Written in React with Typescript, Java Spring Boot.
 
-## Backend Setup
 
-1. Clone this repository: `git clone https://github.com/your-username/your-repo.git`
-2. Navigate to the `backend` directory: `cd noq-backend`
-3. Build and run the backend application:
-
-```
-   ./mvnw clean package
-   java -jar target/noq-backend-app.jar
-```
-4. The backend will run at `http://localhost:8080`.
-
-## Frontend Setup
+## Setup
 
 1. Open a new terminal.
 2. Navigate to the `frontend` directory: `cd frontend/react`
@@ -25,11 +14,14 @@ Written in React with Typescript, Java Spring Boot and Azure Cosmos db.
    npm run dev
 ```
 5. The frontend will be available at `http://localhost:80`.
-
-## Accessing the Application
-
-- The frontend can be accessed at: [http://localhost:80](http://localhost:3000)
-- The backend API is available at: [http://localhost:8080](http://localhost:8080)
+6. Install [Docker](https://docs.docker.com/engine/install/) 
+7. Open terminal at correct location and run
+```
+   docker build . -t noq
+   docker-compose up
+```
+8. The backend will run at `http://localhost:8080`.
+9. In file frontend project go to `src/api/ApiRootURl.ts` and change patch from ROOT to local
 
 
 ## Contributing

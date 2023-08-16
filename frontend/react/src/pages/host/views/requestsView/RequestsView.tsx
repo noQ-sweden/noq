@@ -3,7 +3,9 @@ import {IRequestsViewModel, IReservation, Status} from "./IRequestsViewModel";
 import {approveReservations, getAllHostRequests} from "../../../../api/RequestsViewApi";
 
 export default function RequestsView() {
-    const [requests, setRequests] = useState<IReservation[]>([]);
+    const [requests, setRequests] = useState<IRequestsViewModel>({
+        reservations: [],
+    });
    const [approvedIds, setApprovedIds] = useState<string[]>([]);
 
     const hostId = "host3";
@@ -12,6 +14,7 @@ export default function RequestsView() {
         try {
             const response = await getAllHostRequests(hostId);
             setRequests(response?.data);
+            console.log(response.data)
         } catch (error) {
             console.error(error);
         }
@@ -46,7 +49,7 @@ export default function RequestsView() {
             setApprovedIds([...approvedIds, id]);
         }
     };
-
+console.log(requests)
     return (
         <>
             <main className="py-10 px-4 col-span-3">
@@ -54,7 +57,7 @@ export default function RequestsView() {
                     <div className="p-4">
                         <h2 className="text-2xl font-bold mt-8">Förfrågningar:</h2>
                         <div className="mt-2">
-                            {requests.filter((request) => request.Status === "PENDING")
+                            {requests.reservations.filter(request => request.status === "PENDING")
                                 .map((request) => (
                                 <div
                                     key={request.reservationId}
@@ -88,15 +91,21 @@ export default function RequestsView() {
                     <div className="p-4">
                         <h2 className="text-2xl font-bold mt-8">Godkända:</h2>
                         <div className="mt-2">
-                            {requests.filter((request) => request.Status === "RESERVED")
+                            {requests.reservations.filter(request => request.status === "RESERVED")
                                 .map((request) => (
-                                <div
-                                    key={request.reservationId}
-                                    className="flex items-center space-x-2 mt-2"
-                                >
-                                    {request.user.name}
-                                </div>
-                            ))}
+                                    <div
+                                        key={request.reservationId}
+                                        className="flex items-center space-x-2 mt-2"
+                                    >
+                                        {request.user.name}
+
+                                        <input
+                                            type="checkbox"
+                                            checked={approvedIds.includes(request.reservationId)}
+                                            onChange={() => toggleCheckbox(request.reservationId)}
+                                        />
+                                    </div>
+                                ))}
                         </div>
                     </div>
                 </div>
@@ -104,15 +113,21 @@ export default function RequestsView() {
                     <div className="p-4">
                         <h2 className="text-2xl font-bold mt-8">Nekade:</h2>
                         <div className="mt-2">
-                            {requests.filter((request) => request.Status === "CANCELLED")
+                            {requests.reservations.filter(request => request.status === "CANCELLED")
                                 .map((request) => (
-                                <div
-                                    key={request.reservationId}
-                                    className="flex items-center space-x-2 mt-2"
-                                >
-                                    {request.user.name}
-                                </div>
-                            ))}
+                                    <div
+                                        key={request.reservationId}
+                                        className="flex items-center space-x-2 mt-2"
+                                    >
+                                        {request.user.name}
+
+                                        <input
+                                            type="checkbox"
+                                            checked={approvedIds.includes(request.reservationId)}
+                                            onChange={() => toggleCheckbox(request.reservationId)}
+                                        />
+                                    </div>
+                                ))}
                         </div>
                     </div>
                 </div>
