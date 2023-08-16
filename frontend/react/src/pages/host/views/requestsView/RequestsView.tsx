@@ -14,7 +14,6 @@ export default function RequestsView() {
         try {
             const response = await getAllHostRequests(hostId);
             setRequests(response?.data);
-            console.log(response.data)
         } catch (error) {
             console.error(error);
         }
