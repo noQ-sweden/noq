@@ -23,20 +23,18 @@ public class RequestsViewController {
     }
 
     @GetMapping("/get-reservations/{hostId}")
-    public List<RequestsViewDTO> getReservationsByHostId(@PathVariable String hostId) {
-        return reservationService.getReservationsByHostId(hostId)
-                .stream()
-                .map(RequestsViewController::toDTO)
-                .collect(Collectors.toList());
+    public RequestsViewDTO getReservationsByHostId(@PathVariable String hostId) {
+        return toDTO(reservationService.getReservationsByHostId(hostId));
+
     }
 
-    @GetMapping("/get-pending/{hostId}")
+/*    @GetMapping("/get-pending/{hostId}")
     public List<RequestsViewDTO> getPendingByHostId(@PathVariable String hostId) {
         return reservationService.getReservationsByHostIdStatusPending(hostId)
                 .stream()
                 .map(RequestsViewController::toDTO)
                 .collect(Collectors.toList());
-    }
+    }*/
 
     @PutMapping("/approve-reservations/{hostId}")
     public ResponseEntity<String> approveReservations(@RequestBody List<String> reservationsId, @PathVariable String hostId) {
@@ -45,27 +43,31 @@ public class RequestsViewController {
         return ResponseEntity.status(HttpStatus.CREATED).body(responseMessage);
     }
 
-    @GetMapping("/get-approved/{hostId}")
+   /* @GetMapping("/get-approved/{hostId}")
     public List<RequestsViewDTO> getApprovedByHostId(@PathVariable String hostId) {
         return reservationService.getReservationsByHostIdStatusReserved(hostId)
                 .stream()
                 .map(RequestsViewController::toDTO)
                 .collect(Collectors.toList());
-    }
+    }*/
 
 
-    private static RequestsViewDTO toDTO(Reservation reservation) {
-        RequestsViewDTO.UserDTO user = new RequestsViewDTO.UserDTO(
-                reservation.getUser().getId(),
-                reservation.getUser().getName());
-        RequestsViewDTO.ReservationDTO res = new RequestsViewDTO.ReservationDTO(
-                reservation.getReservationId(),
-                reservation.getStatus(),
-                user);
+    private static RequestsViewDTO toDTO(List<Reservation> reservation) {
+        List<RequestsViewDTO.Reservation> reservations = reservation.stream()
+                .map(reservation1 -> {
+                    RequestsViewDTO.User user = new RequestsViewDTO.User(
+                            reservation1.getUser().getId(),
+                            reservation1.getUser().getName());
+                    RequestsViewDTO.Reservation res = new RequestsViewDTO.Reservation(
+                            reservation1.getReservationId(),
+                            reservation1.getStatus(),
+                            user);
+                    return res;
+                }).collect(Collectors.toList());
+
 
         return new RequestsViewDTO(
-                res
-        );
+                reservations);
     }
 
 }
