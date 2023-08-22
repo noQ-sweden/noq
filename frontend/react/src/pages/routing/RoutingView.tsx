@@ -22,21 +22,21 @@ export default function RoutingView() {
               <Route
                 path="/guest/:guestId/vacancies"
                 element={<VacanciesView />}
-              />
+                />
               <Route
                 path="/guest/:guestId/reservations"
                 element={<ReservationsView />}
-              />
+                />
             </Route>
             <Route path="/host/:hostId" element={<HostPage />}>
               <Route
                 path="/host/:hostId/beds"
                 element={<BedsView />}
-              />
+                />
                <Route
                 path="/host/:hostId/requests"
                 element={<RequestsView />}
-              />
+                />
             </Route>
           </Routes>
         </div>
