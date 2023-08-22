@@ -1,18 +1,20 @@
 import React, {useEffect, useState} from "react";
 import {IRequestsViewModel, IReservation, Status} from "./IRequestsViewModel";
 import {approveReservations, getAllHostRequests} from "../../../../api/RequestsViewApi";
-
+import { useContext} from "react";
+import { HostPageContext } from "../../../../context/HostPageContext";
 export default function RequestsView() {
     const [requests, setRequests] = useState<IRequestsViewModel>({
         reservations: [],
     });
    const [approvedIds, setApprovedIds] = useState<string[]>([]);
 
-    const hostId = "host3";
+   const hostPage = useContext(HostPageContext)
+  
 
     const getAllRequests = async () => {
         try {
-            const response = await getAllHostRequests(hostId);
+            const response = await getAllHostRequests(hostPage.id);
             setRequests(response?.data);
         } catch (error) {
             console.error(error);
@@ -26,7 +28,7 @@ export default function RequestsView() {
 
     const handleApprove = async () => {
         try {
-            await approveReservations(approvedIds, hostId);
+            await approveReservations(approvedIds, hostPage.id);
         } catch (error) {
             console.error(error);
         }
