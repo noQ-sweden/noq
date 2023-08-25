@@ -34,9 +34,7 @@ export function NavbarDefault() {
         color="blue-gray"
         className="p-1 font-normal"
       >
-        <a href="#" className="flex items-center">
         <Link to={"/host/host3"}>Härberge</Link>
-        </a>
       </Typography>
     </ul>
   );
