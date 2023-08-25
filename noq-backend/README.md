@@ -1,8 +1,17 @@
 # noQ backend
 
+
 ## Data store
 
 noQ utilizes Azure Cosmos DB as data store. Cosmos DB is a NoSQL database service that supports multiple data models, such as document, key-value, graph, and columnar. Cosmos DB is a fully managed service. This means that Microsoft handles all the infrastructure management for you, such as provisioning, patching, backups, and monitoring. Cosmos DB is a multi-model database service, which means that you can use different data models within the same database account. In noQ we use the document data model. A more detailed introduction to Azure Cosmos DB can be found [here](https://docs.microsoft.com/en-us/azure/cosmos-db/introduction).
+
+## Quick setup
+Local setup found in `application-secret.properties`
+
+```
+azure.serviceURI=
+azure.primarySecretKey=
+```
 
 ### Provision new containers
 
