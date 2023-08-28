@@ -1,7 +1,6 @@
 package com.noq.backend.controllers;
 
 import com.noq.backend.DTO.AddressDTO;
-import com.noq.backend.DTO.ReservationDTO;
 import com.noq.backend.DTO.ReservationsViewDTO;
 import com.noq.backend.exeptions.NoReservationsException;
 import com.noq.backend.models.Reservation;
