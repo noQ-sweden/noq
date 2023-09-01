@@ -1,13 +1,8 @@
 package com.noq.backend.controllers;
 
-import com.noq.backend.DTO.AddressDTO;
-import com.noq.backend.DTO.ReservationDTO;
-import com.noq.backend.DTO.VacancyDTO;
+import com.noq.backend.DTO.VacancyViewDTO;
 import com.noq.backend.models.CreateReservation;
-import com.noq.backend.models.Host;
 import com.noq.backend.models.Vacancy;
-import com.noq.backend.repository.HostRepository;
-import com.noq.backend.services.HostService;
 import com.noq.backend.services.ReservationService;
 import com.noq.backend.services.VacanciesViewService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -34,8 +28,8 @@ public class VacanciesViewController {
     }
 
     @GetMapping
-    public List<VacancyDTO> getAllVacancies() {
-        return vacanciesViewService.getAllVacancies().stream().map(VacanciesViewController::toDTO).collect(Collectors.toList());
+    public VacancyViewDTO getAllVacancies() {
+        return toDTO(vacanciesViewService.getAllVacancies());
     }
 
     @PostMapping("/create-reservation")
@@ -44,14 +38,17 @@ public class VacanciesViewController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createReservation);
     }
 
-    private static VacancyDTO toDTO(Vacancy vacancy) {
-        return new VacancyDTO(
-                vacancy.getHostId(),
-                vacancy.getHostName(),
-                vacancy.getHostImg(),
-                vacancy.getAddress(),
-                vacancy.getBedId()
-        );
+    private static VacancyViewDTO toDTO(List<Vacancy> vacancy) {
+        List<VacancyViewDTO.Vacancy> vacancies = vacancy.stream()
+                .map(vacancy1 -> {
+                    VacancyViewDTO.Host host = new VacancyViewDTO.Host(
+                            vacancy1.getHostId(), vacancy1.getHostName(), vacancy1.getAddress(), vacancy1.getHostImg());
+                    VacancyViewDTO.Vacancy res = new VacancyViewDTO.Vacancy(host, vacancy1.getBedId());
+                    return res;
+                }).collect(Collectors.toList());
+
+        return new VacancyViewDTO(
+                vacancies);
     }
 }
 
