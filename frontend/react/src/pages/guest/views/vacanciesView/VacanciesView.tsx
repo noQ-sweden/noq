@@ -8,7 +8,9 @@ import {
 } from "../../../../api/VacanciesViewApi";
 
 export default function VacanciesView() {
-  const [vacancies, setVacancies] = useState<IVacanciesViewModel>({vacancies: []});
+  const [vacancies, setVacancies] = useState<IVacanciesViewModel>({
+    vacancies: [],
+  });
   const userId = "1";
 
   const fetchView = async () => {
@@ -46,7 +48,7 @@ export default function VacanciesView() {
           Lediga sängplatser
         </Typography>
         <div className="mt-12 grid gap-8 ">
-          {vacancies?.vacancies.map((vacancy) => (
+          {vacancies.vacancies.map((vacancy) => (
             <div
               onClick={() => makeReservation(vacancy.host.id, vacancy.bedId)}
               key={vacancy.host.id}

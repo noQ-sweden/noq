@@ -42,7 +42,7 @@ public class VacanciesViewController {
         List<VacancyViewDTO.Vacancy> vacancies = vacancy.stream()
                 .map(vacancy1 -> {
                     VacancyViewDTO.Host host = new VacancyViewDTO.Host(
-                            vacancy1.getHostId(), vacancy1.getHostName(), vacancy1.getAddress());
+                            vacancy1.getHostId(), vacancy1.getHostName(), vacancy1.getAddress(), vacancy1.getHostImg());
                     VacancyViewDTO.Vacancy res = new VacancyViewDTO.Vacancy(host, vacancy1.getBedId());
                     return res;
                 }).collect(Collectors.toList());
