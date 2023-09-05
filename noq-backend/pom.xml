@@ -68,6 +68,13 @@
             <artifactId>azure-cosmos</artifactId>
             <version>4.49.0</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.azure.spring</groupId>
+            <artifactId>spring-cloud-azure-starter-data-cosmos</artifactId>
+            <version>LATEST</version>
+        </dependency>
+
     </dependencies>
 
     <build>
