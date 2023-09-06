@@ -1,14 +1,8 @@
 package com.noq.backend.models;
 
-import jakarta.persistence.*;
-import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.math.BigDecimal;
-
-import java.util.UUID;
-
 @Data
 @NoArgsConstructor
 public class Bed {

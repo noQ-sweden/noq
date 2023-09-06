@@ -2,7 +2,6 @@ package com.noq.backend.models;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,11 +16,8 @@ import java.util.UUID;
 public class Reservation {
 
     private String reservationId;
-
     private Host host;
-
     private User user;
-
     private LocalDateTime reservedTime;
     private Status status;
 

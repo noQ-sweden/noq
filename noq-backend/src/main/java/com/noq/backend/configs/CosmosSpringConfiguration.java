@@ -15,7 +15,9 @@ import org.springframework.context.annotation.PropertySource;
 
 @Configuration
 @EnableConfigurationProperties(AzureCredentials.class)
-@EnableReactiveCosmosRepositories(basePackages = "com.noq.backend.repository")
+@EnableReactiveCosmosRepositories(
+        basePackages = "com.noq.backend.repository",
+        considerNestedRepositories = true)
 @PropertySource("classpath:application-secret.properties")
 public class CosmosSpringConfiguration extends AbstractCosmosConfiguration {
 
