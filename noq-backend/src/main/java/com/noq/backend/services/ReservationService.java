@@ -1,6 +1,5 @@
 package com.noq.backend.services;
 
-import com.noq.backend.DTO.ReservationDTO;
 import com.noq.backend.exeptions.NoReservationsException;
 import com.noq.backend.models.*;
 import com.noq.backend.repository.HostRepository;
@@ -9,10 +8,7 @@ import com.noq.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service

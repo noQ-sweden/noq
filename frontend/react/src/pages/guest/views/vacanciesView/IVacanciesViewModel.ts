@@ -1,12 +1,19 @@
 export interface IVacanciesViewModel {
-    id: string,
-    hostId: string,
-    hostName: string,
-    address: IAddress,
-    hostImg: string,
-    bedId: string
+    vacancies: IVacancy[];
 }
 
+export interface IVacancy{
+    id: string;
+    host: IHost;
+    bedId: string;
+}
+
+export interface IHost {
+    id: string;
+    name: string;
+    address: IAddress;
+    image: string;
+}
 
 export interface IAddress {
     id: string;
@@ -15,4 +22,3 @@ export interface IAddress {
     postalCode: string;
     cityName: string;
 }
-

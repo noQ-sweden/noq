@@ -1,7 +1,6 @@
 package com.noq.backend.controllers;
 
 import com.noq.backend.DTO.RequestsViewDTO;
-import com.noq.backend.DTO.ReservationDTO;
 import com.noq.backend.models.Reservation;
 import com.noq.backend.services.ReservationService;
 import org.springframework.http.HttpStatus;

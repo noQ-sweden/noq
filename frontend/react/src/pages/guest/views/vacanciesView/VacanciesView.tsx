@@ -9,10 +9,16 @@ import {
 import { ModalComponent } from "../../components/ModalComponent";
 
 export default function VacanciesView() {
+
   const [vacancies, setVacancies] = useState<IVacanciesViewModel[]>([]);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [open, setOpen] = useState(false);
+
+  const [vacancies, setVacancies] = useState<IVacanciesViewModel>({
+    vacancies: [],
+  });
+
   const userId = "1";
 
   const fetchView = async () => {
@@ -57,17 +63,17 @@ export default function VacanciesView() {
             <ModalComponent open={open} setOpen={setOpen} />
         ) : null}
         <div className="mt-12 grid gap-8 ">
-          {vacancies?.map((vacancy) => (
+          {vacancies.vacancies.map((vacancy) => (
             <div
-              onClick={() => makeReservation(vacancy.hostId, vacancy.bedId)}
-              key={vacancy.hostId}
+              onClick={() => makeReservation(vacancy.host.id, vacancy.bedId)}
+              key={vacancy.host.id}
             >
               {vacancy.bedId}
               <HostCardComponent
                 key={vacancy.id}
-                hostName={vacancy.hostName}
-                address={vacancy.address}
-                hostImg={vacancy.hostImg}
+                hostName={vacancy.host.name}
+                address={vacancy.host.address}
+                hostImg={vacancy.host.image}
               />
          
             </div>
