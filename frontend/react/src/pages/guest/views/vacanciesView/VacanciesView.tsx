@@ -9,10 +9,6 @@ import {
 import { ModalComponent } from "../../components/ModalComponent";
 
 export default function VacanciesView() {
-
-  const [vacancies, setVacancies] = useState<IVacanciesViewModel[]>([]);
-  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-  const [openModal, setOpenModal] = useState(false);
   const [open, setOpen] = useState(false);
 
   const [vacancies, setVacancies] = useState<IVacanciesViewModel>({
