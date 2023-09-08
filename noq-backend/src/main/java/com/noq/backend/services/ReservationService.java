@@ -74,10 +74,10 @@ public class ReservationService {
     }
 
 
-    public List<Reservation> approveReservations(List<String> reservationsId) {
+    public List<Reservation> approveReservations(List<String> reservationsId, String hostId) {
         List<Reservation> reservations = reservationRepository.getAllReservations().stream()
                 .filter(res -> {
-                    if (reservationsId.contains(res.getReservationId())) {
+                    if (reservationsId.contains(res.getReservationId()) && res.getHost().getHostId().equals(hostId)) {
                         res.setStatus(Status.RESERVED);
                         return true;
                     }
@@ -88,6 +88,20 @@ public class ReservationService {
         return reservations;
     }
 
+
+    public List<Reservation> rejectReservations(List<String> reservationsId, String hostId) {
+        List<Reservation> reservations = reservationRepository.getAllReservations().stream()
+                .filter(res -> {
+                    if (reservationsId.contains(res.getReservationId()) && res.getHost().getHostId().equals(hostId)) {
+                        res.setStatus(Status.CANCELLED);
+                        return true;
+                    }
+                    return false;
+                })
+                .collect(Collectors.toList());
+        reservationRepository.saveAll(reservations);
+        return reservations;
+    }
     public List<Reservation> getReservationsByHostIdStatusReserved(String hostId) {
         return reservationRepository.getAllReservations().stream()
                 .filter(reservation ->

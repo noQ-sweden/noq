@@ -14,7 +14,7 @@ export default function RoutingView() {
       <BrowserRouter>
       <div className="bg-lilac">
         <NavbarDefault />
-        <div className="mx-auto max-w-screen-xl py-2 px-4 lg:px-8 lg:py-4 bg-white">
+        <div className="mx-auto max-w-screen-xl py-2 px-4 lg:px-8 lg:py-4 bg-white rounded-xl mt-5">
           <Routes>
             <Route path="/" element={<LandingComponent />} />
             <Route path="/guest/:guestId" element={<GuestPage />}>
