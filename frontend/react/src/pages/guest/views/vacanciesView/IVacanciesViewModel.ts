@@ -15,3 +15,4 @@ export interface IAddress {
     postalCode: string;
     cityName: string;
 }
+
