@@ -2,11 +2,12 @@ package com.noq.backend.services;
 
 import com.azure.cosmos.models.PartitionKey;
 import com.noq.backend.DTO.BedDTO;
-import com.noq.backend.DTO.BedRequestDTO;
 import com.noq.backend.exeptions.BedNotFoundException;
+import com.noq.backend.exeptions.HostNotFoundException;
 import com.noq.backend.models.Bed;
-import com.noq.backend.models.Host;
+import com.noq.backend.models.HostCosmos;
 import com.noq.backend.repository.BedRepositoryCosmos;
+import com.noq.backend.repository.HostRepositoryCosmos;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -18,21 +19,39 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class BedService {
     private final BedRepositoryCosmos beds;
+    private final HostRepositoryCosmos hosts;
 
-    public Mono<BedDTO> createBed(BedRequestDTO request) {
-        Bed bed = new Bed(request.host());
-        return beds
-                .save(bed)
-                .map(this::toDTO)
-                .onErrorResume(this::handleError);
+    public Mono<BedDTO> createBed(String hostId) {
+        return hosts
+                .findById(hostId)
+                .switchIfEmpty(handleHostNotFound(hostId))
+                .flatMap(host -> {
+                    Bed bed = new Bed(host);
+                    return beds
+                            .save(bed)
+                            .map(this::toDTO)
+                            .onErrorResume(this::handleError);
+                });
     }
 
-    public Mono<BedDTO> findBedById(String id, Host host) {
-        return beds
-                .findById(id, new PartitionKey(host))
-                .switchIfEmpty(handleBedNotFound(id))
-                .map(this::toDTO)
-                .onErrorResume(this::handleError);
+    public Mono<BedDTO> findBedById(String bedId, String hostId) {
+        return hosts
+                .findById(hostId)
+                .switchIfEmpty(handleHostNotFound(hostId))
+                .flatMap(host -> beds
+                        .findById(bedId, new PartitionKey(hostId))
+                        .switchIfEmpty(handleBedNotFound(bedId))
+                        .map(this::toDTO)
+                        .onErrorResume(this::handleError));
+    }
+
+    public Flux<BedDTO> findAllBedsByHostId(String hostId) {
+        return hosts
+                .findById(hostId)
+                .switchIfEmpty(handleHostNotFound(hostId))
+                .flatMapMany(host -> beds
+                        .findBedsByHost(host)
+                        .map(this::toDTO));
     }
 
     public Flux<BedDTO> findAllBeds() {
@@ -42,30 +61,36 @@ public class BedService {
                 .onErrorResume(this::handleError);
     }
 
-    public Mono<BedDTO> updateBedStatus(BedDTO request) {
-        return beds
-                .findById(request.id(), new PartitionKey(request.host()))
-                .switchIfEmpty(handleBedNotFound(request.id()))
-                .flatMap(bed -> {
-                    boolean updateNeeded = false;
-                    if (!request.reserved() == bed.getReserved()) {
-                        updateNeeded = true;
-                        bed.setReserved(request.reserved());
-                    }
-                    if (updateNeeded)
-                        return beds.save(bed).map(this::toDTO);
-                    return Mono.just(toDTO(bed));
-                })
-                .onErrorResume(this::handleError);
+    public Mono<BedDTO> updateBedStatus(String bedId, String hostId, boolean reserved) {
+        return hosts
+                .findById(hostId)
+                .switchIfEmpty(handleHostNotFound(hostId))
+                .flatMap(host -> beds
+                        .findById(bedId, new PartitionKey(host))
+                        .switchIfEmpty(handleBedNotFound(bedId))
+                        .flatMap(bed -> {
+                            boolean updateNeeded = false;
+                            if (!reserved == bed.getReserved()) {
+                                updateNeeded = true;
+                                bed.setReserved(reserved);
+                            }
+                            if (updateNeeded)
+                                return beds.save(bed).map(this::toDTO);
+                            return Mono.just(toDTO(bed));
+                        })
+                        .onErrorResume(this::handleError));
     }
 
-    public Mono<BedDTO> deleteBedById(String id, Host host) {
-        return beds
-                .findById(id, new PartitionKey(host))
-                .switchIfEmpty(handleBedNotFound(id))
-                .flatMap(bed -> beds.deleteById(id, new PartitionKey(host))
+    public Mono<BedDTO> deleteBedById(String bedId, String hostId) {
+        return hosts
+                .findById(hostId)
+                .switchIfEmpty(handleHostNotFound(hostId))
+                .flatMap(host -> beds
+                        .findById(bedId, new PartitionKey(host))
+                        .switchIfEmpty(handleBedNotFound(bedId))
+                        .flatMap(bed -> beds.deleteById(bedId, new PartitionKey(host))
                                 .then(Mono.just(toDTO(bed))))
-                .onErrorResume(this::handleError);
+                        .onErrorResume(this::handleError));
     }
 
     private BedDTO toDTO(Bed bed) {
@@ -74,6 +99,10 @@ public class BedService {
 
     private static Mono<Bed> handleBedNotFound(String id) {
         return Mono.error(() -> new BedNotFoundException("There is no bed with id " + id));
+    }
+
+    private static Mono<HostCosmos> handleHostNotFound(String id) {
+        return Mono.error(() -> new HostNotFoundException("There is no host with id " + id));
     }
 
     private Mono<BedDTO> handleError(Throwable error) {

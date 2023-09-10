@@ -16,10 +16,10 @@ public class Bed {
     @Id
     private String bedId;
     @PartitionKey
-    private Host host;
+    private HostCosmos host;
     private Boolean reserved;
 
-    public Bed(Host host){
+    public Bed(HostCosmos host){
         this.bedId = UUID.randomUUID().toString();
         this.host = host;
         this.reserved = false;
