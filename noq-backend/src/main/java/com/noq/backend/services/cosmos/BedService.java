@@ -1,7 +1,7 @@
 package com.noq.backend.services.cosmos;
 
 import com.azure.cosmos.models.PartitionKey;
-import com.noq.backend.DTO.BedDTO;
+import com.noq.backend.DTO.cosmos.BedDTO;
 import com.noq.backend.exeptions.BedNotFoundException;
 import com.noq.backend.exeptions.HostNotFoundException;
 import com.noq.backend.models.cosmos.Bed;

@@ -1,4 +1,4 @@
-package com.noq.backend.DTO;
+package com.noq.backend.DTO.cosmos;
 
 import com.noq.backend.models.Address;
 import com.noq.backend.models.cosmos.Bed;

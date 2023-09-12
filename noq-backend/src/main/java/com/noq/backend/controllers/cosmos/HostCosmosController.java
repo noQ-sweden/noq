@@ -1,9 +1,8 @@
 package com.noq.backend.controllers.cosmos;
 
-import com.noq.backend.DTO.HostCosmosDTO;
+import com.noq.backend.DTO.cosmos.HostCosmosDTO;
 import com.noq.backend.services.cosmos.HostCosmosService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
