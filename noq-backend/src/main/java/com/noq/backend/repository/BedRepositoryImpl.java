@@ -1,6 +1,6 @@
 package com.noq.backend.repository;
 
-import com.noq.backend.models.cosmos.Bed;
+import com.noq.backend.models.Bed;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
@@ -11,14 +11,14 @@ public class BedRepositoryImpl implements BedRepository {
 
     @Override
     public Bed save(Bed bed) {
-        beds.put(bed.getBedId(), bed);
+        beds.put(bed.getId(), bed);
         return bed;
     }
 
     @Override
     public void saveAll(List<Bed> bedsList) {
         for (Bed bed : bedsList) {
-            beds.put(bed.getBedId(), bed);
+            beds.put(bed.getId(), bed);
         }
     }
 

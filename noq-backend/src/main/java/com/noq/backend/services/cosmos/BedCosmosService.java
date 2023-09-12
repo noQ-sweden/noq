@@ -4,7 +4,8 @@ import com.azure.cosmos.models.PartitionKey;
 import com.noq.backend.DTO.cosmos.BedDTO;
 import com.noq.backend.exeptions.BedNotFoundException;
 import com.noq.backend.exeptions.HostNotFoundException;
-import com.noq.backend.models.cosmos.Bed;
+import com.noq.backend.models.Bed;
+import com.noq.backend.models.cosmos.BedCosmos;
 import com.noq.backend.models.cosmos.HostCosmos;
 import com.noq.backend.repository.cosmos.BedRepositoryCosmos;
 import com.noq.backend.repository.cosmos.HostRepositoryCosmos;
@@ -18,14 +19,14 @@ import reactor.core.publisher.Mono;
 import static io.micrometer.common.util.StringUtils.isBlank;
 
 @Service
-public class BedService {
+public class BedCosmosService {
     private static final String INVALID_HOST_ID = "Host id is required.";
     private static final String INVALID_BED_ID = "Bed id is required.";
     private final BedRepositoryCosmos beds;
     private final HostRepositoryCosmos hosts;
 
     @Autowired
-    public BedService(BedRepositoryCosmos beds, HostRepositoryCosmos hosts) {
+    public BedCosmosService(BedRepositoryCosmos beds, HostRepositoryCosmos hosts) {
         this.beds = beds;
         this.hosts = hosts;
     }
@@ -36,7 +37,7 @@ public class BedService {
                 .findById(hostId)
                 .switchIfEmpty(handleHostNotFound(hostId))
                 .flatMap(host -> {
-                    Bed bed = new Bed(host);
+                    BedCosmos bed = new BedCosmos(host);
                     return beds
                             .save(bed)
                             .map(this::toDTO)
@@ -110,7 +111,7 @@ public class BedService {
                         .onErrorResume(this::handleError));
     }
 
-    private BedDTO toDTO(Bed bed) {
+    private BedDTO toDTO(BedCosmos bed) {
         return new BedDTO(bed.getBedId(), bed.getHost(), bed.getReserved());
     }
 
@@ -124,7 +125,7 @@ public class BedService {
             throw new IllegalArgumentException(INVALID_BED_ID);
     }
 
-    private static Mono<Bed> handleBedNotFound(String id) {
+    private static Mono<BedCosmos> handleBedNotFound(String id) {
         return Mono.error(() -> new BedNotFoundException("There is no bed with id " + id));
     }
 
