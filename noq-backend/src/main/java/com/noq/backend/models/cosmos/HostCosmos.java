@@ -3,7 +3,6 @@ package com.noq.backend.models.cosmos;
 import com.azure.spring.data.cosmos.core.mapping.Container;
 import com.azure.spring.data.cosmos.core.mapping.PartitionKey;
 import com.noq.backend.models.Address;
-import com.noq.backend.models.Bed;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
@@ -23,7 +22,7 @@ public class HostCosmos {
     private String name;
     private Address address;
     private String image;
-    private List<Bed> beds = new ArrayList<>();
+    private List<BedCosmos> beds = new ArrayList<>();
 
     public HostCosmos( String name, Address address, String image) {
         this.hostId = UUID.randomUUID().toString();

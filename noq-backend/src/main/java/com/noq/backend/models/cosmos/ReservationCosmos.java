@@ -16,7 +16,6 @@ import java.util.UUID;
 @Data
 @Container(containerName = "reservations")
 public class ReservationCosmos {
-
     @Id
     private String reservationId;
     @PartitionKey
@@ -26,7 +25,11 @@ public class ReservationCosmos {
     private Status status;
 
     @JsonCreator
-    public ReservationCosmos(@JsonProperty("host") HostCosmos host, @JsonProperty("user") UserCosmos user, @JsonProperty("status") Status status) {
+    public ReservationCosmos(
+            @JsonProperty("host") HostCosmos host,
+            @JsonProperty("user") UserCosmos user,
+            @JsonProperty("status") Status status
+    ) {
         this.reservationId = UUID.randomUUID().toString();
         this.host = host;
         this.user = user;

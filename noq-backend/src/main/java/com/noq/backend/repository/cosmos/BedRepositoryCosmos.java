@@ -9,5 +9,5 @@ import reactor.core.publisher.Flux;
 
 @Repository
 public interface BedRepositoryCosmos extends ReactiveCosmosRepository<BedCosmos, String> {
-    Flux<BedCosmos> findBedsByHost(HostCosmos host);
+    Flux<BedCosmos> findBedCosmosByHost(HostCosmos host);
 }
