@@ -1,9 +1,7 @@
 package com.noq.backend.services.cosmos;
 
 import com.azure.cosmos.models.PartitionKey;
-import com.noq.backend.DTO.cosmos.HostCosmosDTO;
 import com.noq.backend.DTO.cosmos.UserCosmosDTO;
-import com.noq.backend.models.cosmos.HostCosmos;
 import com.noq.backend.models.cosmos.UserCosmos;
 import com.noq.backend.repository.cosmos.UserRepositoryCosmos;
 import lombok.RequiredArgsConstructor;

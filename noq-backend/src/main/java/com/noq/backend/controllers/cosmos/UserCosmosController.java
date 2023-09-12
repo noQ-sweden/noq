@@ -1,6 +1,5 @@
 package com.noq.backend.controllers.cosmos;
 
-import com.noq.backend.DTO.cosmos.HostCosmosDTO;
 import com.noq.backend.DTO.cosmos.UserCosmosDTO;
 import com.noq.backend.services.cosmos.UserCosmosService;
 import lombok.RequiredArgsConstructor;
