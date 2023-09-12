@@ -11,7 +11,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @Container(containerName = "beds")
-public class Bed {
+public class BedCosmos {
 
     @Id
     private String bedId;
@@ -19,7 +19,7 @@ public class Bed {
     private HostCosmos host;
     private Boolean reserved;
 
-    public Bed(HostCosmos host){
+    public BedCosmos(HostCosmos host){
         this.bedId = UUID.randomUUID().toString();
         this.host = host;
         this.reserved = false;

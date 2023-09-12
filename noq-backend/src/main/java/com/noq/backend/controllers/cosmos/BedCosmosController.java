@@ -1,8 +1,8 @@
 package com.noq.backend.controllers.cosmos;
 
 import com.noq.backend.DTO.cosmos.BedDTO;
-import com.noq.backend.DTO.CreateBedRequest;
-import com.noq.backend.services.cosmos.BedService;
+import com.noq.backend.DTO.cosmos.CreateBedRequest;
+import com.noq.backend.services.cosmos.BedCosmosService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,8 +15,8 @@ import java.net.URI;
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/api/v1/bed")
-public class BedController {
-    private final BedService service;
+public class BedCosmosController {
+    private final BedCosmosService service;
 
     @PostMapping
     public Flux<ResponseEntity<BedDTO>> createBed(@RequestBody CreateBedRequest request) {
