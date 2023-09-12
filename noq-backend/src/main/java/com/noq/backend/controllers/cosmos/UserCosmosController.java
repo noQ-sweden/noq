@@ -2,7 +2,6 @@ package com.noq.backend.controllers.cosmos;
 
 import com.noq.backend.DTO.cosmos.HostCosmosDTO;
 import com.noq.backend.DTO.cosmos.UserCosmosDTO;
-import com.noq.backend.models.cosmos.UserCosmos;
 import com.noq.backend.services.cosmos.UserCosmosService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -32,9 +31,9 @@ public class UserCosmosController {
 
     //GET USER WITH ID
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Mono<ResponseEntity<HostCosmosDTO>> getUserById(@PathVariable("id") String id,
+    public Mono<ResponseEntity<UserCosmosDTO>> getUserById(@PathVariable("id") String id,
                                                            @RequestBody UserCosmosDTO request) {
-        return userCosmosService.findById(request.id(), request.name())
+        return userCosmosService.findById(request.id())
                 .map(response -> ResponseEntity.status(HttpStatus.OK).body(response))
                 .switchIfEmpty(NOT_FOUND_RESPONSE)
                 .onErrorResume(error -> INTERNAL_SERVER_ERROR_RESPONSE);
@@ -43,15 +42,16 @@ public class UserCosmosController {
     //GET ALL USERS
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public Flux<UserCosmosDTO> getAllUsers() {
-        return hostCosmosService.findAll().onErrorResume(error -> Mono.error(
-                new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Database not responding.")
-        ));
+        return userCosmosService.findAll()
+                .onErrorResume(error ->
+                        Mono.error(new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Database not responding.")
+                        ));
     }
 
     // ERROR HANDLING #############################################################################
-    private static final Mono<ResponseEntity<HostCosmosDTO>> INTERNAL_SERVER_ERROR_RESPONSE =
+    private static final Mono<ResponseEntity<UserCosmosDTO>> INTERNAL_SERVER_ERROR_RESPONSE =
             Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
-    private static final Mono<ResponseEntity<HostCosmosDTO>> NOT_FOUND_RESPONSE =
+    private static final Mono<ResponseEntity<UserCosmosDTO>> NOT_FOUND_RESPONSE =
             Mono.just(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     // ############################################################################################
 

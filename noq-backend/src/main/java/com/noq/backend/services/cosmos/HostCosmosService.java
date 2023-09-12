@@ -34,7 +34,7 @@ public class HostCosmosService {
 
     // GET HOST BY ID
     public Mono<HostCosmosDTO> findById(String id, String email) {
-        System.out.println("Searching user: " + id);
+        System.out.println("Searching host: " + id);
 
         return repositoryCosmos.findById(id, new PartitionKey(email))
                 .map(this::toDTO)
@@ -43,7 +43,7 @@ public class HostCosmosService {
 
     // GET ALL HOSTS
     public Flux<HostCosmosDTO> findAll() {
-        System.out.println("Listing all users...");
+        System.out.println("Listing all hosts...");
         return repositoryCosmos.findAll().map(this::toDTO)
                 .onErrorResume(this::handleError);
     }
@@ -52,7 +52,7 @@ public class HostCosmosService {
     // ERROR HANDLING ####################################################################################
     private Mono<HostCosmosDTO> handleError(Throwable error) {
         return Mono.error(new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
-                "Oops! Something went wrong, and i blame the user!", error));
+                "Oops! Something went wrong!", error));
     }
 
     private Mono<HostCosmosDTO> handleNotFoundError(Throwable error) {
