@@ -2,7 +2,7 @@ package com.noq.backend.models;
 
 import com.azure.spring.data.cosmos.core.mapping.Container;
 import com.azure.spring.data.cosmos.core.mapping.PartitionKey;
-import jakarta.persistence.Id;
+import org.springframework.data.annotation.Id;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

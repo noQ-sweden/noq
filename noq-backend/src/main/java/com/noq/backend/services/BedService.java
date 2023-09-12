@@ -8,20 +8,30 @@ import com.noq.backend.models.Bed;
 import com.noq.backend.models.HostCosmos;
 import com.noq.backend.repository.BedRepositoryCosmos;
 import com.noq.backend.repository.HostRepositoryCosmos;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import static io.micrometer.common.util.StringUtils.isBlank;
+
 @Service
-@RequiredArgsConstructor
 public class BedService {
+    private static final String INVALID_HOST_ID = "Host id is required.";
+    private static final String INVALID_BED_ID = "Bed id is required.";
     private final BedRepositoryCosmos beds;
     private final HostRepositoryCosmos hosts;
 
+    @Autowired
+    public BedService(BedRepositoryCosmos beds, HostRepositoryCosmos hosts) {
+        this.beds = beds;
+        this.hosts = hosts;
+    }
+
     public Mono<BedDTO> createBed(String hostId) {
+        validateHostId(hostId);
         return hosts
                 .findById(hostId)
                 .switchIfEmpty(handleHostNotFound(hostId))
@@ -35,6 +45,8 @@ public class BedService {
     }
 
     public Mono<BedDTO> findBedById(String bedId, String hostId) {
+        validateHostId(hostId);
+        validateBedId(bedId);
         return hosts
                 .findById(hostId)
                 .switchIfEmpty(handleHostNotFound(hostId))
@@ -45,7 +57,8 @@ public class BedService {
                         .onErrorResume(this::handleError));
     }
 
-    public Flux<BedDTO> findAllBedsByHostId(String hostId) {
+    public Flux<BedDTO> findBedsByHostId(String hostId) {
+        validateHostId(hostId);
         return hosts
                 .findById(hostId)
                 .switchIfEmpty(handleHostNotFound(hostId))
@@ -62,6 +75,8 @@ public class BedService {
     }
 
     public Mono<BedDTO> updateBedStatus(String bedId, String hostId, boolean reserved) {
+        validateHostId(hostId);
+        validateBedId(bedId);
         return hosts
                 .findById(hostId)
                 .switchIfEmpty(handleHostNotFound(hostId))
@@ -82,6 +97,8 @@ public class BedService {
     }
 
     public Mono<BedDTO> deleteBedById(String bedId, String hostId) {
+        validateHostId(hostId);
+        validateBedId(bedId);
         return hosts
                 .findById(hostId)
                 .switchIfEmpty(handleHostNotFound(hostId))
@@ -95,6 +112,16 @@ public class BedService {
 
     private BedDTO toDTO(Bed bed) {
         return new BedDTO(bed.getBedId(), bed.getHost(), bed.getReserved());
+    }
+
+    private static void validateHostId(String hostId) {
+        if (isBlank(hostId))
+            throw new IllegalArgumentException(INVALID_HOST_ID);
+    }
+
+    private static void validateBedId(String bedId) {
+        if (isBlank(bedId))
+            throw new IllegalArgumentException(INVALID_BED_ID);
     }
 
     private static Mono<Bed> handleBedNotFound(String id) {
