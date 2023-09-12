@@ -1,9 +1,9 @@
-package com.noq.backend.services;
+package com.noq.backend.services.cosmos;
 
 import com.azure.cosmos.models.PartitionKey;
 import com.noq.backend.DTO.HostCosmosDTO;
-import com.noq.backend.models.HostCosmos;
-import com.noq.backend.repository.HostRepositoryCosmos;
+import com.noq.backend.models.cosmos.HostCosmos;
+import com.noq.backend.repository.cosmos.HostRepositoryCosmos;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;

@@ -1,7 +1,9 @@
-package com.noq.backend.models;
+package com.noq.backend.models.cosmos;
 
 import com.azure.spring.data.cosmos.core.mapping.Container;
 import com.azure.spring.data.cosmos.core.mapping.PartitionKey;
+import com.noq.backend.models.Address;
+import com.noq.backend.models.cosmos.Bed;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
@@ -16,8 +18,8 @@ import java.util.UUID;
 public class HostCosmos {
 
     @Id
-    private String hostId;
     @PartitionKey
+    private String hostId;
     private String name;
     private Address address;
     private String image;
@@ -30,5 +32,10 @@ public class HostCosmos {
         this.image = image;
         this.beds = new ArrayList<>();
     }
+
+   // public void addBed(Bed bed) {
+   //     beds.add(bed);
+   //     bed.setHost(this);
+   // }
 
 }

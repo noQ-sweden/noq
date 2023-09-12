@@ -1,4 +1,6 @@
 package com.noq.backend.DTO;
 
-public record BedDTO(String id, com.noq.backend.models.HostCosmos host, boolean reserved) {
+import com.noq.backend.models.cosmos.HostCosmos;
+
+public record BedDTO(String id, HostCosmos host, boolean reserved) {
 }

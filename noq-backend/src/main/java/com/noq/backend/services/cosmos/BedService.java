@@ -1,13 +1,13 @@
-package com.noq.backend.services;
+package com.noq.backend.services.cosmos;
 
 import com.azure.cosmos.models.PartitionKey;
 import com.noq.backend.DTO.BedDTO;
 import com.noq.backend.exeptions.BedNotFoundException;
 import com.noq.backend.exeptions.HostNotFoundException;
-import com.noq.backend.models.Bed;
-import com.noq.backend.models.HostCosmos;
-import com.noq.backend.repository.BedRepositoryCosmos;
-import com.noq.backend.repository.HostRepositoryCosmos;
+import com.noq.backend.models.cosmos.Bed;
+import com.noq.backend.models.cosmos.HostCosmos;
+import com.noq.backend.repository.cosmos.BedRepositoryCosmos;
+import com.noq.backend.repository.cosmos.HostRepositoryCosmos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;

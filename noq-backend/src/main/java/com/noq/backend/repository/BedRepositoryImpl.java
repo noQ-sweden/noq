@@ -1,6 +1,6 @@
 package com.noq.backend.repository;
 
-import com.noq.backend.models.Bed;
+import com.noq.backend.models.cosmos.Bed;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;

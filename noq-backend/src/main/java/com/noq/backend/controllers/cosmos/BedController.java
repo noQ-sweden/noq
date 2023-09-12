@@ -1,8 +1,8 @@
-package com.noq.backend.controllers;
+package com.noq.backend.controllers.cosmos;
 
 import com.noq.backend.DTO.BedDTO;
 import com.noq.backend.DTO.CreateBedRequest;
-import com.noq.backend.services.BedService;
+import com.noq.backend.services.cosmos.BedService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

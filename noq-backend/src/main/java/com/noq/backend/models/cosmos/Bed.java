@@ -1,4 +1,4 @@
-package com.noq.backend.models;
+package com.noq.backend.models.cosmos;
 
 import com.azure.spring.data.cosmos.core.mapping.Container;
 import com.azure.spring.data.cosmos.core.mapping.PartitionKey;

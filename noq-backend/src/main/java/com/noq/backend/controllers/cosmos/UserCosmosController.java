@@ -1,27 +1,24 @@
-package com.noq.backend.controllers;
+package com.noq.backend.controllers.cosmos;
 
 import com.noq.backend.DTO.HostCosmosDTO;
-import com.noq.backend.services.HostCosmosService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.noq.backend.services.cosmos.UserCosmosService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-@Controller
-@RequestMapping(path = "/hostCosmos")
-public class HostCosmosController {
+@RestController
+@RequiredArgsConstructor
+@CrossOrigin(origins = "*", allowedHeaders = "*")
+@RequestMapping(path = "/userCosmos")
+public class UserCosmosController {
 
-    private final HostCosmosService hostCosmosService;
+    private final UserCosmosService userCosmosService;
 
-    @Autowired
-    public HostCosmosController(HostCosmosService hostCosmosService) {
-        this.hostCosmosService = hostCosmosService;
-    }
 
     // CREATE NEW HOST
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -55,5 +52,6 @@ public class HostCosmosController {
     private static final Mono<ResponseEntity<HostCosmosDTO>> NOT_FOUND_RESPONSE =
             Mono.just(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     // ############################################################################################
+
 
 }

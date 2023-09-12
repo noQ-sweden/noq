@@ -1,7 +1,7 @@
 package com.noq.backend.DTO;
 
 import com.noq.backend.models.Address;
-import com.noq.backend.models.Bed;
+import com.noq.backend.models.cosmos.Bed;
 
 import java.util.List;
 

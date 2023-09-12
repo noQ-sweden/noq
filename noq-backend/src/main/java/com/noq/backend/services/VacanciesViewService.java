@@ -1,6 +1,6 @@
 //package com.noq.backend.services;
 //
-//import com.noq.backend.models.Bed;
+//import com.noq.backend.models.cosmos.Bed;
 //import com.noq.backend.models.Host;
 //import com.noq.backend.models.Vacancy;
 //import com.noq.backend.repository.HostRepository;
