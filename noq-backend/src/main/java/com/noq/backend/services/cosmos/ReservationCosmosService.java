@@ -1,7 +1,9 @@
 package com.noq.backend.services.cosmos;
 
 import com.noq.backend.DTO.cosmos.CreateReservationRequest;
+import com.noq.backend.models.cosmos.HostCosmos;
 import com.noq.backend.models.cosmos.ReservationCosmos;
+import com.noq.backend.models.cosmos.UserCosmos;
 import com.noq.backend.repository.cosmos.HostRepositoryCosmos;
 import com.noq.backend.repository.cosmos.ReservationRepositoryCosmos;
 import com.noq.backend.repository.cosmos.UserRepositoryCosmos;
@@ -39,22 +41,28 @@ public class ReservationCosmosService {
     }
 
     public Mono<ReservationCosmos> createReservation(CreateReservationRequest request) {
-        validateInputId(HOST_ID, request.hostId());
-        validateInputId(BED_ID, request.bedId());
-        validateInputId(USER_ID, request.userId());
+        validateInputData(request);
 
         return hosts
                 .findById(request.hostId())
                 .flatMap(host -> users
                         .findById(request.userId())
-                        .flatMap(user -> {
-                            // TODO: Update list of beds in Host-object?
-                            ReservationCosmos reservation = new ReservationCosmos(host, user, PENDING);
-                            return reservations
-                                    .save(reservation)
-                                    .then(bedService.updateBedStatus(request.bedId(), request.hostId(), true))
-                                    .thenReturn(reservation);
-                        }));
+                        .flatMap(user -> createAndSaveReservation(request.bedId(), host, user)));
+    }
+
+    private static void validateInputData(CreateReservationRequest request) {
+        validateInputId(HOST_ID, request.hostId());
+        validateInputId(BED_ID, request.bedId());
+        validateInputId(USER_ID, request.userId());
+    }
+
+    private Mono<ReservationCosmos> createAndSaveReservation(String bedId, HostCosmos host, UserCosmos user) {
+        // TODO: Update list of beds in Host-object if necessary?
+        ReservationCosmos reservation = new ReservationCosmos(host, user, PENDING);
+        return reservations
+                .save(reservation)
+                .then(bedService.updateBedStatus(bedId, host.getHostId(), true))
+                .thenReturn(reservation);
     }
 
     public Mono<ReservationCosmos> getReservationByUserId(String userId) {
@@ -94,14 +102,19 @@ public class ReservationCosmosService {
         return Flux.fromIterable(reservationsId)
                 .flatMap(id -> {
                     validateInputId(RESERVATION_ID, id);
-                    return reservations.findById(id)
-                            .map(reservation -> {
-                                reservation.setStatus(RESERVED);
-                                return reservation;
-                            })
-                            .flatMap(reservations::save);
+                    return updateAndSaveReservationStatus(id);
                 })
                 .collectList()
                 .flatMapMany(Flux::fromIterable);
+    }
+
+    private Mono<ReservationCosmos> updateAndSaveReservationStatus(String id) {
+        return reservations
+                .findById(id)
+                .map(reservation -> {
+                    reservation.setStatus(RESERVED);
+                    return reservation;
+                })
+                .flatMap(reservations::save);
     }
 }
