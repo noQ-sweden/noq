@@ -6,7 +6,8 @@ public class InputValidator {
     public enum IdField {
         HOST_ID("Host id"),
         BED_ID("Bed id"),
-        USER_ID("User id");
+        USER_ID("User id"),
+        RESERVATION_ID("Reservation id");
 
         private final String fieldName;
 
@@ -19,7 +20,7 @@ public class InputValidator {
         }
     }
 
-    public static void validateId(IdField field, String value) {
+    public static void validateInputId(IdField field, String value) {
         if (isBlank(value)) {
             throw new IllegalArgumentException(field.getFieldName() + " is required.");
         }

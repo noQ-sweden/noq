@@ -28,7 +28,7 @@ public class BedCosmosService {
     }
 
     public Mono<BedDTO> createBed(String hostId) {
-        validateId(HOST_ID, hostId);
+        validateInputId(HOST_ID, hostId);
         return hosts
                 .findById(hostId)
                 .switchIfEmpty(handleHostNotFound(hostId))
@@ -42,8 +42,8 @@ public class BedCosmosService {
     }
 
     public Mono<BedDTO> findBedById(String bedId, String hostId) {
-        validateId(HOST_ID, hostId);
-        validateId(BED_ID, bedId);
+        validateInputId(HOST_ID, hostId);
+        validateInputId(BED_ID, bedId);
         return hosts
                 .findById(hostId)
                 .switchIfEmpty(handleHostNotFound(hostId))
@@ -55,7 +55,7 @@ public class BedCosmosService {
     }
 
     public Flux<BedDTO> findBedsByHostId(String hostId) {
-        validateId(HOST_ID, hostId);
+        validateInputId(HOST_ID, hostId);
         return hosts
                 .findById(hostId)
                 .switchIfEmpty(handleHostNotFound(hostId))
@@ -72,8 +72,8 @@ public class BedCosmosService {
     }
 
     public Mono<BedDTO> updateBedStatus(String bedId, String hostId, boolean reserved) {
-        validateId(HOST_ID, hostId);
-        validateId(BED_ID, bedId);
+        validateInputId(HOST_ID, hostId);
+        validateInputId(BED_ID, bedId);
         return hosts
                 .findById(hostId)
                 .switchIfEmpty(handleHostNotFound(hostId))
@@ -94,8 +94,8 @@ public class BedCosmosService {
     }
 
     public Mono<BedDTO> deleteBedById(String bedId, String hostId) {
-        validateId(HOST_ID, hostId);
-        validateId(BED_ID, bedId);
+        validateInputId(HOST_ID, hostId);
+        validateInputId(BED_ID, bedId);
         return hosts
                 .findById(hostId)
                 .switchIfEmpty(handleHostNotFound(hostId))

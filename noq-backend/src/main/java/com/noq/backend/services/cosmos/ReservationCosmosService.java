@@ -2,7 +2,6 @@ package com.noq.backend.services.cosmos;
 
 import com.noq.backend.DTO.cosmos.CreateReservationRequest;
 import com.noq.backend.models.cosmos.ReservationCosmos;
-import com.noq.backend.repository.cosmos.BedRepositoryCosmos;
 import com.noq.backend.repository.cosmos.HostRepositoryCosmos;
 import com.noq.backend.repository.cosmos.ReservationRepositoryCosmos;
 import com.noq.backend.repository.cosmos.UserRepositoryCosmos;
@@ -14,16 +13,16 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 
 import static com.noq.backend.models.Status.PENDING;
+import static com.noq.backend.models.Status.RESERVED;
 import static com.noq.backend.services.cosmos.utils.ErrorHandler.handleReservationNotFound;
 import static com.noq.backend.services.cosmos.utils.InputValidator.IdField.*;
-import static com.noq.backend.services.cosmos.utils.InputValidator.validateId;
+import static com.noq.backend.services.cosmos.utils.InputValidator.validateInputId;
 
 @Service
 public class ReservationCosmosService {
     private final HostRepositoryCosmos hosts;
     private final UserRepositoryCosmos users;
     private final ReservationRepositoryCosmos reservations;
-    private final BedRepositoryCosmos beds;
     private final BedCosmosService bedService;
 
     @Autowired
@@ -31,20 +30,18 @@ public class ReservationCosmosService {
             HostRepositoryCosmos hosts,
             UserRepositoryCosmos users,
             ReservationRepositoryCosmos reservations,
-            BedRepositoryCosmos beds,
             BedCosmosService bedService
     ) {
         this.hosts = hosts;
         this.users = users;
         this.reservations = reservations;
-        this.beds = beds;
         this.bedService = bedService;
     }
 
     public Mono<ReservationCosmos> createReservation(CreateReservationRequest request) {
-        validateId(HOST_ID, request.hostId());
-        validateId(BED_ID, request.bedId());
-        validateId(USER_ID, request.userId());
+        validateInputId(HOST_ID, request.hostId());
+        validateInputId(BED_ID, request.bedId());
+        validateInputId(USER_ID, request.userId());
 
         return hosts
                 .findById(request.hostId())
@@ -61,7 +58,7 @@ public class ReservationCosmosService {
     }
 
     public Mono<ReservationCosmos> getReservationByUserId(String userId) {
-        validateId(USER_ID, userId);
+        validateInputId(USER_ID, userId);
         return users
                 .findById(userId)
                 .flatMap(reservations::findReservationCosmosByUser)
@@ -69,44 +66,42 @@ public class ReservationCosmosService {
     }
 
     public Flux<ReservationCosmos> getReservationsByHostId(String hostId) {
-        validateId(HOST_ID, hostId);
+        validateInputId(HOST_ID, hostId);
         return hosts
                 .findById(hostId)
                 .flatMapMany(reservations::findReservationCosmosByHost)
                 .switchIfEmpty(Flux.empty());
     }
 
-    public List<ReservationCosmos> getReservationsByHostIdStatusPending(String hostId) {
-        return null;
-//        return reservationRepository.getAllReservations().stream()
-//                .filter(reservation ->
-//                        reservation.getHost().getHostId().equals(hostId) &&
-//                                reservation.getStatus() == Status.PENDING)
-//                .collect(Collectors.toList());
+    public Flux<ReservationCosmos> getReservationsByHostIdStatusPending(String hostId) {
+        validateInputId(HOST_ID, hostId);
+        return hosts
+                .findById(hostId)
+                .flatMapMany(host -> reservations.findReservationCosmosByHostAndStatus(host, PENDING))
+                .switchIfEmpty(Flux.empty());
     }
 
 
-    public List<ReservationCosmos> approveReservations(List<String> reservationsId) {
-        return null;
-//        List<Reservation> reservations = reservationRepository.getAllReservations().stream()
-//                .filter(res -> {
-//                    if (reservationsId.contains(res.getReservationId())) {
-//                        res.setStatus(Status.RESERVED);
-//                        return true;
-//                    }
-//                    return false;
-//                })
-//                .collect(Collectors.toList());
-//        reservationRepository.saveAll(reservations);
-//        return reservations;
+    public Flux<ReservationCosmos> getReservationsByHostIdStatusReserved(String hostId) {
+        validateInputId(HOST_ID, hostId);
+        return hosts
+                .findById(hostId)
+                .flatMapMany(host -> reservations.findReservationCosmosByHostAndStatus(host, RESERVED))
+                .switchIfEmpty(Flux.empty());
     }
 
-    public List<ReservationCosmos> getReservationsByHostIdStatusReserved(String hostId) {
-        return null;
-//        return reservationRepository.getAllReservations().stream()
-//                .filter(reservation ->
-//                        reservation.getHost().getHostId().equals(hostId) &&
-//                                reservation.getStatus() == Status.RESERVED)
-//                .collect(Collectors.toList());
+    public Flux<ReservationCosmos> approveReservations(List<String> reservationsId) {
+        return Flux.fromIterable(reservationsId)
+                .flatMap(id -> {
+                    validateInputId(RESERVATION_ID, id);
+                    return reservations.findById(id)
+                            .map(reservation -> {
+                                reservation.setStatus(RESERVED);
+                                return reservation;
+                            })
+                            .flatMap(reservations::save);
+                })
+                .collectList()
+                .flatMapMany(Flux::fromIterable);
     }
 }
