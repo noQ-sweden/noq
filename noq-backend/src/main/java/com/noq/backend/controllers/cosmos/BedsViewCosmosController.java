@@ -15,7 +15,7 @@ import java.net.URI;
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/api/v1/bed")
-public class BedCosmosController {
+public class BedsViewCosmosController {
     private final BedCosmosService service;
 
     @PostMapping
