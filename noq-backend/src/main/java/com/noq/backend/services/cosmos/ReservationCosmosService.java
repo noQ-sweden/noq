@@ -1,6 +1,6 @@
 package com.noq.backend.services.cosmos;
 
-import com.noq.backend.DTO.cosmos.CreateReservationRequest;
+import com.noq.backend.DTO.cosmos.CreateReservationDTO;
 import com.noq.backend.models.cosmos.HostCosmos;
 import com.noq.backend.models.cosmos.ReservationCosmos;
 import com.noq.backend.models.cosmos.UserCosmos;
@@ -40,7 +40,7 @@ public class ReservationCosmosService {
         this.bedService = bedService;
     }
 
-    public Mono<ReservationCosmos> createReservation(CreateReservationRequest request) {
+    public Mono<ReservationCosmos> createReservation(CreateReservationDTO request) {
         validateInputData(request);
 
         return hosts
@@ -50,7 +50,7 @@ public class ReservationCosmosService {
                         .flatMap(user -> createAndSaveReservation(request.bedId(), host, user)));
     }
 
-    private static void validateInputData(CreateReservationRequest request) {
+    private static void validateInputData(CreateReservationDTO request) {
         validateInputId(HOST_ID, request.hostId());
         validateInputId(BED_ID, request.bedId());
         validateInputId(USER_ID, request.userId());
