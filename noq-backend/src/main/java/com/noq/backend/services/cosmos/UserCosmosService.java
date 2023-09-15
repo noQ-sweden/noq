@@ -17,7 +17,7 @@ public class UserCosmosService {
 
     private final UserRepositoryCosmos userRepositoryCosmos;
 
-    // CREATA NEW USER
+    // CREATE NEW USER
     public Mono<UserCosmosDTO> create(UserCosmosDTO request) {
         UserCosmos user = new UserCosmos(
                 request.name(),

@@ -14,7 +14,7 @@ import reactor.core.publisher.Mono;
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*", allowedHeaders = "*")
-@RequestMapping(path = "/hostCosmos")
+@RequestMapping(path = "/api/v1/host")
 public class HostCosmosController {
 
     private final HostCosmosService hostCosmosService;
