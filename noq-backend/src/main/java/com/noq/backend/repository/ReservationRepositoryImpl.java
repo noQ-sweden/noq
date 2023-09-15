@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 @Repository
 public class ReservationRepositoryImpl implements ReservationRepository {
-   
+
     private final Map<String, Reservation> reservations = new HashMap<>();
 
     @Override
