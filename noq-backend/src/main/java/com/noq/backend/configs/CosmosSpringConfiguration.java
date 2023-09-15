@@ -2,8 +2,11 @@
 // Licensed under the MIT License.
 package com.noq.backend.configs;
 
+import com.azure.cosmos.CosmosAsyncClient;
 import com.azure.cosmos.CosmosClientBuilder;
 import com.azure.cosmos.DirectConnectionConfig;
+import com.azure.identity.ManagedIdentityCredential;
+import com.azure.spring.data.cosmos.CosmosFactory;
 import com.azure.spring.data.cosmos.config.AbstractCosmosConfiguration;
 import com.azure.spring.data.cosmos.config.CosmosConfig;
 import com.azure.spring.data.cosmos.repository.config.EnableReactiveCosmosRepositories;
@@ -20,8 +23,6 @@ import org.springframework.context.annotation.PropertySource;
         considerNestedRepositories = true)
 @PropertySource("classpath:application-secret.properties")
 public class CosmosSpringConfiguration extends AbstractCosmosConfiguration {
-
-
     private final AzureCredentials credentials;
 
     @Autowired
@@ -29,13 +30,25 @@ public class CosmosSpringConfiguration extends AbstractCosmosConfiguration {
         this.credentials = credentials;
     }
 
+    /*@Bean
+    public CosmosAsyncClient cosmosBuildClient() {
+        return new CosmosClientBuilder()
+                .endpoint(credentials.getAccountEndPoint())
+                .credential(new ManagedIdentityCredential(
+                        clientId,
+                        resourceId,
+                        identityClientOptions
+                ))
+                .build();
+    }*/
+
     @Bean
     public CosmosClientBuilder cosmosBuildClient() {
         return new CosmosClientBuilder()
                 .endpoint(credentials.getServiceURI())
                 .key(credentials.getPrimarySecretKey())
                 .directMode(DirectConnectionConfig.getDefaultConfig());
-
+        // TODO: Implement authentication with client id
         //.credential(new ClientSecretCredentialBuilder()
         //        .clientId(properties.getClientId())
         //        .clientSecret(properties.getClientSecret())
