@@ -1,16 +1,21 @@
 import React, {useEffect, useState} from "react";
 import {IRequestsViewModel, IReservation, Status} from "./IRequestsViewModel";
-import {approveReservations, getAllHostRequests} from "../../../../api/RequestsViewApi";
-import { useContext} from "react";
-import { HostPageContext } from "../../../../context/HostPageContext";
+import {
+    approveReservations,
+    getAllHostRequests, rejectReservations
+} from "../../../../api/RequestsViewApi";
+import {useContext} from "react";
+import {HostPageContext} from "../../../../context/HostPageContext";
+import {Typography} from "@material-tailwind/react";
+
 export default function RequestsView() {
     const [requests, setRequests] = useState<IRequestsViewModel>({
         reservations: [],
     });
-   const [approvedIds, setApprovedIds] = useState<string[]>([]);
+    const [checkedIds, setChckedIds] = useState<string[]>([]);
 
-   const hostPage = useContext(HostPageContext)
-  
+    const hostPage = useContext(HostPageContext)
+
 
     const getAllRequests = async () => {
         try {
@@ -28,7 +33,7 @@ export default function RequestsView() {
 
     const handleApprove = async () => {
         try {
-            await approveReservations(approvedIds, hostPage.id);
+            await approveReservations(checkedIds, hostPage.id);
         } catch (error) {
             console.error(error);
         }
@@ -36,97 +41,89 @@ export default function RequestsView() {
     };
 
 
-    const handleDecline = async () => {
+    const handleReject = async () => {
         try {
+            await rejectReservations(checkedIds, hostPage.id);
         } catch (error) {
             console.error(error);
         }
+        getAllRequests()
     };
 
     const toggleCheckbox = (id: string) => {
-        if (approvedIds.includes(id)) {
-            setApprovedIds(approvedIds.filter((approvedId) => approvedId !== id));
+        if (checkedIds.includes(id)) {
+            setChckedIds(checkedIds.filter((checkedIds) => checkedIds !== id));
         } else {
-            setApprovedIds([...approvedIds, id]);
+            setChckedIds([...checkedIds, id]);
         }
     };
-console.log(requests)
+
     return (
         <>
-            <main className="py-10 px-4 col-span-3">
-                <div className="flex items-center justify-center">
-                    <div className="p-4">
-                        <h2 className="text-2xl font-bold mt-8">Förfrågningar:</h2>
-                        <div className="mt-2">
+            <main className="p-10 px-4 col-span-3 ">
+                <h1 className="text-4xl tracking-wide ">Hantera förfrågningar om sängplats</h1>
+                <div className="grid grid-rows-3 gap-5 p-10">
+                    <div className="p-5 max-w-sm h-64 min-h-full rounded-xl border border-lilac flex flex-col gap-y-4 ">
+                        <h2 className="text-2xl font-medium">Förfrågningar</h2>
+                        <div className="mt-2 min-w-xs">
                             {requests?.reservations.filter(request => request.status === "PENDING")
-                                .map((request) => (
-                                <div
-                                    key={request.reservationId}
-                                    className="flex items-center space-x-2 mt-2"
-                                >
-                                    {request.user.name}
-
-                                    <input
-                                        type="checkbox"
-                                        checked={approvedIds.includes(request.reservationId)}
-                                        onChange={() => toggleCheckbox(request.reservationId)}
-                                    />
-                                </div>
-                            ))}
-                        </div>
-                        <button
-                            onClick={handleApprove}
-                            className="bg-green text-white rounded p-2 mt-4"
-                        >
-                            Godkänn
-                        </button>
-                        <button
-                            onClick={handleDecline}
-                            className="bg-amber-500 text-white rounded p-2 mt-4"
-                        >
-                            Neka
-                        </button>
-                    </div>
-                </div>
-                <div className="flex items-center justify-center">
-                    <div className="p-4">
-                        <h2 className="text-2xl font-bold mt-8">Godkända:</h2>
-                        <div className="mt-2">
-                            {requests?.reservations.filter(request => request.status === "RESERVED")
                                 .map((request) => (
                                     <div
                                         key={request.reservationId}
-                                        className="flex items-center space-x-2 mt-2"
+                                        className="flex items-center space-x-2 divide-y divide-lilac bg-gray mb-2"
                                     >
-                                        {request.user.name}
+                                       <Typography>
+                                           {request.user.name}
+                                       </Typography>
 
                                         <input
                                             type="checkbox"
-                                            checked={approvedIds.includes(request.reservationId)}
+                                            checked={checkedIds.includes(request.reservationId)}
                                             onChange={() => toggleCheckbox(request.reservationId)}
                                         />
                                     </div>
                                 ))}
                         </div>
+                        <div className="flex gap-5 justify-self-end">
+                            <button
+                                onClick={handleApprove}
+                                className="bg-green text-white rounded px-5 py-2 mt-4"
+                            >
+                                Godkänn
+                            </button>
+                            <button
+                                onClick={handleReject}
+                                className="bg-amber-500 text-white rounded p-2 mt-4"
+                            >
+                                Neka
+                            </button>
+                        </div>
                     </div>
-                </div>
-                <div className="flex items-center justify-center">
-                    <div className="p-4">
-                        <h2 className="text-2xl font-bold mt-8">Nekade:</h2>
+                    <div className="p-5 max-w-sm rounded-xl border border-lilac">
+
+                        <h2 className="text-2xl font-medium">Godkända:</h2>
+                        <div className="mt-2">
+                            {requests?.reservations.filter(request => request.status === "RESERVED")
+                                .map((request) => (
+                                    <div
+                                        key={request.reservationId}
+                                        className="flex items-center space-x-2 mt-2 divide-y"
+                                    >
+                                        {request.user.name}
+                                    </div>
+                                ))}
+                        </div>
+                    </div>
+                    <div className="p-5 max-w-sm rounded-xl border border-lilac">
+                        <h2 className="text-2xl font-medium">Nekade:</h2>
                         <div className="mt-2">
                             {requests?.reservations.filter(request => request.status === "CANCELLED")
                                 .map((request) => (
                                     <div
                                         key={request.reservationId}
-                                        className="flex items-center space-x-2 mt-2"
+                                        className="flex items-center space-x-2 mt-2 divide-y bg-gray"
                                     >
                                         {request.user.name}
-
-                                        <input
-                                            type="checkbox"
-                                            checked={approvedIds.includes(request.reservationId)}
-                                            onChange={() => toggleCheckbox(request.reservationId)}
-                                        />
                                     </div>
                                 ))}
                         </div>

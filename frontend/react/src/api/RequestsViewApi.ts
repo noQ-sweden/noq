@@ -23,3 +23,13 @@ export const approveReservations = async (reservationData : string[], hostId: st
     }
 };
 
+export const rejectReservations = async (reservationData : string[], hostId: string) => {
+    console.log(reservationData)
+    try {
+        const response = await api.put(`api/requests/reject-reservations/${hostId}`, reservationData);
+        return response;
+    } catch (error) {
+        console.error(error);
+    }
+};
+

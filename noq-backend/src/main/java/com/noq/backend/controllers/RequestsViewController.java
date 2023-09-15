@@ -37,8 +37,15 @@ public class RequestsViewController {
 
     @PutMapping("/approve-reservations/{hostId}")
     public ResponseEntity<String> approveReservations(@RequestBody List<String> reservationsId, @PathVariable String hostId) {
-        reservationService.approveReservations(reservationsId);
-        String responseMessage = " approved reservation for ";
+        reservationService.approveReservations(reservationsId, hostId);
+        String responseMessage = " approved reservations";
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseMessage);
+    }
+
+    @PutMapping("/reject-reservations/{hostId}")
+    public ResponseEntity<String> rejectReservations(@RequestBody List<String> reservationsId, @PathVariable String hostId) {
+        reservationService.rejectReservations(reservationsId, hostId);
+        String responseMessage = " rejected reservations";
         return ResponseEntity.status(HttpStatus.CREATED).body(responseMessage);
     }
 
