@@ -1,18 +1,20 @@
 import * as React from "react";
-import { useState } from "react";
-import { putNrBeds } from "../../../../api/BedsViewApi";
+import {useContext, useState} from "react";
+import { putNrBeds } from "../../../../../api/SettingsViewApi";
 import { Button, Select, Typography, Option } from "@material-tailwind/react";
+import {HostPageContext} from "../../../../../context/HostPageContext";
 
-export default function HandleBedsComponent() {
+export default function UpdateBedsComponent() {
   const [selectedBeds, setSelectedBeds] = useState<number>(0);
+  const [error, setError] = useState("");
 
-  const hostId = "host4";
+  const {hostId} = useContext(HostPageContext)
 
   const handleSave = async () => {
     try {
       await putNrBeds(selectedBeds, hostId);
     } catch (err) {
-      console.log(err);
+      setError(err.message || "Couldn't update number of beds");
     }
   };
 
@@ -31,6 +33,9 @@ export default function HandleBedsComponent() {
         </Select>
         </div>
         <div className="mt-2">
+          {
+              error && <div className="text-red-500">{error}</div>
+          }
         <Button color="blue" onClick={handleSave} fullWidth>Spara</Button>
         </div>
       </div>

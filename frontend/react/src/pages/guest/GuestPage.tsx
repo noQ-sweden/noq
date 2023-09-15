@@ -1,14 +1,13 @@
-import { GuestPageContext, GuestPageProvider } from "../../context/GuestPageContext";
+import {GuestPageContext, GuestPageProvider} from "../../context/GuestPageContext";
 import LandingPageComponent from "./components/LandingPageComponent";
 
 
 export default function GuestPage() {
 
 
-
-  return (
-    <GuestPageProvider>
-<LandingPageComponent></LandingPageComponent>
-    </GuestPageProvider>
-  );
+    return (
+        <GuestPageProvider>
+            <LandingPageComponent></LandingPageComponent>
+        </GuestPageProvider>
+    );
 }

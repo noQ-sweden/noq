@@ -3,7 +3,7 @@ import LandingComponent from "./LandingComponent";
 import { NavbarDefault } from "./NavbarDefault";
 import VacanciesView from "../guest/views/vacanciesView/VacanciesView";
 import ReservationsView from "../guest/views/reservationsView/ReservationsView";
-import BedsView from "../host/views/bedsView/BedsView";
+import SettingsView from "../host/views/settingsView/SettingsView";
 import GuestPage from "../guest/GuestPage";
 import HostPage from "../host/HostPage";
 import RequestsView from "../host/views/requestsView/RequestsView";
@@ -30,8 +30,8 @@ export default function RoutingView() {
             </Route>
             <Route path="/host/:hostId" element={<HostPage />}>
               <Route
-                path="/host/:hostId/beds"
-                element={<BedsView />}
+                path="/host/:hostId/settings"
+                element={<SettingsView />}
                 />
                <Route
                 path="/host/:hostId/requests"

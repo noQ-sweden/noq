@@ -29,7 +29,7 @@ export function SideBarComponenet() {
           <ListItemPrefix>
             icon
           </ListItemPrefix>
-          <Link to="/host/host3/beds">Sängplatser </Link>
+          <Link to="/host/host3/settings">Inställningar </Link>
         </ListItem>
 
         {/* Finns inga vyer för ännu */}

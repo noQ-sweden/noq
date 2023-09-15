@@ -1,5 +1,7 @@
 package com.noq.backend.controllers;
 
+import com.noq.backend.models.CreateReservation;
+import com.noq.backend.models.UpdateName;
 import com.noq.backend.services.HostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,13 +10,13 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
-@RequestMapping("/api/bed")
-public class BedsViewController {
+@RequestMapping("/api/settings")
+public class SettingsViewController {
 
     private final HostService hostService;
 
     @Autowired
-    public BedsViewController(HostService hostService) {
+    public SettingsViewController(HostService hostService) {
         this.hostService = hostService;
     }
 
@@ -27,4 +29,10 @@ public class BedsViewController {
         return ResponseEntity.status(HttpStatus.CREATED).body(responseMessage);
     }
 
+    @PutMapping("/update-name/")
+    public ResponseEntity<String> updateName(@RequestBody UpdateName updateName){
+        hostService.updateName(updateName);
+        String responseMessage = "name was updated";
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseMessage);
+    }
 }
