@@ -20,7 +20,7 @@ export default function UpdateNameComponent() {
         try {
             await updateName(id, username)
         } catch (err) {
-            setError(err.message || "Couldn't update name");
+            setError("Couldn't update name");
         }
     };
 

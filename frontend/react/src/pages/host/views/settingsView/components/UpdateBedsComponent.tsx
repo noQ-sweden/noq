@@ -8,13 +8,13 @@ export default function UpdateBedsComponent() {
   const [selectedBeds, setSelectedBeds] = useState<number>(0);
   const [error, setError] = useState("");
 
-  const {hostId} = useContext(HostPageContext)
+  const {id} = useContext(HostPageContext)
 
   const handleSave = async () => {
     try {
-      await putNrBeds(selectedBeds, hostId);
+      await putNrBeds(selectedBeds, id);
     } catch (err) {
-      setError(err.message || "Couldn't update number of beds");
+      setError("Couldn't update number of beds");
     }
   };
 

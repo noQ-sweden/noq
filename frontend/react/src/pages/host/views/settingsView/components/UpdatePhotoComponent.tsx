@@ -3,7 +3,7 @@ import React, {ChangeEvent, useContext, useState} from "react";
 import {HostPageContext} from "../../../../../context/HostPageContext";
 
 export default function UpdatePhotoComponent() {
-    const {hostId} = useContext(HostPageContext)
+    const {id} = useContext(HostPageContext)
 
   return (
     <div className="flex items-center flex-col min-w-min max-w-xs gap-y-8">
