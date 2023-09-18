@@ -1,39 +1,39 @@
-import { createContext, useState, ReactNode, useEffect } from "react";
-import { IHostPageModel } from "../pages/host/IHostPageModel";
-import mockHostPageData from "../pages/host/HostPageMockData.json"
+import {createContext, useState, ReactNode, useEffect} from "react";
+import {IHostPageModel} from "../pages/host/IHostPageModel";
+import {getHost} from "../api/HostPageApi";
+import {getGuest} from "../api/GuestPageApi";
 
 const HostPageContext = createContext<IHostPageModel>({} as IHostPageModel)
 
 interface ChildrenProp {
-children?: ReactNode
+    children?: ReactNode
 }
 
 const HostPageProvider = ({children}: ChildrenProp) => {
-const [hostPage, setHostPage] = useState<IHostPageModel>({id: ""})
+    const [hostPage, setHostPage] = useState<IHostPageModel>({ id: "", name: "" })
+    const hostId = "host3"
 
-const fetchHostView = async () => {
-    try {
-   /* Implement actual fetch when backend has implemented an end-point */
-const response = {data: mockHostPageData}
+    const fetchHostView = async () => {
+        try {
+            const response = await getHost(hostId);
+            if (response?.data) {
+                setHostPage(response.data);
+                console.log(response.data);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
-      if (response?.data) {
-        setHostPage(response.data);
-        console.log(response.data);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
+    useEffect(() => {
+        fetchHostView();
+    }, []);
 
-  useEffect(() => {
-    fetchHostView();
-  }, []);
-
-return (
-    <HostPageContext.Provider value={hostPage}>
-        {children}
-    </HostPageContext.Provider>
-)
+    return (
+        <HostPageContext.Provider value={hostPage}>
+            {children}
+        </HostPageContext.Provider>
+    )
 }
 
 export {HostPageContext, HostPageProvider}

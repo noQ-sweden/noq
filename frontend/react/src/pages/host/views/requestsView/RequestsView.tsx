@@ -13,13 +13,12 @@ export default function RequestsView() {
         reservations: [],
     });
     const [checkedIds, setChckedIds] = useState<string[]>([]);
-
-    const hostPage = useContext(HostPageContext)
+    const {id} = useContext(HostPageContext)
 
 
     const getAllRequests = async () => {
         try {
-            const response = await getAllHostRequests(hostPage.id);
+            const response = await getAllHostRequests(id);
             setRequests(response?.data);
         } catch (error) {
             console.error(error);
@@ -33,7 +32,7 @@ export default function RequestsView() {
 
     const handleApprove = async () => {
         try {
-            await approveReservations(checkedIds, hostPage.id);
+            await approveReservations(checkedIds, id);
         } catch (error) {
             console.error(error);
         }
@@ -43,7 +42,7 @@ export default function RequestsView() {
 
     const handleReject = async () => {
         try {
-            await rejectReservations(checkedIds, hostPage.id);
+            await rejectReservations(checkedIds, id);
         } catch (error) {
             console.error(error);
         }

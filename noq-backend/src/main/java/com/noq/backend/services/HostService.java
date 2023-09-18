@@ -3,6 +3,7 @@ package com.noq.backend.services;
 import com.noq.backend.models.Address;
 import com.noq.backend.models.Bed;
 import com.noq.backend.models.Host;
+import com.noq.backend.models.UpdateName;
 import com.noq.backend.repository.BedRepository;
 import com.noq.backend.repository.HostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ public class HostService {
 
     public List<Host> createHosts() {
 
-        /* skapar  3 st hosts, host3 har två sämngar, host4 en säng, och host5 ingen säng */
+        /* skapar  3 st hosts, host3 har två sängar, host4 en säng, och host5 ingen säng */
 
         Host host3 = new Host("host3", "Test-Härberget 3", new Address(UUID.randomUUID().toString(), "Gatgatan", "12", "12345", "Stockholm"), "url/till/bild/pa/Harberget1.png", new ArrayList<>());
         Host host4 = new Host("host4", "Test-Härberget 4", new Address(UUID.randomUUID().toString(), "Vägvägen", "21", "23546", "Lund"), "url/till/bild/pa/Harberget2.png", new ArrayList<>());
@@ -87,6 +88,15 @@ public class HostService {
             System.out.println("Host not found for hostId: " + hostId);
         }
 
+        return host;
+    }
+
+    public Host updateName(UpdateName updateName){
+        Host host = hostRepository.getHostByHostId(updateName.getId());
+        if (host != null) {
+            host.setName(updateName.getName());
+            host = hostRepository.save(host);
+        }
         return host;
     }
 
