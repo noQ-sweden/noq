@@ -57,7 +57,6 @@ public class ReservationCosmosService {
     }
 
     private Mono<ReservationCosmos> createAndSaveReservation(String bedId, HostCosmos host, UserCosmos user) {
-        // TODO: Update list of beds in Host-object if necessary?
         ReservationCosmos reservation = new ReservationCosmos(host, user, PENDING);
         return reservations
                 .save(reservation)

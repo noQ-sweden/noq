@@ -1,6 +1,6 @@
 package com.noq.backend.services;
 
-import com.noq.backend.exeptions.NoReservationsException;
+import com.noq.backend.exeptions.ReservationNotFoundException;
 import com.noq.backend.models.*;
 import com.noq.backend.repository.HostRepository;
 import com.noq.backend.repository.ReservationRepository;
@@ -28,7 +28,7 @@ public class ReservationService {
     public Reservation getReservationByUserId(String userId) {
         List<Reservation> reservations = reservationRepository.getAllReservations();
         if (reservations.isEmpty()) {
-            throw new NoReservationsException("No reservations found for user " + userId);
+            throw new ReservationNotFoundException("No reservations found for user " + userId);
         }
         Reservation reservation = reservations.stream()
                 .filter(res -> res.getUser().getId().equals(userId))

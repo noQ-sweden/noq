@@ -12,8 +12,6 @@ public class AzureCredentials {
     private String serviceURI;
     private String primarySecretKey;
     private String database;
-//    @Value("${COSMOS_DB_ACCOUNT_ENDPOINT}")
-//    private String accountEndPoint;
     private boolean queryMetricsEnabled;
     private boolean responseDiagnosticsEnabled;
 }

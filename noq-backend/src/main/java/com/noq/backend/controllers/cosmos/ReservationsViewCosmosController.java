@@ -2,7 +2,7 @@ package com.noq.backend.controllers.cosmos;
 
 import com.noq.backend.DTO.AddressDTO;
 import com.noq.backend.DTO.ReservationsViewDTO;
-import com.noq.backend.exeptions.NoReservationsException;
+import com.noq.backend.exeptions.ReservationNotFoundException;
 import com.noq.backend.models.Address;
 import com.noq.backend.models.cosmos.ReservationCosmos;
 import com.noq.backend.services.cosmos.ReservationCosmosService;
@@ -26,8 +26,8 @@ public class ReservationsViewCosmosController {
                 .mapNotNull(reservation -> ResponseEntity.ok(toDTO(reservation)));
     }
 
-    @ExceptionHandler(NoReservationsException.class)
-    public ResponseEntity<String> handleNoReservationsException(NoReservationsException exception) {
+    @ExceptionHandler(ReservationNotFoundException.class)
+    public ResponseEntity<String> handleNoReservationsException(ReservationNotFoundException exception) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
     }
 

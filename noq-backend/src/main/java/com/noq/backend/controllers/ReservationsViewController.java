@@ -2,7 +2,7 @@ package com.noq.backend.controllers;
 
 import com.noq.backend.DTO.AddressDTO;
 import com.noq.backend.DTO.ReservationsViewDTO;
-import com.noq.backend.exeptions.NoReservationsException;
+import com.noq.backend.exeptions.ReservationNotFoundException;
 import com.noq.backend.models.Reservation;
 import com.noq.backend.services.ReservationService;
 import org.springframework.http.HttpStatus;
@@ -26,8 +26,8 @@ public class ReservationsViewController {
         return toDTO(reservationService.getReservationByUserId(userId));
     }
 
-    @ExceptionHandler(NoReservationsException.class)
-    public ResponseEntity<String> handleNoReservationsException(NoReservationsException ex) {
+    @ExceptionHandler(ReservationNotFoundException.class)
+    public ResponseEntity<String> handleNoReservationsException(ReservationNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 
