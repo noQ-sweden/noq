@@ -4,9 +4,7 @@ package com.noq.backend.configs;
 
 import com.azure.cosmos.CosmosAsyncClient;
 import com.azure.cosmos.CosmosClientBuilder;
-import com.azure.cosmos.DirectConnectionConfig;
-import com.azure.identity.ManagedIdentityCredential;
-import com.azure.spring.data.cosmos.CosmosFactory;
+import com.azure.identity.DefaultAzureCredentialBuilder;
 import com.azure.spring.data.cosmos.config.AbstractCosmosConfiguration;
 import com.azure.spring.data.cosmos.config.CosmosConfig;
 import com.azure.spring.data.cosmos.repository.config.EnableReactiveCosmosRepositories;
@@ -30,31 +28,35 @@ public class CosmosSpringConfiguration extends AbstractCosmosConfiguration {
         this.credentials = credentials;
     }
 
-    /*@Bean
-    public CosmosAsyncClient cosmosBuildClient() {
+    @Bean
+    public CosmosClientBuilder cosmosClientBuilder() {
+        DefaultAzureCredentialBuilder credentialBuilder = new DefaultAzureCredentialBuilder();
+        String clientId = System.getenv("AZURE_CLIENT_ID");
+        if (clientId != null) {
+            credentialBuilder.managedIdentityClientId(clientId);
+            return new CosmosClientBuilder()
+                    .endpoint(System.getenv("COSMOS_DB_ACCOUNT_ENDPOINT"))
+                    .credential(credentialBuilder.build());
+        }
+
+        // Fallback for local dev-setup?
         return new CosmosClientBuilder()
-                .endpoint(credentials.getAccountEndPoint())
-                .credential(new ManagedIdentityCredential(
-                        clientId,
-                        resourceId,
-                        identityClientOptions
-                ))
-                .build();
-    }*/
+                .endpoint(credentials.getServiceURI())
+                .key(credentials.getPrimarySecretKey());
+    }
 
     @Bean
+    public CosmosAsyncClient cosmosAsyncClient() {
+        return cosmosClientBuilder().buildAsyncClient();
+    }
+
+/*    @Bean
     public CosmosClientBuilder cosmosBuildClient() {
         return new CosmosClientBuilder()
                 .endpoint(credentials.getServiceURI())
                 .key(credentials.getPrimarySecretKey())
                 .directMode(DirectConnectionConfig.getDefaultConfig());
-        // TODO: Implement authentication with client id
-        //.credential(new ClientSecretCredentialBuilder()
-        //        .clientId(properties.getClientId())
-        //        .clientSecret(properties.getClientSecret())
-        //        .tenantId(properties.getTenantId())
-        //        .build());
-    }
+    }*/
 
     @Bean
     public CosmosConfig cosmosConfig() {

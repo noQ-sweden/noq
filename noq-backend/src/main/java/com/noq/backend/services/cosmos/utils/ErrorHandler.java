@@ -3,7 +3,7 @@ package com.noq.backend.services.cosmos.utils;
 import com.noq.backend.DTO.cosmos.BedDTO;
 import com.noq.backend.exeptions.BedNotFoundException;
 import com.noq.backend.exeptions.HostNotFoundException;
-import com.noq.backend.exeptions.NoReservationsException;
+import com.noq.backend.exeptions.ReservationNotFoundException;
 import com.noq.backend.models.cosmos.BedCosmos;
 import com.noq.backend.models.cosmos.HostCosmos;
 import com.noq.backend.models.cosmos.ReservationCosmos;
@@ -29,6 +29,6 @@ public class ErrorHandler {
     }
 
     public static Mono<ReservationCosmos> handleReservationNotFound(String userId) {
-        return Mono.error(() -> new NoReservationsException("There is no reservation for user with id " + userId));
+        return Mono.error(() -> new ReservationNotFoundException("There is no reservation for user with id " + userId));
     }
 }
