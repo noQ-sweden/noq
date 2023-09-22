@@ -12,7 +12,7 @@ import { getReservation } from "../../../../api/ReservationsViewApi";
 
 export default function VacanciesView() {
   const [open, setOpen] = useState(false);
-  const [reservationResponse, setReservationResponse ] = useState(false)
+  const [reservationResponse, setReservationResponse ] = useState(true)
   const [vacancies, setVacancies] = useState<IVacanciesViewModel>({
     vacancies: [],
   });
@@ -50,7 +50,10 @@ export default function VacanciesView() {
     try {
       const response = await getReservation(userId);
       if(response?.status === 200) {
-        setReservationResponse(true);
+        setReservationResponse(false);
+      }
+      else {
+        setReservationResponse(true)
       }
     } catch (error) {
       console.log(error)
