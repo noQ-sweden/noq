@@ -66,8 +66,7 @@ public class HostCosmosService {
                 host.getHostId(),
                 host.getName(),
                 host.getAddress(),
-                host.getImage(),
-                host.getBeds()
+                host.getImage()
         );
     }
 }
