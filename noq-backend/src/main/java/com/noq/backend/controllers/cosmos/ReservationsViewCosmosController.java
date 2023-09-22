@@ -4,6 +4,7 @@ import com.noq.backend.DTO.AddressDTO;
 import com.noq.backend.DTO.ReservationsViewDTO;
 import com.noq.backend.exeptions.ReservationNotFoundException;
 import com.noq.backend.models.Address;
+import com.noq.backend.models.cosmos.AddressCosmos;
 import com.noq.backend.models.cosmos.ReservationCosmos;
 import com.noq.backend.services.cosmos.ReservationCosmosService;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +33,7 @@ public class ReservationsViewCosmosController {
     }
 
     private ReservationsViewDTO toDTO(ReservationCosmos reservation) {
-        Address address = reservation.getHost().getAddress();
+        AddressCosmos address = reservation.getHost().getAddress();
         AddressDTO addressDTO = new AddressDTO(
                 address.getStreet(),
                 address.getStreetNum(),
