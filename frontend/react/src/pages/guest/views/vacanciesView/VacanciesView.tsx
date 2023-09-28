@@ -64,12 +64,12 @@ export default function VacanciesView() {
         <Typography variant="h2" color="blue-gray">
           Lediga sängplatser
         </Typography>
-      {!reservationResponse ? <MessageToClientComponent text="Du har redan bokat en sängplats, vänligen invänta svar." color="red"></MessageToClientComponent>: null}
+      {reservationResponse ? <MessageToClientComponent text="Du har redan bokat en sängplats, vänligen invänta svar." color="red"></MessageToClientComponent>: null}
 
         {open ? (
             <ModalComponent open={open} setOpen={setOpen} />
         ) : null}
-        {reservationResponse ? <div className="mt-12 grid gap-8 ">
+        {!reservationResponse ? <div className="mt-12 grid gap-8 ">
           {vacancies.vacancies.map((vacancy) => (
             <div
               onClick={() => makeReservation(vacancy.host.id, vacancy.bedId)}

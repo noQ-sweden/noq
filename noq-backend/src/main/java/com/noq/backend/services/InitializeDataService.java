@@ -1,5 +1,6 @@
 package com.noq.backend.services;
 
+import com.noq.backend.models.cosmos.HostCosmos;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,5 +22,8 @@ public class InitializeDataService {
     public void initializeData() {
         userService.createUsers();
         hostService.createHosts();
+
+
+
     }
 }
