@@ -20,21 +20,13 @@ public class HostCosmos {
     @PartitionKey
     private String hostId;
     private String name;
-    private Address address;
+    private AddressCosmos address;
     private String image;
-    private List<BedCosmos> beds = new ArrayList<>();
 
-    public HostCosmos( String name, Address address, String image) {
+    public HostCosmos( String name, AddressCosmos address, String image) {
         this.hostId = UUID.randomUUID().toString();
         this.name = name;
         this.address = address;
         this.image = image;
-        this.beds = new ArrayList<>();
     }
-
-   // public void addBed(Bed bed) {
-   //     beds.add(bed);
-   //     bed.setHost(this);
-   // }
-
 }
