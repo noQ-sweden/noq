@@ -1,5 +1,7 @@
 package com.noq.backend.services;
 
+
+import com.noq.backend.models.cosmos.HostCosmos;
 import com.noq.backend.models.cosmos.AddressCosmos;
 import com.noq.backend.models.cosmos.HostCosmos;
 import com.noq.backend.models.cosmos.ReservationCosmos;
@@ -36,6 +38,10 @@ public class InitializeDataService {
         userService.createUsers();
         hostService.createHosts();
 
+
+
+
+
         UserCosmos user1 = new UserCosmos(
                 "User",
                 new ReservationCosmos()
@@ -48,5 +54,6 @@ public class InitializeDataService {
                 "URL TILL BILD"
         );
         hostRepositoryCosmos.save(host1).block();
+
     }
 }

@@ -12,31 +12,34 @@ param envShortName string
 @description('Select primary region to deploy resources in, default is West Europe')
 param azureLocationName string = 'Sweden Central'
 
-param appName string
-
-param containerImage string
-
-param containerEnvironment string
-
-param registry string
-param registryUsername string
 @secure()
 param registryPassword string
+param registryUsername string
+param registry string
+
+param appName string
+
+param containerEnvironment string
+param containerImage string
 param targetPort int
+
 param allowedOrigin string = ''
+param hasExternalIngress bool = true
+
+param backendUrl string
 
 //Resource group for environment
 var resourceGroupName = 'rg-noq-${toLower(envShortName)}'
 
 module containerApp './resource-templates/container-app-template.bicep' = {
-  name: 'noq_fe_app_${dateStamp}'
+  name: 'noq_${appName}_${dateStamp}'
   scope: resourceGroup(resourceGroupName)
   params: {
     resourceName: 'ca-${appName}'
     containerAppName: appName
     targetPort: targetPort
     environmentName: containerEnvironment
-    hasExternalIngress: true
+    hasExternalIngress: hasExternalIngress
     azureLocationName: azureLocationName
     containerImage: containerImage
     registry: registry
@@ -44,6 +47,12 @@ module containerApp './resource-templates/container-app-template.bicep' = {
     registryPassword: registryPassword
     allowedOrigins: [
       allowedOrigin
+    ]
+    environmentVariables: [
+      {
+        name: 'API_BASE_URL'
+        value: backendUrl
+      }
     ]
   }
 }
