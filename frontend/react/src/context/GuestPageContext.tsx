@@ -1,22 +1,24 @@
 import { createContext, useState, ReactNode, useEffect } from "react";
-import { getGuest } from "../api/GuestPageApi";
-import { IGuestPageModel } from "../pages/guest/IGuestPageModel";
+import { getClient } from "../api/ClientPageApi";
+import { IClientPageModel } from "../pages/guest/IClientPageModel";
 
-
-const GuestPageContext = createContext<IGuestPageModel>({} as IGuestPageModel)
+const ClientPageContext = createContext<IClientPageModel>({} as IClientPageModel);
 
 interface ChildrenProp {
-children?: ReactNode
+  children?: ReactNode;
 }
 
-const GuestPageProvider = ({children}: ChildrenProp) => {
-const [guestPage, setGuestPage] = useState<IGuestPageModel>({ id: "", name: "" });
-const userId = "1"
-const fetchGuestView = async () => {
+const ClientPageProvider = ({ children }: ChildrenProp) => {
+  const [clientPage, setClientPage] = useState<IClientPageModel>({
+    id: "",
+    name: "",
+  });
+  const clientId = "1";
+  const fetchClientView = async () => {
     try {
-      const response = await getGuest(userId);
+      const response = await getClient(clientId);
       if (response?.data) {
-        setGuestPage(response.data);
+        setClientPage(response.data);
         console.log(response.data);
       }
     } catch (error) {
@@ -25,15 +27,14 @@ const fetchGuestView = async () => {
   };
 
   useEffect(() => {
-    fetchGuestView();
+    fetchClientView();
   }, []);
 
+  return (
+    <ClientPageContext.Provider value={clientPage}>
+      {children}
+    </ClientPageContext.Provider>
+  );
+};
 
-return (
-    <GuestPageContext.Provider value={guestPage}>
-        {children}
-    </GuestPageContext.Provider>
-)
-}
-
-export {GuestPageContext, GuestPageProvider}
+export { ClientPageContext, ClientPageProvider };

@@ -1,4 +1,4 @@
-export interface IGuestPageModel{
+export interface IClientPageModel{
     id: string;
     name: string;
 }

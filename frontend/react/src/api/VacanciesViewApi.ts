@@ -12,11 +12,11 @@ export const getVacanciesView = async () => {
 
 export const createReservation = async (
     hostId: string,
-    userId: string | undefined,
+    clientId: string | undefined,
     bedId: string
 ) => {
     try {
-        const reservationData = {hostId, userId, bedId};
+        const reservationData = {hostId, clientId, bedId};
         const response = await api.post("api/vacancies/create-reservation", reservationData);
         return response;
     } catch (error) {

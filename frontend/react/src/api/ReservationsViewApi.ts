@@ -9,9 +9,9 @@ export const getReservationsView= async () => {
         console.error(error);
     }
 };
-export const getReservation = async (userId: string | undefined) => {
+export const getReservation = async (clientId: string | undefined) => {
     try {
-        const response = await api.get(`/api/reservations/${userId}`);
+        const response = await api.get(`/api/reservations/${clientId}`);
         return response;
     } catch (error) {
         console.error(error);
