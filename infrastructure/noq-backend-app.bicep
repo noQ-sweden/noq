@@ -31,7 +31,7 @@ param cosmosDbAccountEndpoint string
 var resourceGroupName = 'rg-noq-${toLower(envShortName)}'
 
 module containerApp './resource-templates/container-app-template.bicep' = {
-  name: 'noq_fe_app_${dateStamp}'
+  name: 'noq_be_app_${dateStamp}'
   scope: resourceGroup(resourceGroupName)
   params: {
     resourceName: 'ca-${appName}'
@@ -47,7 +47,12 @@ module containerApp './resource-templates/container-app-template.bicep' = {
     allowedOrigins: [
       allowedOrigin
     ]
-    cosmosDbAccountEndpoint: cosmosDbAccountEndpoint
+    environmentVariables: [
+      {
+        name: 'COSMOS_DB_ACCOUNT_NAME'
+        value: cosmosDbAccountEndpoint
+      }
+    ]
   }
 }
 

@@ -18,9 +18,10 @@ param registry string
 param registryUsername string
 @secure()
 param registryPassword string
-param cosmosDbAccountEndpoint string = 'a'
 
 param allowedOrigins array = []
+
+param environmentVariables array = []
 
 var corsPolicy = empty(allowedOrigins) ? null : allowedOrigins
 
@@ -40,7 +41,7 @@ resource containerApp 'Microsoft.App/containerApps@2022-10-01' ={
     managedEnvironmentId: environment.id
     configuration: {
       secrets: [
-        { 
+        {
           name: 'registry-password'
           value: registryPassword
         }
@@ -66,12 +67,7 @@ resource containerApp 'Microsoft.App/containerApps@2022-10-01' ={
         {
           image: containerImage
           name: containerAppName
-          env: [
-            {
-              name: 'COSMOS_DB_ACCOUNT_ENDPOINT'
-              value: cosmosDbAccountEndpoint
-            }
-          ]
+          env: environmentVariables
         }
       ]
       scale: {
