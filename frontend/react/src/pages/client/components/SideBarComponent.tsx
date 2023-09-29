@@ -4,8 +4,6 @@ import {
   List,
   ListItem,
   ListItemPrefix,
-  ListItemSuffix,
-  Chip,
 } from "@material-tailwind/react";
 
 import { Link } from "react-router-dom";
@@ -27,13 +25,13 @@ export function SideBarComponenet({name} : ISideBarComponent) {
           <ListItemPrefix>
             icon
           </ListItemPrefix>
-          <Link to="/guest/1/vacancies">Boka sängplats </Link>
+          <Link to="/client/1/vacancies">Boka sängplats </Link>
         </ListItem>
         <ListItem>
           <ListItemPrefix>
             icon
           </ListItemPrefix>
-          <Link to="/guest/1/reservations">Reservationer </Link>
+          <Link to="/client/1/reservations">Reservationer </Link>
         </ListItem>
 
         {/* Finns inga vyer för ännu */}

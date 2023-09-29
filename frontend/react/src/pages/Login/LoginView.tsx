@@ -2,7 +2,7 @@ import "./Login.css";
 
 
 const Login = () => {
-  /* const { userId } = useContext(UserContext);
+  /* const { clientId } = useContext(ClientContext);
   const navigate = useNavigate();
 
   const hostId = "host4";
@@ -17,14 +17,14 @@ const Login = () => {
 
   const fetchClient = async () => {
     try {
-      const response = await getClient(userId);
-      const userData = response?.data;
+      const response = await getClient(clientId);
+      const clientData = response?.data;
   
-      console.log(userData?.reservation);
-      userData?.reservation
-        ? navigate(`/reservation/${userData?.id}`)
-        : navigate(`/vacancies/${userData?.id}`);
-      console.log(userData);
+      console.log(clientData?.reservation);
+      clientData?.reservation
+        ? navigate(`/reservation/${clientData?.id}`)
+        : navigate(`/vacancies/${clientData?.id}`);
+      console.log(clientData);
     } catch (error) {
       console.error(error);
     }

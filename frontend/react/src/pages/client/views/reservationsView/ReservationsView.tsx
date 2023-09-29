@@ -1,5 +1,5 @@
 import { Typography } from "@material-tailwind/react";
-import React, {useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import HostCardComponent from "../../components/HostCardComponent";
 import {IReservationsViewModel} from "./IReservationsViewModel";
 import {getReservation} from "../../../../api/ReservationsViewApi";
@@ -17,11 +17,11 @@ export default function ReservationsView() {
             cityName: ""
         }
     });
-    const userId = "1"
+    const clientId = "1"
 
     const fetchView = async () => {
         try {
-            const response = await getReservation(userId);
+            const response = await getReservation(clientId);
             setReservation(response?.data);
             console.log(response?.data);
         } catch (error) {
