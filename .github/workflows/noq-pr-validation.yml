@@ -6,9 +6,9 @@ on:
 
 jobs:
 
-  # Verify build of frontend
+  # Verify build of frontend client's
   build-frontend:
-    name: 'Validate frontend build'
+    name: 'Validate frontend clients build'
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -19,13 +19,23 @@ jobs:
         with:
           node-version: 18.x
 
-      - name: Install dependencies
+      - name: Build user-client
         working-directory: frontend/react
-        run: npm install
+        run: |
+          npm install
+          npm run build
 
-      - name: Build frontend
-        working-directory: frontend/react
-        run: npm run build
+      - name: Build admin-client
+        working-directory: frontend/admin
+        run: |
+          npm install
+          npm run build
+
+      - name: Build host-client
+        working-directory: frontend/host
+        run: |
+          npm install
+          npm run build
 
   # Verify build of backend
   build-backend:
