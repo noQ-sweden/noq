@@ -1,5 +1,5 @@
 import api from "./ApiRootUrl";
-import {IVacanciesViewModel} from "../pages/guest/views/vacanciesView/IVacanciesViewModel";
+import {IVacanciesViewModel} from "../pages/client/views/vacanciesView/IVacanciesViewModel";
 
 export const getVacanciesView = async () => {
     try {

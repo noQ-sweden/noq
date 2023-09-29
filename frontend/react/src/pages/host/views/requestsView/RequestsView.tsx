@@ -83,7 +83,7 @@ export default function RequestsView() {
                                             className="flex items-center space-x-2 divide-y divide-lilac bg-gray mb-2"
                                         >
                                             <Typography>
-                                                {request.user.name}
+                                                {request.client.name}
                                             </Typography>
 
                                             <input
@@ -121,7 +121,7 @@ export default function RequestsView() {
                                             key={request.reservationId}
                                             className="flex items-center space-x-2 mt-2 divide-y"
                                         >
-                                            {request.user.name}
+                                            {request.client.name}
                                         </div>
                                     ))}
                             </div>
@@ -136,7 +136,7 @@ export default function RequestsView() {
                                             key={request.reservationId}
                                             className="flex items-center space-x-2 mt-2 divide-y bg-gray"
                                         >
-                                            {request.user.name}
+                                            {request.client.name}
                                         </div>
                                     ))}
                             </div>

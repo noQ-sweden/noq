@@ -4,11 +4,11 @@ export interface IRequestsViewModel {
 
 export interface IReservation {
     reservationId: string;
-    user: IUser;
+    client: IClient;
     status: Status;
 }
 
-export interface IUser {
+export interface IClient {
     id: string
     name: string
 }

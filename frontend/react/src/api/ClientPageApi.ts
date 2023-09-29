@@ -1,4 +1,4 @@
-import { IClientPageModel } from "../pages/guest/IClientPageModel";
+import { IClientPageModel } from "../pages/client/IClientPageModel";
 import api from "./ApiRootUrl";
 
 export const getClient = async (clientId: string | undefined) => {

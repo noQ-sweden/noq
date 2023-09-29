@@ -1,5 +1,5 @@
 import api from "./ApiRootUrl";
-import {IReservationsViewModel} from "../pages/guest/views/reservationsView/IReservationsViewModel";
+import { IReservationsViewModel } from "../pages/client/views/reservationsView/IReservationsViewModel";
 
 export const getReservationsView= async () => {
     try {

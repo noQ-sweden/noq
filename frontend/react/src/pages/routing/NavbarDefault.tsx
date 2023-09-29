@@ -3,7 +3,6 @@ import {
   Navbar,
     Collapse,
   Typography,
-  Button,
   IconButton,
 } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
@@ -26,7 +25,7 @@ export function NavbarDefault() {
         color="blue-gray"
         className="p-1 font-normal"
       >
-        <Link to={"/guest/1"}>Brukare</Link>
+        <Link to={"/client/1"}>Brukare</Link>
       </Typography>
       <Typography
         as="li"

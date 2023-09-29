@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import HostCardComponent from "../../components/HostCardComponent";
-import { Button, Typography } from "@material-tailwind/react";
+import { Typography } from "@material-tailwind/react";
 import { IVacanciesViewModel } from "./IVacanciesViewModel";
 import {
   createReservation,
@@ -17,7 +17,7 @@ export default function VacanciesView() {
     vacancies: [],
   });
 
-  const userId = "1";
+  const clientId = "1";
 
   const fetchView = async () => {
     try {
@@ -34,21 +34,21 @@ export default function VacanciesView() {
 
   useEffect(() => {
     fetchView();
-    checkIfUserHasAnyReservations(userId);
+    checkIfClientHasAnyReservations(clientId);
   }, []);
 
   async function makeReservation(hostId: string, bedId: string) {
     try {
-      await createReservation(hostId, userId, bedId);
+      await createReservation(hostId, clientId, bedId);
      setOpen(true)
     } catch (error) {
       console.error(error);
     }
     fetchView();
   }
-  const checkIfUserHasAnyReservations = async (userId: string) => {
+  const checkIfClientHasAnyReservations = async (clientId: string) => {
     try {
-      const response = await getReservation(userId);
+      const response = await getReservation(clientId);
       if(response?.status === 200) {
         setReservationResponse(false);
       }

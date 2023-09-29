@@ -1,4 +1,3 @@
-import React, {useEffect, useState} from 'react'
 import { SideBarComponenet } from './components/SideBarComponent'
 import { Outlet } from 'react-router-dom'
 import { HostPageProvider } from '../../context/HostPageContext'

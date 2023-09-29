@@ -1,7 +1,7 @@
 import { createContext, useState, ReactNode, useEffect } from "react";
 import { IHostPageModel } from "../pages/host/IHostPageModel";
 import { getHost } from "../api/HostPageApi";
-import { getGuest } from "../api/ClientPageApi";
+
 
 const HostPageContext = createContext<IHostPageModel>({} as IHostPageModel);
 

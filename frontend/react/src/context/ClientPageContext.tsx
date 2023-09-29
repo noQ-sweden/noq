@@ -1,6 +1,6 @@
 import { createContext, useState, ReactNode, useEffect } from "react";
 import { getClient } from "../api/ClientPageApi";
-import { IClientPageModel } from "../pages/guest/IClientPageModel";
+import { IClientPageModel } from "../pages/client/IClientPageModel";
 
 const ClientPageContext = createContext<IClientPageModel>({} as IClientPageModel);
 

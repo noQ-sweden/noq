@@ -1,4 +1,3 @@
-import React from "react";
 import {IAddress} from "../views/vacanciesView/IVacanciesViewModel";
 
 

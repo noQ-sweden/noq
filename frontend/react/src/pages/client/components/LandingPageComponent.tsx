@@ -1,9 +1,9 @@
 import { Outlet } from "react-router-dom";
-import { GuestPageContext } from "../../../context/GuestPageContext"; 
+import { ClientPageContext } from "../../../context/ClientPageContext"; 
 import { SideBarComponenet } from "./SideBarComponent";
 import { useContext} from "react";
 export default function LandingPageComponent() {
- const guestPage = useContext(GuestPageContext) 
+ const clientPage = useContext(ClientPageContext) 
 
 
   return (
@@ -11,7 +11,7 @@ export default function LandingPageComponent() {
       <div className="mt-12 flex">
         <div className="flex-none">
           <aside>
-            <SideBarComponenet name={guestPage.name}></SideBarComponenet>
+            <SideBarComponenet name={clientPage.name}></SideBarComponenet>
           </aside>
         </div>
         <div className="grow">
