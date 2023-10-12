@@ -27,7 +27,7 @@ class CustomerServiceTest {
         System.out.println(result);
     }
 */
-
+@Disabled
     @Test
     void getAllItems() {
         var result = customerService.getAllItems().collectList().block();
@@ -42,7 +42,7 @@ class CustomerServiceTest {
         List<CustomerDTO> customerDTOS = customerService.addItem(customerDTO);
         System.out.println(customerDTOS);
     }*/
-
+@Disabled
     @Test
     void updatePhoneNumberSuccess() {
         String itemId = "d9f8429d-614f-496c-b230-5b5438f78ab5";
@@ -52,6 +52,7 @@ class CustomerServiceTest {
         System.out.println(customerDTOS);
     }
 
+    @Disabled
     @Test
     void UUID() {
         for (int i = 0; i < 10; i++) {

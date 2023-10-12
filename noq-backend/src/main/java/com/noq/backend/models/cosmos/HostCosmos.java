@@ -15,7 +15,6 @@ import java.util.UUID;
 @Data
 @Container(containerName = "hosts")
 public class HostCosmos {
-
     @Id
     @PartitionKey
     private String hostId;

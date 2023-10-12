@@ -13,8 +13,7 @@ import reactor.core.publisher.Mono;
 
 @Service
 @RequiredArgsConstructor
-public class HostCosmosService {
-
+public class HostCosmosService implements HostCosmosServiceI {
     private final HostRepositoryCosmos repositoryCosmos;
 
     //CREATE NEW HOST
@@ -30,6 +29,11 @@ public class HostCosmosService {
         return repositoryCosmos.save(host)
                 .map(this::toDTO)
                 .onErrorResume(this::handleError);
+    }
+
+    @Override
+    public Mono<HostCosmos> findByHostId(String id) {
+        return repositoryCosmos.findByHostId(id);
     }
 
     // GET HOST BY ID
