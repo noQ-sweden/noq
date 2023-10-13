@@ -47,7 +47,7 @@ is an example of how to connect to Cosmos DB using the managed identity of the c
 CosmosAsyncClient Client=new CosmosClientBuilder().endpoint("<account-endpoint>").credential(new ManagedIdentityCredential()).build();
 ```
 
-The account endpoint can be read from environment variable `COSMOS_DB_ACCOUNT_ENDPOINT`.
+The account endpoint can be read from environment variable `COSMOS_DB_ACCOUNT_NAME`.
 
 ### Development tools
 

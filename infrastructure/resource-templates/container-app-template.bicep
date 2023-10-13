@@ -23,7 +23,25 @@ param allowedOrigins array = []
 
 param environmentVariables array = []
 
+@secure()
+param cosmosDbAccountKey string = ''
+
 var corsPolicy = empty(allowedOrigins) ? null : allowedOrigins
+
+
+var baseSecrets = [
+  {
+    name: 'registry-password'
+    value: registryPassword
+  }
+]
+
+var cosmosKeySecret = empty(cosmosDbAccountKey) ? null : {
+  name: 'cosmos-account-key'
+  value: cosmosDbAccountKey
+}
+
+var allSecrets = concat(baseSecrets, array(cosmosKeySecret))
 
 // Reference the managed environment resource
 resource environment 'Microsoft.App/managedEnvironments@2022-10-01' existing = {
@@ -40,12 +58,7 @@ resource containerApp 'Microsoft.App/containerApps@2022-10-01' ={
   properties:{
     managedEnvironmentId: environment.id
     configuration: {
-      secrets: [
-        {
-          name: 'registry-password'
-          value: registryPassword
-        }
-      ]
+      secrets: allSecrets
       ingress: {
         corsPolicy: {
           allowedOrigins: corsPolicy!

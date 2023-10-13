@@ -27,8 +27,16 @@ param allowedOrigin string = ''
 param cosmosDbAccountName string
 param cosmosDbAccountEndpoint string
 
+param keyVaultResourceName string
+param cosmosDbAccountKeySecretName string
+
 //Resource group for environment
 var resourceGroupName = 'rg-noq-${toLower(envShortName)}'
+
+resource keyVault 'Microsoft.KeyVault/vaults@2023-02-01' existing = {
+  name: keyVaultResourceName
+  scope: resourceGroup(resourceGroupName)
+}
 
 module containerApp './resource-templates/container-app-template.bicep' = {
   name: 'noq_be_app_${dateStamp}'
@@ -47,10 +55,15 @@ module containerApp './resource-templates/container-app-template.bicep' = {
     allowedOrigins: [
       allowedOrigin
     ]
+    cosmosDbAccountKey: keyVault.getSecret(cosmosDbAccountKeySecretName)
     environmentVariables: [
       {
         name: 'COSMOS_DB_ACCOUNT_NAME'
         value: cosmosDbAccountEndpoint
+      }
+      {
+        name: 'COSMOS_DB_ACCOUNT_KEY'
+        secretRef: 'cosmos-account-key'
       }
     ]
   }

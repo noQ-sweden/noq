@@ -121,3 +121,4 @@ output keyVaultName string = keyVault.outputs.keyVaultName
 output containerEnvironmentName string = containerAppEnv.outputs.resourceName
 output cosmosDbAccountName string = cosmosDbAccount.outputs.resourceName
 output cosmosDbAccountEndpoint string = cosmosDbAccount.outputs.accountUrl
+output cosmosDbAccountKeySecretName string = cosmosDbAccount.outputs.primaryKeySecretName
