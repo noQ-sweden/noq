@@ -91,12 +91,13 @@ jobs:
           parameters: "envShortName=${{ vars.ENV_SHORTNAME }}"
           failOnStdErr: false
 
-      - name: "Container Registry Login"
-        uses: azure/docker-login@v1
-        with:
-          login-server: ${{ steps.arm.outputs.registryLoginServer }}
-          username: ${{ secrets.AZ_SPN_ID }}
-          password: ${{ secrets.AZ_SPN_SECRET }}
+      - shell: bash
+        name: 'Sign in to Azure Container Registry'
+        env:
+          CONTAINER_REGISTRY: ${{ steps.arm.outputs.registryLoginServer }}
+        run: |
+          TOKEN=$(az acr login --name $CONTAINER_REGISTRY --expose-token --output tsv --query accessToken)
+          docker login $CONTAINER_REGISTRY --username 00000000-0000-0000-0000-000000000000 --password-stdin <<< $TOKEN
 
       - name: "Build and push user-client image"
         working-directory: frontend/react
