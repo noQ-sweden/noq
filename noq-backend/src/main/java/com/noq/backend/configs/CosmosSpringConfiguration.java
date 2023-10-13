@@ -5,6 +5,8 @@ package com.noq.backend.configs;
 import com.azure.cosmos.CosmosAsyncClient;
 import com.azure.cosmos.CosmosClientBuilder;
 import com.azure.identity.DefaultAzureCredentialBuilder;
+import com.azure.identity.ManagedIdentityCredential;
+import com.azure.identity.ManagedIdentityCredentialBuilder;
 import com.azure.spring.data.cosmos.config.AbstractCosmosConfiguration;
 import com.azure.spring.data.cosmos.config.CosmosConfig;
 import com.azure.spring.data.cosmos.repository.config.EnableReactiveCosmosRepositories;
@@ -30,14 +32,13 @@ public class CosmosSpringConfiguration extends AbstractCosmosConfiguration {
 
     @Bean
     public CosmosClientBuilder cosmosClientBuilder() {
-        DefaultAzureCredentialBuilder credentialBuilder = new DefaultAzureCredentialBuilder();
-        String clientId = System.getenv("AZURE_CLIENT_ID");
-        if (clientId != null) {
-            credentialBuilder.managedIdentityClientId(clientId);
+        ManagedIdentityCredential credentialBuilder = new ManagedIdentityCredentialBuilder().build();
+
+        String endpoint = System.getenv("COSMOS_DB_ACCOUNT_NAME");
+        if (endpoint != null)
             return new CosmosClientBuilder()
-                    .endpoint(System.getenv("COSMOS_DB_ACCOUNT_NAME"))
-                    .credential(credentialBuilder.build());
-        }
+                    .endpoint(endpoint)
+                    .credential(credentialBuilder);
 
         // Fallback for local dev-setup?
         return new CosmosClientBuilder()
