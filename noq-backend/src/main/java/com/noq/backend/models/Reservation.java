@@ -14,7 +14,7 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 public class Reservation {
-
+    /*TODO should be id not reservationId?*/
     private String reservationId;
     private Host host;
     private User user;
@@ -28,4 +28,6 @@ public class Reservation {
         this.user = user;
         this.status = status;
     }
+
+
 }

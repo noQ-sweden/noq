@@ -9,7 +9,7 @@ import java.util.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Host {
-
+    /*TODO should be id not hostId?*/
     private String hostId;
     private String name;
     private Address address;

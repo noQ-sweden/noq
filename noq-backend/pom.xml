@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.noq</groupId>
-    <artifactId>backend</artifactId>
+    <artifactId>noq-backend</artifactId>
     <version>0.0.1</version>
     <name>noq-backend</name>
     <description>noq-backend</description>

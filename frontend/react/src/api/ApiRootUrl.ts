@@ -4,7 +4,7 @@ const ROOT_URL = "https://ca-noq-backend.thankfulglacier-35d24b26.swedencentral.
 const local = "http://localhost:8080/"
 
 const api: AxiosInstance = axios.create({
-  baseURL: ROOT_URL,
+  baseURL: local,
 });
 
 export default api;

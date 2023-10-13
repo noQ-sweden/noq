@@ -21,7 +21,6 @@ const HostPageProvider = ({ children }: ChildrenProp) => {
       const response = await getHost(hostId);
       if (response?.data) {
         setHostPage(response.data);
-        console.log(response.data);
       }
     } catch (error) {
       console.error(error);

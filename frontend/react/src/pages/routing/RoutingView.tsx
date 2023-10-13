@@ -6,7 +6,8 @@ import ReservationsView from "../client/views/reservationsView/ReservationsView"
 import SettingsView from "../host/views/settingsView/SettingsView";
 import ClientPage from "../client/ClientPage";
 import HostPage from "../host/HostPage";
-import RequestsView from "../host/views/requestsView/RequestsView";
+import Requests from "../host/views/requestsView/components/Requests";
+import RequestView from "../host/views/requestsView/RequestView";
 
 export default function RoutingView() {
   return (
@@ -35,7 +36,7 @@ export default function RoutingView() {
                 />
                <Route
                 path="/host/:hostId/requests"
-                element={<RequestsView />}
+                element={<RequestView />}
                 />
             </Route>
           </Routes>
