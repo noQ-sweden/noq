@@ -8,9 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-// Cosmos related errors will get converted to 500 by spring (e.g. rate-limiting
-// 429). this is
-// handled explicitly
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @ControllerAdvice
 public class CosmosExceptionHandler {

@@ -1,28 +1,28 @@
-package com.noq.backend.services.cosmos;
+package com.noq.backend.services;
 
 import com.azure.cosmos.models.PartitionKey;
-import com.noq.backend.DTO.cosmos.BedDTO;
-import com.noq.backend.models.cosmos.BedCosmos;
-import com.noq.backend.repository.cosmos.BedRepositoryCosmos;
-import com.noq.backend.repository.cosmos.HostRepositoryCosmos;
-import com.noq.backend.services.cosmos.utils.ErrorHandler;
+import com.noq.backend.DTO.BedDTO;
+import com.noq.backend.models.Bed;
+import com.noq.backend.repository.BedRepository;
+import com.noq.backend.repository.HostRepository;
+import com.noq.backend.utils.ErrorHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import static com.noq.backend.services.cosmos.utils.ErrorHandler.handleBedNotFound;
-import static com.noq.backend.services.cosmos.utils.ErrorHandler.handleHostNotFound;
-import static com.noq.backend.services.cosmos.utils.InputValidator.*;
-import static com.noq.backend.services.cosmos.utils.InputValidator.IdField.*;
+import static com.noq.backend.utils.ErrorHandler.handleBedNotFound;
+import static com.noq.backend.utils.ErrorHandler.handleHostNotFound;
+import static com.noq.backend.utils.InputValidator.*;
+import static com.noq.backend.utils.InputValidator.IdField.*;
 
 @Service
-public class BedCosmosService {
-    private final BedRepositoryCosmos beds;
-    private final HostRepositoryCosmos hosts;
+public class BedService {
+    private final BedRepository beds;
+    private final HostRepository hosts;
 
     @Autowired
-    public BedCosmosService(BedRepositoryCosmos beds, HostRepositoryCosmos hosts) {
+    public BedService(BedRepository beds, HostRepository hosts) {
         this.beds = beds;
         this.hosts = hosts;
     }
@@ -33,7 +33,7 @@ public class BedCosmosService {
                 .findById(hostId)
                 .switchIfEmpty(handleHostNotFound(hostId))
                 .flatMap(host -> {
-                    BedCosmos bed = new BedCosmos(host);
+                    Bed bed = new Bed(host);
                     return beds
                             .save(bed)
                             .map(this::toDTO)
@@ -107,7 +107,7 @@ public class BedCosmosService {
                         .onErrorResume(ErrorHandler::handleError));
     }
 
-    private BedDTO toDTO(BedCosmos bed) {
+    private BedDTO toDTO(Bed bed) {
         return new BedDTO(bed.getBedId(), bed.getHost(), bed.getReserved());
     }
 

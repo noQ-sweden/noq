@@ -1,7 +1,7 @@
-package com.noq.backend.controllers.cosmos;
+package com.noq.backend.controllers;
 
-import com.noq.backend.DTO.cosmos.HostCosmosDTO;
-import com.noq.backend.services.cosmos.HostCosmosService;
+import com.noq.backend.DTO.HostDTO;
+import com.noq.backend.services.HostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -15,41 +15,36 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping(path = "/api/v1/host")
-public class HostCosmosController {
+public class HostController {
 
-    private final HostCosmosService hostCosmosService;
+    private final HostService hostCosmosService;
 
-    // CREATE NEW HOST
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Mono<ResponseEntity<HostCosmosDTO>> create(@RequestBody HostCosmosDTO request) {
+    public Mono<ResponseEntity<HostDTO>> create(@RequestBody HostDTO request) {
         return hostCosmosService.create(request)
                 .map(response -> ResponseEntity.status(HttpStatus.CREATED).body(response))
                 .onErrorResume(error -> INTERNAL_SERVER_ERROR_RESPONSE);
     }
 
-    //GET HOST WITH ID
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Mono<ResponseEntity<HostCosmosDTO>> getUserById(@PathVariable("id") String id,
-                                                           @RequestBody HostCosmosDTO request) {
+    public Mono<ResponseEntity<HostDTO>> getUserById(@PathVariable("id") String id,
+                                                     @RequestBody HostDTO request) {
         return hostCosmosService.findById(request.hostId(), request.name())
                 .map(response -> ResponseEntity.status(HttpStatus.OK).body(response))
                 .switchIfEmpty(NOT_FOUND_RESPONSE)
                 .onErrorResume(error -> INTERNAL_SERVER_ERROR_RESPONSE);
     }
 
-    //GET ALL HOSTS
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Flux<HostCosmosDTO> getAllUsers() {
+    public Flux<HostDTO> getAllUsers() {
         return hostCosmosService.findAll().onErrorResume(error -> Mono.error(
                 new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Database not responding.")
         ));
     }
 
-    // ERROR HANDLING #############################################################################
-    private static final Mono<ResponseEntity<HostCosmosDTO>> INTERNAL_SERVER_ERROR_RESPONSE =
+    private static final Mono<ResponseEntity<HostDTO>> INTERNAL_SERVER_ERROR_RESPONSE =
             Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
-    private static final Mono<ResponseEntity<HostCosmosDTO>> NOT_FOUND_RESPONSE =
+    private static final Mono<ResponseEntity<HostDTO>> NOT_FOUND_RESPONSE =
             Mono.just(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
-    // ############################################################################################
 
 }

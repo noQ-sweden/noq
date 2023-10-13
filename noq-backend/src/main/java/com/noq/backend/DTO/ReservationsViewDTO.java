@@ -1,6 +1,16 @@
 package com.noq.backend.DTO;
 
-import com.noq.backend.models.Address;
-
-public record ReservationsViewDTO (String reservationId, String hostName, String hostImage, AddressDTO address){
+public record ReservationsViewDTO (
+        String reservationId,
+        String hostName,
+        String hostImage,
+        AddressDTO address
+){
+    public record AddressDTO(
+            String street,
+            String streetNum,
+            String postalCode,
+            String cityName
+    ) {
+    }
 }

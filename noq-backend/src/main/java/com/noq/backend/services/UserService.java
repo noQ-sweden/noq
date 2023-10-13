@@ -1,50 +1,75 @@
 package com.noq.backend.services;
 
-import com.noq.backend.models.Reservation;
+import com.azure.cosmos.models.PartitionKey;
+import com.noq.backend.DTO.UserDTO;
 import com.noq.backend.models.User;
 import com.noq.backend.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import org.springframework.web.server.ResponseStatusException;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-
-    public List<User> getAllUsers() {
-        return userRepository.getAllUsers();
-    }
-
-    public List<User> createUsers() {
-        User user1 = new User(
-                "1",
-                "Person Personsson", new Reservation()
+    // CREATE NEW USER
+    public Mono<UserDTO> create(UserDTO request) {
+        User user = new User(
+                request.name(),
+                request.reservation()
         );
-        User user2 = new User(
-                "2",
-                "Individ Individson",
-                new Reservation()
-        );
-        userRepository.save(user1);
-        userRepository.save(user2);
-        return new ArrayList<>(userRepository.getAllUsers());
+
+        System.out.println("Creating User with id: " + user.getId());
+
+        return userRepository.save(user)
+                .map(this::toDTO)
+                .onErrorResume(this::handleError);
     }
 
-    public User getUserById(String userId) {
-        User existingUser = userRepository.getUserByUserId(userId);
-        if (existingUser != null) {
-            return existingUser;
-        } else {
-            return userRepository.getUserByUserId(userId);
-        }
+    // GET USER BY ID
+    public Mono<UserDTO> findById(String id) {
+
+        System.out.println("Searching user: " + id);
+
+        return userRepository.findById(id, new PartitionKey(id))
+                .map(this::toDTO)
+                .onErrorResume(this::handleNotFoundError);
     }
+
+    // GET ALL USERS
+    public Flux<UserDTO> findAll() {
+        System.out.println("Listing all users...");
+        return userRepository.findAll()
+                .map(this::toDTO)
+                .onErrorResume(this::handleError);
+    }
+
+
+    // ERROR HANDLING ####################################################################################
+    private Mono<UserDTO> handleError(Throwable error) {
+        return Mono.error(new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+                "Oops! Something went wrong!", error));
+    }
+
+    private Mono<UserDTO> handleNotFoundError(Throwable error) {
+        return Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND, "Resource not found.", error));
+    }
+    // ###################################################################################################
+
+    // DTO CONVERTER
+    private UserDTO toDTO(User user) {
+        return new UserDTO(
+                user.getId(),
+                user.getName(),
+                user.getReservation()
+        );
+    }
+
+
+
 }

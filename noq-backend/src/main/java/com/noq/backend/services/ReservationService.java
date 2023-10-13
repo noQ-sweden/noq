@@ -1,112 +1,124 @@
 package com.noq.backend.services;
 
-import com.noq.backend.exeptions.ReservationNotFoundException;
-import com.noq.backend.models.*;
+import com.noq.backend.DTO.CreateReservationDTO;
+import com.noq.backend.exeptions.HostNotFoundException;
+import com.noq.backend.models.Host;
+import com.noq.backend.models.Reservation;
+import com.noq.backend.models.User;
 import com.noq.backend.repository.HostRepository;
 import com.noq.backend.repository.ReservationRepository;
 import com.noq.backend.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.function.BiConsumer;
+import java.util.function.Function;
+
+import static com.noq.backend.models.Reservation.Status.PENDING;
+import static com.noq.backend.models.Reservation.Status.RESERVED;
+import static com.noq.backend.utils.ErrorHandler.handleReservationNotFound;
+import static com.noq.backend.utils.InputValidator.IdField.*;
+import static com.noq.backend.utils.InputValidator.validateInputId;
 
 @Service
-public class ReservationService {
+@AllArgsConstructor
+public class ReservationService implements ReservationServiceI {
+    private final HostRepository hostRepository;
+    private final UserRepository usersUserRepository;
+    private final ReservationRepository reservationRepository;
+    private final BedService bedService;
 
-    private HostRepository hostRepository;
-    private UserRepository userRepository;
-    private ReservationRepository reservationRepository;
+    public Mono<Reservation> createReservation(CreateReservationDTO request) {
+        validateInputData(request);
 
-    @Autowired
-    public ReservationService(ReservationRepository reservationRepository, HostRepository hostRepository, UserRepository userRepository) {
-        this.hostRepository = hostRepository;
-        this.userRepository = userRepository;
-        this.reservationRepository = reservationRepository;
+        return hostRepository
+                .findById(request.hostId())
+                .flatMap(host -> usersUserRepository
+                        .findById(request.userId())
+                        .flatMap(user -> createAndSaveReservation(request.bedId(), host, user)));
     }
 
-    public Reservation getReservationByUserId(String userId) {
-        List<Reservation> reservations = reservationRepository.getAllReservations();
-        if (reservations.isEmpty()) {
-            throw new ReservationNotFoundException("No reservations found for user " + userId);
-        }
-        Reservation reservation = reservations.stream()
-                .filter(res -> res.getUser().getId().equals(userId))
-                .findFirst()
-                .orElse(null);
-
-        return reservation;
+    private static void validateInputData(CreateReservationDTO request) {
+        validateInputId(HOST_ID, request.hostId());
+        validateInputId(BED_ID, request.bedId());
+        validateInputId(USER_ID, request.userId());
     }
 
-    public Reservation createReservation(CreateReservation createReservation) {
-        User user = userRepository.getUserByUserId(createReservation.getUserId());
-        Host host = hostRepository.getHostByHostId(createReservation.getHostId());
-
-        Bed reservedBed = host.getBeds().stream()
-                .filter(bed -> bed.getId().equals(createReservation.getBedId()))
-                .findFirst()
-                .orElse(null);
-
-        if (reservedBed != null) {
-            reservedBed.setReserved(true);
-            Reservation reservation = new Reservation(host, user, Status.PENDING);
-            reservationRepository.save(reservation);
-            return reservation;
-        } else {
-            throw new IllegalArgumentException("Bed with the specified bedId not found in the host's list of beds.");
-        }
+    private Mono<Reservation> createAndSaveReservation(String bedId, Host host, User user) {
+        Reservation reservation = new Reservation(host, user, PENDING);
+        return reservationRepository
+                .save(reservation)
+                .then(bedService.updateBedStatus(bedId, host.getHostId(), true))
+                .thenReturn(reservation);
     }
 
-    public List<Reservation> getReservationsByHostId(String hostId) {
-        return reservationRepository.getAllReservations().stream()
-                .filter(reservation ->
-                        reservation.getHost().getHostId().equals(hostId))
-                .collect(Collectors.toList());
+    public Mono<Reservation> getReservationByUserId(String userId) {
+        validateInputId(USER_ID, userId);
+        return usersUserRepository
+                .findById(userId)
+                .flatMap(reservationRepository::findReservationCosmosByUser)
+                .switchIfEmpty(handleReservationNotFound(userId));
     }
 
+    public Flux<Reservation> getReservationsByHostId(String hostId) {
+        validateInputId(HOST_ID, hostId);
+        return hostRepository
+                .findByHostId(hostId)
+                .switchIfEmpty(Mono.error(new HostNotFoundException(hostId)))
+                .flatMapMany(this::findReservationsByHost);
+    }
 
-    public List<Reservation> getReservationsByHostIdStatusPending(String hostId) {
-        return reservationRepository.getAllReservations().stream()
-                .filter(reservation ->
-                        reservation.getHost().getHostId().equals(hostId) &&
-                                reservation.getStatus() == Status.PENDING)
-                .collect(Collectors.toList());
+    private Flux<Reservation> findReservationsByHost(Host host) {
+        return reservationRepository.findAll()
+                .filter(reservationCosmos -> reservationCosmos.getHost().getHostId().equals(host.getHostId()));
+    }
+
+    public Flux<Reservation> getReservationsByHostIdStatusPending(String hostId) {
+        validateInputId(HOST_ID, hostId);
+        return hostRepository
+                .findById(hostId)
+                .flatMapMany(host -> reservationRepository.findReservationCosmosByHostAndStatus(host, Reservation.Status.PENDING))
+                .switchIfEmpty(Flux.empty());
     }
 
 
-    public List<Reservation> approveReservations(List<String> reservationsId, String hostId) {
-        List<Reservation> reservations = reservationRepository.getAllReservations().stream()
-                .filter(res -> {
-                    if (reservationsId.contains(res.getReservationId()) && res.getHost().getHostId().equals(hostId)) {
-                        res.setStatus(Status.RESERVED);
-                        return true;
-                    }
-                    return false;
+    public Flux<Reservation> getReservationsByHostIdStatusReserved(String hostId) {
+        validateInputId(HOST_ID, hostId);
+        return hostRepository
+                .findById(hostId)
+                .flatMapMany(host -> reservationRepository.findReservationCosmosByHostAndStatus(host, Reservation.Status.RESERVED))
+                .switchIfEmpty(Flux.empty());
+    }
+
+    public Flux<Reservation> approveReservations(List<String> reservationsId) {
+        return Flux.fromIterable(reservationsId)
+                .flatMap(id -> {
+                    validateInputId(RESERVATION_ID, id);
+                    return updateAndSaveReservationStatus(id);
                 })
-                .collect(Collectors.toList());
-        reservationRepository.saveAll(reservations);
-        return reservations;
+                .collectList()
+                .flatMapMany(Flux::fromIterable);
     }
 
-
-    public List<Reservation> rejectReservations(List<String> reservationsId, String hostId) {
-        List<Reservation> reservations = reservationRepository.getAllReservations().stream()
-                .filter(res -> {
-                    if (reservationsId.contains(res.getReservationId()) && res.getHost().getHostId().equals(hostId)) {
-                        res.setStatus(Status.CANCELLED);
-                        return true;
-                    }
-                    return false;
+    private Mono<Reservation> updateAndSaveReservationStatus(String id) {
+        return reservationRepository
+                .findById(id)
+                .map(reservation -> {
+                    reservation.setStatus(RESERVED);
+                    return reservation;
                 })
-                .collect(Collectors.toList());
-        reservationRepository.saveAll(reservations);
-        return reservations;
+                .flatMap(reservationRepository::save);
     }
-    public List<Reservation> getReservationsByHostIdStatusReserved(String hostId) {
-        return reservationRepository.getAllReservations().stream()
-                .filter(reservation ->
-                        reservation.getHost().getHostId().equals(hostId) &&
-                                reservation.getStatus() == Status.RESERVED)
-                .collect(Collectors.toList());
+
+    /* PARAM FUNCTIONS */
+    public <P> Function<P, Mono<P>> updateParamWithReservations(Function<P, Host> getHost, BiConsumer<P, List<Reservation>> setReservations) {
+        return param -> getReservationsByHostId(getHost.apply(param).getHostId())
+                .collectList()
+                .doOnNext(reservationCosmos -> setReservations.accept(param, reservationCosmos))
+                .thenReturn(param);
     }
+    /* PARAM FUNCTIONS */
 }

@@ -1,24 +1,25 @@
 package com.noq.backend.models;
 
-import jakarta.persistence.*;
-import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
+import com.azure.spring.data.cosmos.core.mapping.Container;
+import com.azure.spring.data.cosmos.core.mapping.PartitionKey;
+import org.springframework.data.annotation.Id;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.math.BigDecimal;
 
 import java.util.UUID;
 
 @Data
 @NoArgsConstructor
+@Container(containerName = "beds")
 public class Bed {
-
-    private String id;
+    @Id
+    private String bedId;
+    @PartitionKey
     private Host host;
     private Boolean reserved;
 
-    public Bed(String id, Host host){
-        this.id = id;
+    public Bed(Host host){
+        this.bedId = UUID.randomUUID().toString();
         this.host = host;
         this.reserved = false;
     }

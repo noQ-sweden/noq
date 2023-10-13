@@ -1,6 +1,6 @@
 package com.noq.backend.DTO;
 
-import com.noq.backend.models.Status;
+import com.noq.backend.models.Reservation;
 
 public record RequestsViewDTO(
         String id,
@@ -11,7 +11,7 @@ public record RequestsViewDTO(
             String id,
             String name,
             int queuingPlace,
-            Status status
+            Reservation.Status status
     ) {
     }
 

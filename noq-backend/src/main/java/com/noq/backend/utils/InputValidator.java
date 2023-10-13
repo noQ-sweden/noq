@@ -1,4 +1,4 @@
-package com.noq.backend.services.cosmos.utils;
+package com.noq.backend.utils;
 
 import static io.micrometer.common.util.StringUtils.isBlank;
 
