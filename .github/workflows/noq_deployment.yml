@@ -5,6 +5,10 @@ on:
   push:
     branches: ["main"]
 
+permissions:
+  id-token: write # This is required for requesting the JWT
+  contents: read  # This is required for actions/checkout
+
 jobs:
   # Verify build of frontend
   build-frontend:
@@ -67,10 +71,12 @@ jobs:
         uses: actions/checkout@v3
 
       # Authenticate with Azure Cloud
-      - name: "Log into Azure"
+      - name: "OIDC Login to Azure"
         uses: Azure/login@v1
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           enable-AzPSSession: true
 
       # Create formatted timestamp to use as deployment name
@@ -142,7 +148,7 @@ jobs:
           region: swedencentral
           template: ./infrastructure/noq-backend-app.bicep
           deploymentName: "noq_be_${{ steps.date.outputs.ts }}"
-          parameters: 'registryPassword=${{ env.registryPassword }} registryUsername=${{ env.registryUsername }} registry=${{ steps.arm.outputs.registryLoginServer }} envShortName=${{ vars.ENV_SHORTNAME }} appName="noq-backend" containerEnvironment=${{ steps.arm.outputs.containerEnvironmentName }} containerImage=${{ steps.arm.outputs.registryLoginServer }}/backend/noq-backend:${{ github.sha }} targetPort=8080 allowedOrigin=${{ steps.frontend.outputs.containerFqdn }} cosmosDbAccountName=${{ steps.arm.outputs.cosmosDbAccountName }} cosmosDbAccountEndpoint=${{ steps.arm.outputs.cosmosDbAccountEndpoint }}'
+          parameters: 'registryPassword=${{ env.registryPassword }} registryUsername=${{ env.registryUsername }} registry=${{ steps.arm.outputs.registryLoginServer }} envShortName=${{ vars.ENV_SHORTNAME }} appName="noq-backend" containerEnvironment=${{ steps.arm.outputs.containerEnvironmentName }} containerImage=${{ steps.arm.outputs.registryLoginServer }}/backend/noq-backend:${{ github.sha }} targetPort=8080 allowedOrigin=${{ steps.frontend.outputs.containerFqdn }} cosmosDbAccountName=${{ steps.arm.outputs.cosmosDbAccountName }} cosmosDbAccountEndpoint=${{ steps.arm.outputs.cosmosDbAccountEndpoint }} keyVaultResourceName=${{ steps.arm.outputs.keyVaultName }} keyVaultSecretName=${{ steps.arm.outputs.keyVaultName }} cosmosDbAccountKeySecretName=${{ steps.arm.outputs.cosmosDbAccountKeySecretName }}'
           failOnStdErr: false
 
       # Provision container app for user-client
