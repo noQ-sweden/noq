@@ -35,7 +35,7 @@ public class CosmosSpringConfiguration extends AbstractCosmosConfiguration {
         if (clientId != null) {
             credentialBuilder.managedIdentityClientId(clientId);
             return new CosmosClientBuilder()
-                    .endpoint(System.getenv("COSMOS_DB_ACCOUNT_ENDPOINT"))
+                    .endpoint(System.getenv("COSMOS_DB_ACCOUNT_NAME"))
                     .credential(credentialBuilder.build());
         }
 
