@@ -1,5 +1,6 @@
 package com.noq.backend;
 
+import com.azure.spring.data.cosmos.repository.config.EnableReactiveCosmosRepositories;
 import com.noq.backend.models.Address;
 import com.noq.backend.models.Host;
 import com.noq.backend.models.Reservation;
@@ -13,6 +14,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @SpringBootApplication
+@EnableReactiveCosmosRepositories
 public class NoqBackendApplication {
 
     public static void main(String[] args) {

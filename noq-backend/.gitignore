@@ -37,3 +37,4 @@ build/
 ### VS Code ###
 .vscode/
 src/main/resources/application-secret.properties
+server-props/application-secret.properties

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ResponseDiagnosticsProcessorImpl implements ResponseDiagnosticsProcessor {
-    private static final Logger logger = LoggerFactory.getLogger(CosmosSpringConfigurationLocal.class);
+//    private static final Logger logger = LoggerFactory.getLogger(CosmosSpringConfigurationLocal.class);
     private final AzureCredentials credentials;
 
     public ResponseDiagnosticsProcessorImpl(AzureCredentials credentials) {
@@ -20,7 +20,7 @@ public class ResponseDiagnosticsProcessorImpl implements ResponseDiagnosticsProc
     @Override
     public void processResponseDiagnostics(@Nullable ResponseDiagnostics responseDiagnostics) {
         if (credentials.isResponseDiagnosticsEnabled()) {
-            logger.info("Response Diagnostics {}", responseDiagnostics);
+//            logger.info("Response Diagnostics {}", responseDiagnostics);
         }
     }
 }

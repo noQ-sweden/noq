@@ -1,0 +1,19 @@
+# docker compose down && docker rmi noq
+# mvn clean install && docker build . -t noq && docker compose up
+# docker compose up
+
+version: '3.9'
+
+services:
+    noq-main:
+      image: noq:latest
+      container_name: noq-backend
+      ports:
+         - "8080:8080"
+      networks:
+        - noq_net
+
+networks:
+  noq_net:
+    name: noq_net
+    driver: bridge

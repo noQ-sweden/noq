@@ -6,6 +6,7 @@ import com.noq.backend.models.Bed;
 import com.noq.backend.repository.BedRepository;
 import com.noq.backend.repository.HostRepository;
 import com.noq.backend.utils.ErrorHandler;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -17,15 +18,10 @@ import static com.noq.backend.utils.InputValidator.*;
 import static com.noq.backend.utils.InputValidator.IdField.*;
 
 @Service
+@AllArgsConstructor
 public class BedService {
     private final BedRepository beds;
     private final HostRepository hosts;
-
-    @Autowired
-    public BedService(BedRepository beds, HostRepository hosts) {
-        this.beds = beds;
-        this.hosts = hosts;
-    }
 
     public Mono<BedDTO> createBed(String hostId) {
         validateInputId(HOST_ID, hostId);

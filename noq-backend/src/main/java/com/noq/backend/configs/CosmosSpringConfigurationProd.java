@@ -9,6 +9,7 @@ import com.azure.identity.ManagedIdentityCredentialBuilder;
 import com.azure.spring.data.cosmos.config.AbstractCosmosConfiguration;
 import com.azure.spring.data.cosmos.config.CosmosConfig;
 import com.azure.spring.data.cosmos.repository.config.EnableReactiveCosmosRepositories;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -16,27 +17,25 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 
+@Profile("prod")
 @Configuration
 @EnableConfigurationProperties(AzureCredentials.class)
-@EnableReactiveCosmosRepositories(basePackages = "com.noq.backend.repository", considerNestedRepositories = true)
-@PropertySource("classpath:application-secret.properties")
-@Profile("prod")
+@AllArgsConstructor
 public class CosmosSpringConfigurationProd extends AbstractCosmosConfiguration {
     private final AzureCredentials credentials;
-
-    @Autowired
-    public CosmosSpringConfigurationProd(AzureCredentials credentials) {
-        this.credentials = credentials;
-    }
 
     @Bean
     public CosmosClientBuilder cosmosClientBuilder() {
         ManagedIdentityCredential credentialBuilder = new ManagedIdentityCredentialBuilder().build();
 
-        String endpoint = System.getenv("COSMOS_DB_ACCOUNT_NAME");
+//        String endpoint = System.getenv("COSMOS_DB_ACCOUNT_NAME");
+//        return new CosmosClientBuilder()
+//                .endpoint(endpoint)
+//                .credential(credentialBuilder);
+
         return new CosmosClientBuilder()
-                .endpoint(endpoint)
-                .credential(credentialBuilder);
+                .endpoint(credentials.getServiceURI())
+                .key(credentials.getPrimarySecretKey());
     }
 
     @Bean

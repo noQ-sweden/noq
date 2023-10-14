@@ -1,9 +1,0 @@
-version: '3.9'
-services:
-    noq-main:
-      image: noq:latest
-      build: Dockerfile
-      container_name: noq-backend
-
-      ports:
-         - "8080:8080"
