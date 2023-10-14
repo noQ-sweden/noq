@@ -1,6 +1,7 @@
 package com.noq.backend.controllers;
 
-import com.noq.backend.DTO.RequestsViewDTO;
+import com.noq.backend.controllers.host.RequestsViewController.RequestsViewDTO;
+import com.noq.backend.controllers.host.RequestsViewController.RequestsViewController;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
