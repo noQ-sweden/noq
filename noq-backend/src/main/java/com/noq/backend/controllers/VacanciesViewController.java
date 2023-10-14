@@ -1,54 +1,65 @@
 package com.noq.backend.controllers;
 
+import com.noq.backend.DTO.BedDTO;
+import com.noq.backend.DTO.CreateReservationDTO;
 import com.noq.backend.DTO.VacancyViewDTO;
-import com.noq.backend.models.CreateReservation;
-import com.noq.backend.models.Vacancy;
+import com.noq.backend.models.Host;
+import com.noq.backend.services.BedService;
 import com.noq.backend.services.ReservationService;
-import com.noq.backend.services.VacanciesViewService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.stream.Collectors;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @RestController
+@RequiredArgsConstructor
 @CrossOrigin(origins = "*", allowedHeaders = "*")
-@RequestMapping("/api/vacancies")
+@RequestMapping("/api/v1/vacancies")
 public class VacanciesViewController {
-
-    private final VacanciesViewService vacanciesViewService;
-    private final ReservationService reservationService;
-
-    @Autowired
-    public VacanciesViewController(VacanciesViewService vacanciesViewService, ReservationService reservationService) {
-        this.vacanciesViewService = vacanciesViewService;
-        this.reservationService = reservationService;
-    }
+    private final BedService beds;
+    private final ReservationService reservations;
 
     @GetMapping
-    public VacancyViewDTO getAllVacancies() {
-        return toDTO(vacanciesViewService.getAllVacancies());
+    public Flux<VacancyViewDTO> getAllVacancies() {
+        return beds
+                .findAllBeds()
+                .filter(bed -> !bed.reserved())
+                .map(this::toDTO)
+                .switchIfEmpty(Flux.empty());
     }
 
     @PostMapping("/create-reservation")
-    public ResponseEntity<CreateReservation> createReservation(@RequestBody CreateReservation createReservation) {
-        reservationService.createReservation(createReservation);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createReservation);
+    public Mono<ResponseEntity<CreateReservationDTO>> createReservation(@RequestBody CreateReservationDTO request) {
+        return reservations
+                .createReservation(request)
+                .map(reservation -> {
+                    CreateReservationDTO response = new CreateReservationDTO(
+                            reservation.getHost().getHostId(),
+                            reservation.getUser().getId(),
+//                          TODO: Add bedId to Reservation-model?
+                            request.bedId()
+                    );
+                    return ResponseEntity.status(HttpStatus.CREATED).body(response);
+                });
     }
 
-    private static VacancyViewDTO toDTO(List<Vacancy> vacancy) {
-        List<VacancyViewDTO.Vacancy> vacancies = vacancy.stream()
-                .map(vacancy1 -> {
-                    VacancyViewDTO.Host host = new VacancyViewDTO.Host(
-                            vacancy1.getHostId(), vacancy1.getHostName(), vacancy1.getAddress(), vacancy1.getHostImg());
-                    VacancyViewDTO.Vacancy res = new VacancyViewDTO.Vacancy(host, vacancy1.getBedId());
-                    return res;
-                }).collect(Collectors.toList());
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException exception) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
+    }
 
-        return new VacancyViewDTO(
-                vacancies);
+    private VacancyViewDTO toDTO(BedDTO bed) {
+        Host h = bed.host();
+        VacancyViewDTO.Host hostDTO = new VacancyViewDTO.Host(
+                h.getHostId(),
+                h.getName(),
+                h.getAddress(),
+                h.getImage()
+        );
+        VacancyViewDTO.Vacancy vacancyDTO = new VacancyViewDTO.Vacancy(hostDTO, bed.id());
+        return new VacancyViewDTO(vacancyDTO);
     }
 }
 

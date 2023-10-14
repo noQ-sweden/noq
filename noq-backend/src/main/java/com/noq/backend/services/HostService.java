@@ -1,106 +1,83 @@
 package com.noq.backend.services;
 
-import com.noq.backend.models.Address;
-import com.noq.backend.models.Bed;
+import com.azure.cosmos.models.PartitionKey;
+import com.noq.backend.DTO.HostDTO;
+import com.noq.backend.exeptions.HostNotFoundException;
 import com.noq.backend.models.Host;
-import com.noq.backend.models.UpdateName;
-import com.noq.backend.repository.BedRepository;
 import com.noq.backend.repository.HostRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+import org.springframework.web.server.ResponseStatusException;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @Service
-public class HostService {
+@RequiredArgsConstructor
+public class HostService implements HostCosmosServiceI {
+    private final HostRepository repositoryCosmos;
 
-    private HostRepository hostRepository;
-    private BedRepository bedRepository;
+    //CREATE NEW HOST
+    public Mono<HostDTO> create(HostDTO request) {
+        Host host = new Host(
+                request.name(),
+                request.address(),
+                request.image()
+                );
 
-    @Autowired
-    public HostService(HostRepository hostRepository, BedRepository bedRepository) {
-        this.hostRepository = hostRepository;
-        this.bedRepository = bedRepository;
+        System.out.println("Creating Host with id: " + host.getHostId());
+
+        return repositoryCosmos.save(host)
+                .map(this::toDTO)
+                .onErrorResume(this::handleError);
     }
 
-    public Host getHostById(String id){
-        return hostRepository.getHostByHostId(id);
+    @Override
+    public Mono<Host> findByHostId(String id) {
+        return repositoryCosmos.findByHostId(id)
+                .switchIfEmpty(Mono.error(new HostNotFoundException(id)));
+    }
+    @Override
+    public Mono<Host> findById(String id) {
+        return repositoryCosmos.findById(id)
+                .switchIfEmpty(Mono.error(new HostNotFoundException(id)));
     }
 
-    public List<Host> getAllHosts() {
-        return hostRepository.getAllHosts();
+    // GET HOST BY ID
+    public Mono<HostDTO> findById(String id, String email) {
+        System.out.println("Searching host: " + id);
+
+        return repositoryCosmos.findById(id, new PartitionKey(email))
+                .map(this::toDTO)
+                .onErrorResume(this::handleNotFoundError);
     }
 
-    public List<Host> createHosts() {
-
-        /* skapar  3 st hosts, host3 har två sängar, host4 en säng, och host5 ingen säng */
-
-        Host host3 = new Host("host3", "Test-Härberget 3", new Address(UUID.randomUUID().toString(), "Gatgatan", "12", "12345", "Stockholm"), "url/till/bild/pa/Harberget1.png", new ArrayList<>());
-        Host host4 = new Host("host4", "Test-Härberget 4", new Address(UUID.randomUUID().toString(), "Vägvägen", "21", "23546", "Lund"), "url/till/bild/pa/Harberget2.png", new ArrayList<>());
-        Host host5 = new Host("host5", "Test-Härberget 5", new Address(UUID.randomUUID().toString(), "Vägvägen", "21", "23546", "Lund"), "url/till/bild/pa/Harberget2.png", new ArrayList<>());
-
-
-        hostRepository.save(host3);
-        hostRepository.save(host4);
-        hostRepository.save(host5);
-
-        Bed bed1 = new Bed("bed1", host3);
-        Bed bed2 = new Bed("bed2", host3);
-        Bed bed3 = new Bed("bed3", host4);
-
-        /* beds har host som null men de är kopplade ???  */
-
-        host3.addBed(bed1);
-        host3.addBed(bed2);
-        host4.addBed(bed3);
-
-        bedRepository.save(bed1);
-        bedRepository.save(bed2);
-        bedRepository.save(bed3);
-
-        hostRepository.save(host3);
-        hostRepository.save(host4);
-
-        return new ArrayList<>(hostRepository.getAllHosts());
-    }
-
-    public List<Host> getAllHostsWithBeds() {
-        return hostRepository.getAllHosts()
-                .stream()
-                .filter(host -> !host.getBeds().isEmpty())
-                .collect(Collectors.toList());
-    }
-
-    public Host createBeds(String hostId, int numberOfBeds) {
-        Host host = hostRepository.getHostByHostId(hostId);
-
-        if (host != null) {
-            List<Bed> beds = IntStream.range(0, numberOfBeds)
-                    .mapToObj(i -> new Bed("newBed" + (i + 1), host))
-                    .collect(Collectors.toList());
-
-            host.getBeds().addAll(beds);
-            bedRepository.saveAll(beds);
-            hostRepository.save(host);
-        } else {
-            System.out.println("Host not found for hostId: " + hostId);
-        }
-
-        return host;
-    }
-
-    public Host updateName(UpdateName updateName){
-        Host host = hostRepository.getHostByHostId(updateName.getId());
-        if (host != null) {
-            host.setName(updateName.getName());
-            host = hostRepository.save(host);
-        }
-        return host;
+    // GET ALL HOSTS
+    public Flux<HostDTO> findAll() {
+        System.out.println("Listing all hosts...");
+        return repositoryCosmos.findAll().map(this::toDTO)
+                .onErrorResume(this::handleError);
     }
 
 
+    // ERROR HANDLING ####################################################################################
+    private Mono<HostDTO> handleError(Throwable error) {
+        return Mono.error(new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+                "Oops! Something went wrong!", error));
+    }
 
+    private Mono<HostDTO> handleNotFoundError(Throwable error) {
+        return Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND, "Resource not found.", error));
+    }
+    // ###################################################################################################
+
+    // DTO CONVERTER
+    private HostDTO toDTO(Host host) {
+        return new HostDTO(
+                host.getHostId(),
+                host.getName(),
+                host.getAddress(),
+                host.getImage()
+        );
+    }
 }
-

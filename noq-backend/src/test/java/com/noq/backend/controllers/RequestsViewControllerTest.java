@@ -14,7 +14,8 @@ class RequestsViewControllerTest {
 
     @Test
     void requestsViewModel() {
-        RequestsViewDTO block = requestsViewController.requestsViewModel("").block();
+        String hostId = "efe102ca-e3e9-42b4-a722-f0fbc0306b7a";
+        RequestsViewDTO block = requestsViewController.requestsViewModel(hostId).block();
         System.out.println(block);
     }
 }

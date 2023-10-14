@@ -1,14 +1,11 @@
 package com.noq.backend.repository;
 
+import com.azure.spring.data.cosmos.repository.ReactiveCosmosRepository;
 import com.noq.backend.models.Host;
+import org.springframework.stereotype.Repository;
+import reactor.core.publisher.Mono;
 
-import java.util.List;
-
-public interface HostRepository {
-
-    Host save (Host host);
-
-    Host getHostByHostId(String hostId);
-
-    List<Host> getAllHosts();
+@Repository
+public interface HostRepository extends ReactiveCosmosRepository<Host, String> {
+    Mono<Host> findByHostId(String hostId);
 }

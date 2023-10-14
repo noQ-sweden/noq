@@ -1,11 +1,10 @@
 package com.noq.backend.repository;
 
+import com.azure.spring.data.cosmos.repository.ReactiveCosmosRepository;
 import com.noq.backend.models.User;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
+@Repository
+public interface UserRepository extends ReactiveCosmosRepository <User, String> {
 
-public interface UserRepository {
-    User save(User user);
-    User getUserByUserId(String userId);
-    List<User> getAllUsers();
 }
