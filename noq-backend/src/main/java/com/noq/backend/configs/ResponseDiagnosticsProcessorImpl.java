@@ -10,10 +10,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ResponseDiagnosticsProcessorImpl implements ResponseDiagnosticsProcessor {
-    private static final Logger logger = LoggerFactory.getLogger(CosmosSpringConfiguration.class);
+    private static final Logger logger = LoggerFactory.getLogger(CosmosSpringConfigurationLocal.class);
     private final AzureCredentials credentials;
 
-    @Autowired
     public ResponseDiagnosticsProcessorImpl(AzureCredentials credentials) {
         this.credentials = credentials;
     }

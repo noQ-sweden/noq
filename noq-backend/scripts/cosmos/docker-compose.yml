@@ -1,0 +1,16 @@
+# docker compose up
+
+# https://localhost:8081/_explorer/index.html
+# curl -k https://localhost:8081/_explorer/emulator.pem > ./emulatorcert5.crt
+# sudo keytool -import -file emulatorcert5.crt -alias emulatorcert5 -keystore ~/.jdks/corretto-17.0.8.1/lib/security/cacerts -storepass changeit
+
+version: '3.9'
+services:
+  cosmos:
+    container_name: cosmos
+    image: mcr.microsoft.com/cosmosdb/linux/azure-cosmos-emulator:latest
+    ports:
+      - "8081:8081"
+      - "10251:10251"
+      - "10252:10252"
+      - "10254:10254"

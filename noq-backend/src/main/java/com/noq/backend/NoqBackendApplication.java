@@ -6,13 +6,10 @@ import com.noq.backend.models.Reservation;
 import com.noq.backend.models.User;
 import com.noq.backend.repository.HostRepository;
 import com.noq.backend.repository.UserRepository;
-import jakarta.annotation.PostConstruct;
-import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @SpringBootApplication
