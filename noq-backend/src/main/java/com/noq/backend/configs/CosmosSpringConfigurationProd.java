@@ -28,14 +28,14 @@ public class CosmosSpringConfigurationProd extends AbstractCosmosConfiguration {
     public CosmosClientBuilder cosmosClientBuilder() {
         ManagedIdentityCredential credentialBuilder = new ManagedIdentityCredentialBuilder().build();
 
-//        String endpoint = System.getenv("COSMOS_DB_ACCOUNT_NAME");
-//        return new CosmosClientBuilder()
-//                .endpoint(endpoint)
-//                .credential(credentialBuilder);
-
+        String endpoint = System.getenv("COSMOS_DB_ACCOUNT_NAME");
         return new CosmosClientBuilder()
-                .endpoint(credentials.getServiceURI())
-                .key(credentials.getPrimarySecretKey());
+                .endpoint(endpoint)
+                .credential(credentialBuilder);
+
+//        return new CosmosClientBuilder()
+//                .endpoint(credentials.getServiceURI())
+//                .key(credentials.getPrimarySecretKey());
     }
 
     @Bean
