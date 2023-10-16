@@ -23,17 +23,15 @@ public class RequestsViewController {
     @GetMapping("{hostId}")
     public Mono<RequestsViewDTO> requestsViewModel(@PathVariable String hostId) {
         return hostCosmosService.findByHostId(hostId)
-                .map(Param::new)
-                .flatMap(reservationService.updateParamWithReservations(Param::getHost, Param::setReservations))
+                .map(DTOBuilder::new)
+                .flatMap(reservationService.updateDTOBuilderWithReservations(DTOBuilder::getHost, DTOBuilder::setReservations))
                 .map(RequestsViewController::toDTO);
     }
 
-    private static RequestsViewDTO toDTO(Param param) {
+    private static RequestsViewDTO toDTO(DTOBuilder DTOBuilder) {
         return new RequestsViewDTO(
-                param.getHost().getHostId(),
-                param.getReservations().stream()
-                        .map(RequestsViewController::toDTO)
-                        .toArray(RequestsViewDTO.Request[]::new)
+                DTOBuilder.getHost().getHostId(),
+                DTOBuilder.getReservations().stream().map(RequestsViewController::toDTO).toArray(RequestsViewDTO.Request[]::new)
         );
     }
 
@@ -47,11 +45,11 @@ public class RequestsViewController {
     }
 
     @Data
-    private static class Param {
+    private static class DTOBuilder {
         private Host host;
         private List<Reservation> reservations = new ArrayList<>();
 
-        public Param(Host host) {
+        public DTOBuilder(Host host) {
             this.host = host;
         }
     }

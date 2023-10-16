@@ -113,12 +113,12 @@ public class ReservationService implements ReservationServiceI {
                 .flatMap(reservationRepository::save);
     }
 
-    /* PARAM FUNCTIONS */
-    public <P> Function<P, Mono<P>> updateParamWithReservations(Function<P, Host> getHost, BiConsumer<P, List<Reservation>> setReservations) {
-        return param -> getReservationsByHostId(getHost.apply(param).getHostId())
+    /* DTO_BUILDER_FUNCTIONS */
+    public <B> Function<B, Mono<B>> updateDTOBuilderWithReservations(Function<B, Host> getHost, BiConsumer<B, List<Reservation>> setReservations) {
+        return dtoBuilder -> getReservationsByHostId(getHost.apply(dtoBuilder).getHostId())
                 .collectList()
-                .doOnNext(reservationCosmos -> setReservations.accept(param, reservationCosmos))
-                .thenReturn(param);
+                .doOnNext(reservations -> setReservations.accept(dtoBuilder, reservations))
+                .thenReturn(dtoBuilder);
     }
-    /* PARAM FUNCTIONS */
+    /* DTO_BUILDER_FUNCTIONS */
 }

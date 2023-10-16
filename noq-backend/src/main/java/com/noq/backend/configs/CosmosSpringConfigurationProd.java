@@ -10,6 +10,7 @@ import com.azure.spring.data.cosmos.config.AbstractCosmosConfiguration;
 import com.azure.spring.data.cosmos.config.CosmosConfig;
 import com.azure.spring.data.cosmos.repository.config.EnableReactiveCosmosRepositories;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -21,21 +22,18 @@ import org.springframework.context.annotation.PropertySource;
 @Configuration
 @EnableConfigurationProperties(AzureCredentials.class)
 @AllArgsConstructor
+@Slf4j
 public class CosmosSpringConfigurationProd extends AbstractCosmosConfiguration {
     private final AzureCredentials credentials;
 
     @Bean
     public CosmosClientBuilder cosmosClientBuilder() {
-        ManagedIdentityCredential credentialBuilder = new ManagedIdentityCredentialBuilder().build();
-
         String endpoint = System.getenv("COSMOS_DB_ACCOUNT_NAME");
+        log.info("COSMOS_DB_ACCOUNT_NAME: {}",endpoint);
+        if(endpoint == null) throw new NullPointerException("COSMOS_DB_ACCOUNT_NAME can not be null");
         return new CosmosClientBuilder()
                 .endpoint(endpoint)
-                .credential(credentialBuilder);
-
-//        return new CosmosClientBuilder()
-//                .endpoint(credentials.getServiceURI())
-//                .key(credentials.getPrimarySecretKey());
+                .credential(new ManagedIdentityCredentialBuilder().build());
     }
 
     @Bean
