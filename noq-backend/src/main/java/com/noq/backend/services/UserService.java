@@ -1,9 +1,9 @@
 package com.noq.backend.services;
 
 import com.azure.cosmos.models.PartitionKey;
-import com.noq.backend.DTO.UserDTO;
+import com.noq.backend.controllers.might_delete.DTOs.UserDTO;
 import com.noq.backend.models.User;
-import com.noq.backend.repository.UserRepository;
+import com.noq.backend.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;

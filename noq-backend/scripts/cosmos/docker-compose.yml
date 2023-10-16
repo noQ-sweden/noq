@@ -1,0 +1,23 @@
+# docker compose up
+
+# https://localhost:8081/_explorer/index.html
+# curl -k https://localhost:8081/_explorer/emulator.pem > ./emulatorcert8.crt
+# sudo keytool -import -file emulatorcert8.crt -alias emulatorcert8 -keystore ~/.jdks/corretto-17.0.8.1/lib/security/cacerts -storepass changeit
+
+version: '3.9'
+services:
+  cosmos:
+    container_name: cosmos
+    image: mcr.microsoft.com/cosmosdb/linux/azure-cosmos-emulator:latest
+    ports:
+      - "8081:8081"
+      - "10251:10251"
+      - "10252:10252"
+      - "10254:10254"
+    networks:
+      - noq_net
+
+networks:
+  noq_net:
+    name: noq_net
+    driver: bridge

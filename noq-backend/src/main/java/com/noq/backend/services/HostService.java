@@ -1,10 +1,10 @@
 package com.noq.backend.services;
 
 import com.azure.cosmos.models.PartitionKey;
-import com.noq.backend.DTO.HostDTO;
-import com.noq.backend.exeptions.HostNotFoundException;
+import com.noq.backend.controllers.might_delete.DTOs.HostDTO;
+import com.noq.backend.exceptions.HostNotFoundException;
 import com.noq.backend.models.Host;
-import com.noq.backend.repository.HostRepository;
+import com.noq.backend.repositories.HostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;

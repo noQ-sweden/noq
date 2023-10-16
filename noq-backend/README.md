@@ -9,19 +9,35 @@ a multi-model database service, which means that you can use different data mode
 noQ we use the document data model. A more detailed introduction to Azure Cosmos DB can be
 found [here](https://docs.microsoft.com/en-us/azure/cosmos-db/introduction).
 
-## Quick setup
+### Setup
 
-Local setup found in `application-secret.properties`
+- Create file `resources/application-secret.properties`
 
 ```
-azure.serviceURI=
+azure.serviceURI=https://localhost:8081/
 azure.primarySecretKey=
-azure.serviceURI=
-azure.primarySecretKey=
-azure.database=
+azure.database=noq
 azure.queryMetricsEnabled=false
 azure.responseDiagnosticsEnabled=false
 ```
+
+### Run Cosmos in docker container
+
+Cosmos in a container needs a valid certificate.
+
+You need to specify the correct jdk your using for the project in IntelliJ.
+
+If you restart container you need to do the setup again and use a different name ./emulatorcert1.crt when generating
+cacerts.
+
+[https://localhost:8081/_explorer/index.html](https://localhost:8081/_explorer/index.html)
+
+For linux
+
+- ```cd scripts```
+- ```docker compose up```
+- ```curl -k https://localhost:8081/_explorer/emulator.pem > ./emulatorcert1.crt```
+- ```sudo keytool -import -file emulatorcert1.crt -alias emulatorcert1 -keystore ~/.jdks/corretto-17.0.8.1/lib/security/cacerts -storepass changeit```
 
 ### Provision new containers
 

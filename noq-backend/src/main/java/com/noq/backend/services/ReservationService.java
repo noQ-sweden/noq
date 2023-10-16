@@ -1,13 +1,13 @@
 package com.noq.backend.services;
 
-import com.noq.backend.DTO.CreateReservationDTO;
-import com.noq.backend.exeptions.HostNotFoundException;
+import com.noq.backend.controllers.might_delete.DTOs.CreateReservationDTO;
+import com.noq.backend.exceptions.HostNotFoundException;
 import com.noq.backend.models.Host;
 import com.noq.backend.models.Reservation;
 import com.noq.backend.models.User;
-import com.noq.backend.repository.HostRepository;
-import com.noq.backend.repository.ReservationRepository;
-import com.noq.backend.repository.UserRepository;
+import com.noq.backend.repositories.HostRepository;
+import com.noq.backend.repositories.ReservationRepository;
+import com.noq.backend.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -19,9 +19,9 @@ import java.util.function.Function;
 
 import static com.noq.backend.models.Reservation.Status.PENDING;
 import static com.noq.backend.models.Reservation.Status.RESERVED;
-import static com.noq.backend.utils.ErrorHandler.handleReservationNotFound;
-import static com.noq.backend.utils.InputValidator.IdField.*;
-import static com.noq.backend.utils.InputValidator.validateInputId;
+import static com.noq.backend.utilities.ErrorHandler.handleReservationNotFound;
+import static com.noq.backend.utilities.InputValidator.IdField.*;
+import static com.noq.backend.utilities.InputValidator.validateInputId;
 
 @Service
 @AllArgsConstructor
@@ -113,12 +113,12 @@ public class ReservationService implements ReservationServiceI {
                 .flatMap(reservationRepository::save);
     }
 
-    /* PARAM FUNCTIONS */
-    public <P> Function<P, Mono<P>> updateParamWithReservations(Function<P, Host> getHost, BiConsumer<P, List<Reservation>> setReservations) {
-        return param -> getReservationsByHostId(getHost.apply(param).getHostId())
+    /* DTO_BUILDER_FUNCTIONS */
+    public <B> Function<B, Mono<B>> updateDTOBuilderWithReservations(Function<B, Host> getHost, BiConsumer<B, List<Reservation>> setReservations) {
+        return dtoBuilder -> getReservationsByHostId(getHost.apply(dtoBuilder).getHostId())
                 .collectList()
-                .doOnNext(reservationCosmos -> setReservations.accept(param, reservationCosmos))
-                .thenReturn(param);
+                .doOnNext(reservations -> setReservations.accept(dtoBuilder, reservations))
+                .thenReturn(dtoBuilder);
     }
-    /* PARAM FUNCTIONS */
+    /* DTO_BUILDER_FUNCTIONS */
 }
