@@ -1,6 +1,6 @@
 package com.noq.backend.controllers;
 
-import com.noq.backend.controllers.host.RequestsViewController.RequestsViewDTO;
+import com.noq.backend.controllers.host.RequestsViewController.HostRequestsViewDTO;
 import com.noq.backend.controllers.host.RequestsViewController.HostRequestsViewController;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -16,7 +16,7 @@ class HostRequestsViewControllerTest {
     @Test
     void requestsViewModel() {
         String hostId = "6eee2453-711e-47f3-92d4-a26b255cc5a5";
-        RequestsViewDTO block = hostRequestsViewController.requestsViewModel().block();
+        HostRequestsViewDTO block = hostRequestsViewController.requestsViewModel().block();
         System.out.println(block);
     }
 }

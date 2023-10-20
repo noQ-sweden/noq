@@ -1,6 +1,8 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {RequestsViewContext, requestsViewModelEmptyData} from "../RequestsViewContext";
-import {RequestsViewModel} from "../RequestsViewModel";
+import {RequestsViewModel, UpdateChangeType, UpdateReservationStatusField} from "../RequestsViewModel";
+import {fetchUpdateReservationStatusField} from "../RequestsViewAPI";
+import {useMutation} from "@tanstack/react-query";
 
 const Requests = () => {
   const requestsViewModelContext = useContext<RequestsViewModel>(RequestsViewContext);
@@ -11,12 +13,27 @@ const Requests = () => {
     setRequestsViewModel(requestsViewModelContext)
   }, []);
 
-  const onDeleteBtn = () => {
-    console.log("onDeleteBtn");
+  const fetchUpdateReservationStatusFieldMutate = useMutation({
+    mutationFn: (reqBody: UpdateReservationStatusField) => fetchUpdateReservationStatusField(reqBody),
+    onSuccess: (data) => {
+      console.log(data)
+    },
+  })
+
+  const onDeleteBtn = (reservationId: string, updateChangeType: UpdateChangeType) => {
+    const reqBody: UpdateReservationStatusField = {
+      reservationId: reservationId,
+      updateChangeType: updateChangeType
+    }
+    fetchUpdateReservationStatusFieldMutate.mutate(reqBody)
   };
 
-  const onAcceptBtn = () => {
-    console.log("onAcceptBtn");
+  const onAcceptBtn = (reservationId: string, updateChangeType: UpdateChangeType) => {
+    const reqBody: UpdateReservationStatusField = {
+      reservationId: reservationId,
+      updateChangeType: updateChangeType
+    }
+    fetchUpdateReservationStatusFieldMutate.mutate(reqBody)
   };
 
   return (
@@ -26,12 +43,18 @@ const Requests = () => {
           <div className={"flex flex-col gap-1"}>
             {requestsViewModel.reservations.map(request => {
               return (
-                  <div className={"border-2 p-1"}>
+                  <div key={request.id} className={"border-2 p-1"}>
                     <p>Namn: {request.name}</p>
                     <p>Status: {request.status}</p>
                     <div className={"flex gap-1"}>
-                      <button onClick={() => onAcceptBtn()} className="btn btn-outline btn-success btn-xs">Acceptera</button>
-                      <button onClick={() => onDeleteBtn()} className="btn btn-outline btn-error btn-xs">Neka</button>
+                      <button onClick={() => onAcceptBtn(request.id, UpdateChangeType.ACCEPT)}
+                              className="btn btn-outline btn-success btn-xs">
+                        Acceptera
+                      </button>
+                      <button onClick={() => onDeleteBtn(request.id, UpdateChangeType.DENY)}
+                              className="btn btn-outline btn-error btn-xs">
+                        Neka
+                      </button>
                     </div>
                   </div>
               )

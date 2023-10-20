@@ -1,6 +1,6 @@
 package com.noq.backend.controllers.host.RequestsViewController;
 
-public record RequestsViewDTO(
+public record HostRequestsViewDTO(
         String id,
         Reservation[] reservations
 ) {

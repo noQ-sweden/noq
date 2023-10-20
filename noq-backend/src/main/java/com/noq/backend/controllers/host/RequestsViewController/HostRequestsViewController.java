@@ -1,5 +1,6 @@
 package com.noq.backend.controllers.host.RequestsViewController;
 
+import com.noq.backend.controllers.host.RequestsViewController.reqBodys.UpdateReservationStatusField;
 import com.noq.backend.models.Host;
 import com.noq.backend.models.Reservation;
 import com.noq.backend.services.HostService;
@@ -24,7 +25,7 @@ public class HostRequestsViewController {
     private final ReservationService reservationService;
 
     @GetMapping()
-    public Mono<RequestsViewDTO> requestsViewModel() {
+    public Mono<HostRequestsViewDTO> requestsViewModel() {
         log.info("requestsViewModel");
         return Mono.just("")
                 .map(o -> new DTOBuilder())
@@ -32,15 +33,25 @@ public class HostRequestsViewController {
                 .map(HostRequestsViewController::toDTO);
     }
 
-    private static RequestsViewDTO toDTO(DTOBuilder DTOBuilder) {
-        return new RequestsViewDTO(
+    @PutMapping("update-reservation-status-field")
+    public Mono<HostRequestsViewDTO> updateReservationStatusField(@RequestBody UpdateReservationStatusField reqBody) {
+        log.info("requestsViewModel");
+        log.info("reqBody: {}", reqBody);
+        return Mono.just("")
+                .map(o -> new DTOBuilder())
+                .flatMap(reservationService.updateDTOBuilderWithReservations(DTOBuilder::setReservations))
+                .map(HostRequestsViewController::toDTO);
+    }
+
+    private static HostRequestsViewDTO toDTO(DTOBuilder DTOBuilder) {
+        return new HostRequestsViewDTO(
                 "DTOBuilder.getHost().getHostId()",
-                DTOBuilder.getReservations().stream().map(HostRequestsViewController::toDTO).toArray(RequestsViewDTO.Reservation[]::new)
+                DTOBuilder.getReservations().stream().map(HostRequestsViewController::toDTO).toArray(HostRequestsViewDTO.Reservation[]::new)
         );
     }
 
-    private static RequestsViewDTO.Reservation toDTO(Reservation reservation) {
-        return new RequestsViewDTO.Reservation(
+    private static HostRequestsViewDTO.Reservation toDTO(Reservation reservation) {
+        return new HostRequestsViewDTO.Reservation(
                 reservation.getReservationId(),
                 reservation.getUser().getName(),
                 1,

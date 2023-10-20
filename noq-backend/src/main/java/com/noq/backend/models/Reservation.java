@@ -29,6 +29,11 @@ public class Reservation {
         DENIED
     }
 
+    public enum UpdateChangeType {
+        ACCEPT,
+        DENY
+    }
+
     public static Reservation create(Host host, User user) {
         return new Reservation(
                 UUID.randomUUID().toString(),
