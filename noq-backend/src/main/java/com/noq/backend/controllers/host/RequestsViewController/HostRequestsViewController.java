@@ -69,7 +69,6 @@ public class HostRequestsViewController {
     private static class DTOBuilder {
         private Host host;
         private List<Reservation> reservations = new ArrayList<>();
-
     }
 
 }

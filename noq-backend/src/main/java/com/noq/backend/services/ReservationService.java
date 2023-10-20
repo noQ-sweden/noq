@@ -116,6 +116,7 @@ public class ReservationService implements ReservationServiceI {
                 .flatMap(reservationRepository::save);
     }
 
+    @Override
     public Mono<Reservation> updateReservationField(String reservationId, String newValue, Reservation.UpdateChangeType updateChangeType) {
         return reservationRepository.findById(reservationId)
                 .switchIfEmpty(Mono.error(new ReservationNotFoundException(reservationId)))
@@ -140,6 +141,7 @@ public class ReservationService implements ReservationServiceI {
                 .doOnNext(reservations -> setReservations.accept(dtoBuilder, reservations))
                 .thenReturn(dtoBuilder);
     }
+
     public <B> Function<B, Mono<B>> updateDTOBuilderWithReservations(BiConsumer<B, List<Reservation>> setReservations) {
         return dtoBuilder -> findAllReservations()
                 .collectList()
