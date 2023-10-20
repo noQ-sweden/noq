@@ -1,7 +1,6 @@
 package com.noq.backend.controllers.host.ReservationsViewController;
 
 import com.noq.backend.exceptions.ReservationNotFoundException;
-import com.noq.backend.models.Address;
 import com.noq.backend.models.Reservation;
 import com.noq.backend.services.ReservationService;
 import lombok.RequiredArgsConstructor;
@@ -30,17 +29,18 @@ public class ReservationsViewController {
     }
 
     private ReservationsViewDTO toDTO(Reservation reservation) {
-        Address address = reservation.getHost().getAddress();
-        ReservationsViewDTO.AddressDTO addressDTO = new ReservationsViewDTO.AddressDTO(
-                address.getStreet(),
-                address.getStreetNum(),
-                address.getPostalCode(),
-                address.getCityName());
+//        Address address = reservation.getHost().getAddress();
+//        ReservationsViewDTO.AddressDTO addressDTO = new ReservationsViewDTO.AddressDTO(
+//                address.getStreet(),
+//                address.getStreetNum(),
+//                address.getPostalCode(),
+//                address.getCityName());
 
-        return new ReservationsViewDTO(
-                reservation.getReservationId(),
-                reservation.getHost().getName(),
-                reservation.getHost().getImage(),
-                addressDTO);
+//        return new ReservationsViewDTO(
+//                reservation.getReservationId(),
+//                reservation.getHost().getName(),
+//                reservation.getHost().getImage(),
+//                addressDTO);
+        return null;
     }
 }

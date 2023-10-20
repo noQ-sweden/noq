@@ -1,8 +1,8 @@
 # docker compose up
 
 # https://localhost:8081/_explorer/index.html
-# curl -k https://localhost:8081/_explorer/emulator.pem > ./emulatorcert8.crt
-# sudo keytool -import -file emulatorcert8.crt -alias emulatorcert8 -keystore ~/.jdks/corretto-17.0.8.1/lib/security/cacerts -storepass changeit
+# curl -k https://localhost:8081/_explorer/emulator.pem > ./emulatorcert2011.crt
+# sudo keytool -import -file emulatorcert2011.crt -alias emulatorcert2011 -keystore ~/.jdks/corretto-17.0.8.1/lib/security/cacerts -storepass changeit
 
 version: '3.9'
 services:

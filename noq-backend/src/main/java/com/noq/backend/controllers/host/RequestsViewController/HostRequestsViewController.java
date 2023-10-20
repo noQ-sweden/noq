@@ -5,7 +5,9 @@ import com.noq.backend.models.Reservation;
 import com.noq.backend.services.HostService;
 import com.noq.backend.services.ReservationService;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
@@ -14,24 +16,26 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/host/requests")
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
-public class RequestsViewController {
+@Slf4j
+public class HostRequestsViewController {
     private final HostService hostCosmosService;
     private final ReservationService reservationService;
 
-    @GetMapping("{hostId}")
-    public Mono<RequestsViewDTO> requestsViewModel(@PathVariable String hostId) {
-        return hostCosmosService.findByHostId(hostId)
-                .map(DTOBuilder::new)
-                .flatMap(reservationService.updateDTOBuilderWithReservations(DTOBuilder::getHost, DTOBuilder::setReservations))
-                .map(RequestsViewController::toDTO);
+    @GetMapping()
+    public Mono<RequestsViewDTO> requestsViewModel() {
+        log.info("requestsViewModel");
+        return Mono.just("")
+                .map(o -> new DTOBuilder())
+                .flatMap(reservationService.updateDTOBuilderWithReservations(DTOBuilder::setReservations))
+                .map(HostRequestsViewController::toDTO);
     }
 
     private static RequestsViewDTO toDTO(DTOBuilder DTOBuilder) {
         return new RequestsViewDTO(
-                DTOBuilder.getHost().getHostId(),
-                DTOBuilder.getReservations().stream().map(RequestsViewController::toDTO).toArray(RequestsViewDTO.Request[]::new)
+                "DTOBuilder.getHost().getHostId()",
+                DTOBuilder.getReservations().stream().map(HostRequestsViewController::toDTO).toArray(RequestsViewDTO.Request[]::new)
         );
     }
 
@@ -45,13 +49,11 @@ public class RequestsViewController {
     }
 
     @Data
+    @NoArgsConstructor
     private static class DTOBuilder {
         private Host host;
         private List<Reservation> reservations = new ArrayList<>();
 
-        public DTOBuilder(Host host) {
-            this.host = host;
-        }
     }
 
 }

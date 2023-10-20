@@ -5,31 +5,30 @@ import com.noq.backend.controllers.might_delete.DTOs.HostDTO;
 import com.noq.backend.exceptions.HostNotFoundException;
 import com.noq.backend.models.Host;
 import com.noq.backend.repositories.HostRepository;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
+
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class HostService implements HostCosmosServiceI {
     private final HostRepository repositoryCosmos;
 
     //CREATE NEW HOST
-    public Mono<HostDTO> create(HostDTO request) {
-        Host host = new Host(
-                request.name(),
-                request.address(),
-                request.image()
-                );
+    public Mono<HostDTO> create(HostDTO hostDTO) {
+//        Host host = Host.create(hostDTO.name(), hostDTO.address(), hostDTO.image());
 
-        System.out.println("Creating Host with id: " + host.getHostId());
-
-        return repositoryCosmos.save(host)
-                .map(this::toDTO)
-                .onErrorResume(this::handleError);
+//        System.out.println("Creating Host with id: " + host.getHostId());
+//
+//        return repositoryCosmos.save(host)
+//                .map(this::toDTO)
+//                .onErrorResume(this::handleError);
+        return null;
     }
 
     @Override
@@ -73,11 +72,12 @@ public class HostService implements HostCosmosServiceI {
 
     // DTO CONVERTER
     private HostDTO toDTO(Host host) {
-        return new HostDTO(
-                host.getHostId(),
-                host.getName(),
-                host.getAddress(),
-                host.getImage()
-        );
+//        return new HostDTO(
+//                host.getHostId(),
+//                host.getName(),
+//                host.getAddress(),
+//                host.getImage()
+//        );
+        return null;
     }
 }

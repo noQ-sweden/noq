@@ -3,7 +3,7 @@ import React from 'react';
 const LandingView = () => {
   return (
       <div>
-        landing
+        Välkommen till NoQ
       </div>
   );
 };

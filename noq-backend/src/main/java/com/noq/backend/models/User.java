@@ -2,25 +2,29 @@ package com.noq.backend.models;
 
 import com.azure.spring.data.cosmos.core.mapping.Container;
 import com.azure.spring.data.cosmos.core.mapping.PartitionKey;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
-@NoArgsConstructor
+@AllArgsConstructor
 @Data
 @Container(containerName = "users")
 public class User {
     @Id
     @PartitionKey
-    private String id;
+    private String userId;
     private String name;
     private Reservation reservation;
 
-    public User(String name, Reservation reservation) {
-        this.id = UUID.randomUUID().toString();
-        this.name = name;
-        this.reservation = reservation;
+    public static User create(String name, Reservation reservation) {
+        return new User(
+                UUID.randomUUID().toString(),
+                name,
+                reservation
+        );
     }
 }

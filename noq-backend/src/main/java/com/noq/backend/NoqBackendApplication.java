@@ -1,17 +1,21 @@
 package com.noq.backend;
 
 import com.azure.spring.data.cosmos.repository.config.EnableReactiveCosmosRepositories;
-import com.noq.backend.models.Address;
+import com.noq.backend.models.Bed;
 import com.noq.backend.models.Host;
 import com.noq.backend.models.Reservation;
 import com.noq.backend.models.User;
+import com.noq.backend.repositories.BedRepository;
 import com.noq.backend.repositories.HostRepository;
+import com.noq.backend.repositories.ReservationRepository;
 import com.noq.backend.repositories.UserRepository;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.reactive.function.client.WebClient;
+
+import java.util.List;
 
 @SpringBootApplication
 @EnableReactiveCosmosRepositories
@@ -27,20 +31,25 @@ public class NoqBackendApplication {
     }
 
     @Bean
-    ApplicationRunner applicationRunner (HostRepository hostRepository,
-                                         UserRepository userRepository){
+    ApplicationRunner applicationRunner(HostRepository hostRepository,
+                                        UserRepository userRepository,
+                                        ReservationRepository reservationRepository,
+                                        BedRepository bedRepository
+    ) {
         return args -> {
-            User user1 = new User(
-                    "User",
-                    new Reservation()
-            );
-            Host host1 = new Host(
-                    "HostCosmos1",
-                    new Address("Gatgatan", "1A", "152 42", "Årsta"),
-                    "URL TILL BILD"
-            );
-            hostRepository.save(host1).subscribe();
+            User user1 = User.create("User", null);
             userRepository.save(user1).subscribe();
+
+            Host.Address address1 = Host.Address.create("street1", "1", "000", "d");
+            Host.Address address2 = Host.Address.create("street1", "1", "000", "d");
+            Host host1 = Host.create("HostCosmos1", List.of(address1, address2), "");
+            hostRepository.save(host1).subscribe();
+
+            Reservation reservation1 = Reservation.create(host1, user1);
+            reservationRepository.save(reservation1).subscribe();
+
+            Bed bed1 = Bed.create(host1, host1.getHostId(), false);
+            bedRepository.save(bed1).subscribe();
         };
     }
 

@@ -2,26 +2,30 @@ package com.noq.backend.models;
 
 import com.azure.spring.data.cosmos.core.mapping.Container;
 import com.azure.spring.data.cosmos.core.mapping.PartitionKey;
+import lombok.AllArgsConstructor;
 import org.springframework.data.annotation.Id;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
 @Data
-@NoArgsConstructor
+@AllArgsConstructor
 @Container(containerName = "beds")
 public class Bed {
     @Id
-    private String bedId;
+    private String id;
     @PartitionKey
+    private String hostId;
     private Host host;
-    private Boolean reserved;
+    private boolean reserved;
 
-    public Bed(Host host){
-        this.bedId = UUID.randomUUID().toString();
-        this.host = host;
-        this.reserved = false;
+    public static Bed create(Host host, String hostId, boolean isReserved) {
+        return new Bed(
+                UUID.randomUUID().toString(),
+                hostId,
+                host,
+                isReserved
+        );
     }
 
 }

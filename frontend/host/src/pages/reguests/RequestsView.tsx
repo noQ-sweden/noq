@@ -1,10 +1,12 @@
 import React from 'react';
+import RequestsViewProvider from "./RequestsViewContext";
+import Requests from "./componens/Requests";
 
 const RequestsView = () => {
   return (
-      <div>
-        RequestsView
-      </div>
+      <RequestsViewProvider>
+        <Requests/>
+      </RequestsViewProvider>
   );
 };
 

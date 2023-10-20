@@ -7,9 +7,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 
+import java.util.List;
 import java.util.UUID;
 
-@NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Container(containerName = "hosts")
@@ -18,13 +18,37 @@ public class Host {
     @PartitionKey
     private String hostId;
     private String name;
-    private Address address;
+    private Address[] address;
     private String image;
 
-    public Host(String name, Address address, String image) {
-        this.hostId = UUID.randomUUID().toString();
-        this.name = name;
-        this.address = address;
-        this.image = image;
+    @Data
+    @AllArgsConstructor
+    public static class Address {
+        private String id;
+        private String addressId;
+        private String street;
+        private String streetNum;
+        private String postalCode;
+        private String cityName;
+
+        public static Address create(String street, String streetNum, String postalCode , String cityName) {
+            return new Address(
+                    UUID.randomUUID().toString(),
+                    UUID.randomUUID().toString(),
+                    street,
+                    streetNum,
+                    postalCode,
+                    cityName
+            );
+        }
+    }
+
+    public static Host create(String name, List<Address> address, String image) {
+        return new Host(
+                UUID.randomUUID().toString(),
+                name,
+                address.toArray(Address[]::new),
+                image
+        );
     }
 }
