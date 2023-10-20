@@ -13,6 +13,7 @@ export interface Reservation {
 /*reqBody*/
 export interface UpdateReservationStatusField {
   reservationId: string,
+  newValue: string,
   updateChangeType: UpdateChangeType
 }
 
@@ -21,12 +22,11 @@ export enum Status {
   APPROVED = "APPROVED",
   PENDING = "PENDING",
   RESERVED = "RESERVED",
-  DENIED = "DENIED",
-  CANCELLED = "CANCELLED"
+  CANCELLED = "CANCELLED",
+  DENIED = "DENIED"
 }
 
 export enum UpdateChangeType {
-  ACCEPT = "ACCEPT",
-  DENY = "DENY"
+  UPDATE_STATUS = "UPDATE_STATUS"
 }
 

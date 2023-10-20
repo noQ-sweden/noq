@@ -2,6 +2,7 @@ package com.noq.backend.services;
 
 import com.noq.backend.controllers.might_delete.DTOs.CreateReservationDTO;
 import com.noq.backend.exceptions.HostNotFoundException;
+import com.noq.backend.exceptions.ReservationNotFoundException;
 import com.noq.backend.models.Host;
 import com.noq.backend.models.Reservation;
 import com.noq.backend.models.User;
@@ -28,7 +29,6 @@ public class ReservationService implements ReservationServiceI {
     private final HostRepository hostRepository;
     private final UserRepository usersUserRepository;
     private final ReservationRepository reservationRepository;
-//    private final BedService bedService;
 
     public Mono<Reservation> createReservation(CreateReservationDTO request) {
         validateInputData(request);
@@ -116,8 +116,24 @@ public class ReservationService implements ReservationServiceI {
                 .flatMap(reservationRepository::save);
     }
 
- /*DTO_BUILDER_FUNCTIONS*/
+    public Mono<Reservation> updateReservationField(String reservationId, String newValue, Reservation.UpdateChangeType updateChangeType) {
+        return reservationRepository.findById(reservationId)
+                .switchIfEmpty(Mono.error(new ReservationNotFoundException(reservationId)))
+                .flatMap(reservation -> {
+                    switch (updateChangeType) {
+                        case UPDATE_STATUS -> {
+                            reservation.setStatus(Reservation.Status.valueOf(newValue));
+                            return reservationRepository.save(reservation)
+                                    .thenReturn(reservation);
+                        }
+                        default -> {
+                            return Mono.error(new IllegalArgumentException("Invalid ChangeFieldName: " + updateChangeType));
+                        }
+                    }
+                });
+    }
 
+    /*DTO_BUILDER_FUNCTIONS*/
     public <B> Function<B, Mono<B>> updateDTOBuilderWithReservations(Function<B, Host> getHost, BiConsumer<B, List<Reservation>> setReservations) {
         return dtoBuilder -> findReservationsByHostId(getHost.apply(dtoBuilder).getHostId())
                 .collectList()

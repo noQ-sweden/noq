@@ -30,8 +30,7 @@ public class Reservation {
     }
 
     public enum UpdateChangeType {
-        ACCEPT,
-        DENY
+        UPDATE_STATUS
     }
 
     public static Reservation create(Host host, User user) {

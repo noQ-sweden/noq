@@ -14,6 +14,8 @@ import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Function;
 
 @RestController
 @RequestMapping("/api/host/requests")
@@ -27,18 +29,21 @@ public class HostRequestsViewController {
     @GetMapping()
     public Mono<HostRequestsViewDTO> requestsViewModel() {
         log.info("requestsViewModel");
-        return Mono.just("")
-                .map(o -> new DTOBuilder())
-                .flatMap(reservationService.updateDTOBuilderWithReservations(DTOBuilder::setReservations))
-                .map(HostRequestsViewController::toDTO);
+        return toHostRequestsViewDTO(Optional.empty());
     }
 
     @PutMapping("update-reservation-status-field")
     public Mono<HostRequestsViewDTO> updateReservationStatusField(@RequestBody UpdateReservationStatusField reqBody) {
         log.info("requestsViewModel");
         log.info("reqBody: {}", reqBody);
+        return toHostRequestsViewDTO(Optional.of(dtoBuilder -> reservationService.updateReservationField(reqBody.reservationId(), reqBody.newValue(), reqBody.updateChangeType())
+                .thenReturn(dtoBuilder)));
+    }
+
+    private Mono<HostRequestsViewDTO> toHostRequestsViewDTO(Optional<Function<DTOBuilder, Mono<DTOBuilder>>> additionalProcessing) {
         return Mono.just("")
                 .map(o -> new DTOBuilder())
+                .flatMap(additionalProcessing.orElse(Mono::just))
                 .flatMap(reservationService.updateDTOBuilderWithReservations(DTOBuilder::setReservations))
                 .map(HostRequestsViewController::toDTO);
     }
@@ -55,7 +60,7 @@ public class HostRequestsViewController {
                 reservation.getReservationId(),
                 reservation.getUser().getName(),
                 1,
-                com.noq.backend.models.Reservation.Status.PENDING
+                reservation.getStatus()
         );
     }
 
