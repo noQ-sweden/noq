@@ -1,9 +1,9 @@
 export interface RequestsViewModel {
   id: string
-  requests: Request[];
+  reservations: Reservation[];
 }
 
-export interface Request {
+export interface Reservation {
   id: string;
   name: string
   queuingPlace: number

@@ -6,9 +6,14 @@ import FetchIsLoading from "../../components/FetchIsLoading";
 
 export const RequestsViewContext = createContext<RequestsViewModel>({} as RequestsViewModel)
 
+export const requestsViewModelEmptyData: RequestsViewModel = {
+  id: "",
+  reservations: [{id: "", name: "", queuingPlace: 0, status: Status.APPROVED}]
+}
+
 const requestsViewModelMock: RequestsViewModel = {
   id: "",
-  requests: [{id: "", name: "", queuingPlace: 0, status: Status.APPROVED}]
+  reservations: [{id: "", name: "", queuingPlace: 0, status: Status.APPROVED}]
 }
 
 type Props = {
@@ -19,11 +24,11 @@ const RequestsViewProvider = ({children}: Props) => {
 
   const {isLoading, error, data} = useQuery({
     queryKey: [FETCH_REQUESTS],
-    queryFn: () => fetchRequests()
+    queryFn: () => fetchRequests().catch(reason => console.log(reason))
   })
 
   if (isLoading) return <FetchIsLoading/>
-  console.log(data)
+
   return (
       <RequestsViewContext.Provider value={data ? data : requestsViewModelMock}>
         {children}

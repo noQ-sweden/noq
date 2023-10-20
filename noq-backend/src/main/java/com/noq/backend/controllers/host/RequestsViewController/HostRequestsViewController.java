@@ -35,16 +35,16 @@ public class HostRequestsViewController {
     private static RequestsViewDTO toDTO(DTOBuilder DTOBuilder) {
         return new RequestsViewDTO(
                 "DTOBuilder.getHost().getHostId()",
-                DTOBuilder.getReservations().stream().map(HostRequestsViewController::toDTO).toArray(RequestsViewDTO.Request[]::new)
+                DTOBuilder.getReservations().stream().map(HostRequestsViewController::toDTO).toArray(RequestsViewDTO.Reservation[]::new)
         );
     }
 
-    private static RequestsViewDTO.Request toDTO(Reservation reservation) {
-        return new RequestsViewDTO.Request(
+    private static RequestsViewDTO.Reservation toDTO(Reservation reservation) {
+        return new RequestsViewDTO.Reservation(
                 reservation.getReservationId(),
                 reservation.getUser().getName(),
                 1,
-                Reservation.Status.PENDING
+                com.noq.backend.models.Reservation.Status.PENDING
         );
     }
 

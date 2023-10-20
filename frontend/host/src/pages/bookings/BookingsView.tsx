@@ -1,10 +1,12 @@
 import React from 'react';
+import Bookings from "./components/Bookings";
+import BookingsViewProvider from "./BookingsViewContext";
 
 const BookingsView = () => {
   return (
-      <div>
-        BookingsView
-      </div>
+      <BookingsViewProvider>
+        <Bookings/>
+      </BookingsViewProvider>
   );
 };
 
