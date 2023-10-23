@@ -2,6 +2,7 @@ package com.noq.backend.services;
 
 import com.noq.backend.controllers.might_delete.DTOs.CreateReservationDTO;
 import com.noq.backend.exceptions.HostNotFoundException;
+import com.noq.backend.exceptions.ReservationNotFoundException;
 import com.noq.backend.models.Host;
 import com.noq.backend.models.Reservation;
 import com.noq.backend.models.User;
@@ -17,7 +18,6 @@ import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
-import static com.noq.backend.models.Reservation.Status.PENDING;
 import static com.noq.backend.models.Reservation.Status.RESERVED;
 import static com.noq.backend.utilities.ErrorHandler.handleReservationNotFound;
 import static com.noq.backend.utilities.InputValidator.IdField.*;
@@ -29,7 +29,6 @@ public class ReservationService implements ReservationServiceI {
     private final HostRepository hostRepository;
     private final UserRepository usersUserRepository;
     private final ReservationRepository reservationRepository;
-    private final BedService bedService;
 
     public Mono<Reservation> createReservation(CreateReservationDTO request) {
         validateInputData(request);
@@ -48,10 +47,10 @@ public class ReservationService implements ReservationServiceI {
     }
 
     private Mono<Reservation> createAndSaveReservation(String bedId, Host host, User user) {
-        Reservation reservation = new Reservation(host, user, PENDING);
+        Reservation reservation = Reservation.create(host, user);
         return reservationRepository
                 .save(reservation)
-                .then(bedService.updateBedStatus(bedId, host.getHostId(), true))
+//                .then(bedService.updateBedStatus(bedId, host.getHostId(), true))
                 .thenReturn(reservation);
     }
 
@@ -63,12 +62,16 @@ public class ReservationService implements ReservationServiceI {
                 .switchIfEmpty(handleReservationNotFound(userId));
     }
 
-    public Flux<Reservation> getReservationsByHostId(String hostId) {
+    public Flux<Reservation> findReservationsByHostId(String hostId) {
         validateInputId(HOST_ID, hostId);
         return hostRepository
                 .findByHostId(hostId)
                 .switchIfEmpty(Mono.error(new HostNotFoundException(hostId)))
                 .flatMapMany(this::findReservationsByHost);
+    }
+
+    public Flux<Reservation> findAllReservations() {
+        return reservationRepository.findAll();
     }
 
     private Flux<Reservation> findReservationsByHost(Host host) {
@@ -113,12 +116,38 @@ public class ReservationService implements ReservationServiceI {
                 .flatMap(reservationRepository::save);
     }
 
-    /* DTO_BUILDER_FUNCTIONS */
+    @Override
+    public Mono<Reservation> updateReservationField(String reservationId, String newValue, Reservation.UpdateChangeType updateChangeType) {
+        return reservationRepository.findById(reservationId)
+                .switchIfEmpty(Mono.error(new ReservationNotFoundException(reservationId)))
+                .flatMap(reservation -> {
+                    switch (updateChangeType) {
+                        case UPDATE_STATUS -> {
+                            reservation.setStatus(Reservation.Status.valueOf(newValue));
+                            return reservationRepository.save(reservation)
+                                    .thenReturn(reservation);
+                        }
+                        default -> {
+                            return Mono.error(new IllegalArgumentException("Invalid ChangeFieldName: " + updateChangeType));
+                        }
+                    }
+                });
+    }
+
+    /*DTO_BUILDER_FUNCTIONS*/
     public <B> Function<B, Mono<B>> updateDTOBuilderWithReservations(Function<B, Host> getHost, BiConsumer<B, List<Reservation>> setReservations) {
-        return dtoBuilder -> getReservationsByHostId(getHost.apply(dtoBuilder).getHostId())
+        return dtoBuilder -> findReservationsByHostId(getHost.apply(dtoBuilder).getHostId())
                 .collectList()
                 .doOnNext(reservations -> setReservations.accept(dtoBuilder, reservations))
                 .thenReturn(dtoBuilder);
     }
-    /* DTO_BUILDER_FUNCTIONS */
+
+    public <B> Function<B, Mono<B>> updateDTOBuilderWithReservations(BiConsumer<B, List<Reservation>> setReservations) {
+        return dtoBuilder -> findAllReservations()
+                .collectList()
+                .doOnNext(reservations -> setReservations.accept(dtoBuilder, reservations))
+                .thenReturn(dtoBuilder);
+    }
+    /*DTO_BUILDER_FUNCTIONS*/
+
 }

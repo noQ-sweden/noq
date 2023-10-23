@@ -1,17 +1,15 @@
 package com.noq.backend.controllers.host.RequestsViewController;
 
-import com.noq.backend.models.Reservation;
-
-public record RequestsViewDTO(
+public record HostRequestsViewDTO(
         String id,
-        Request[] reservations
+        Reservation[] reservations
 ) {
 
-    public record Request(
+    public record Reservation(
             String id,
             String name,
             int queuingPlace,
-            Reservation.Status status
+            com.noq.backend.models.Reservation.Status status
     ) {
     }
 

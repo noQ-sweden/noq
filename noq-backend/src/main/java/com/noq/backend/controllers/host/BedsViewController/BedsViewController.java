@@ -1,16 +1,16 @@
 package com.noq.backend.controllers.host.BedsViewController;
 
-import com.noq.backend.services.BedService;
+//import com.noq.backend.services.BedService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 
-@RestController
-@RequiredArgsConstructor
-@CrossOrigin(origins = "*", allowedHeaders = "*")
-@RequestMapping("/api/host/bed")
+//@RestController
+//@RequiredArgsConstructor
+//@CrossOrigin(origins = "*", allowedHeaders = "*")
+//@RequestMapping("/api/host/bed")
 public class BedsViewController {
-    private final BedService service;
+//    private final BedService service;
 
 //    @PostMapping
 //    public Flux<ResponseEntity<BedDTO>> createBed(@RequestBody CreateBedRequest request) {
@@ -28,10 +28,10 @@ public class BedsViewController {
 //                });
 //    }
 
-    @GetMapping
-    public Flux<BedDTO> getBedsByHostId(@RequestParam String hostId) {
-        return service
-                .findBedsByHostId(hostId)
-                .switchIfEmpty(Flux.empty());
-    }
+//    @GetMapping
+//    public Flux<BedDTO> getBedsByHostId(@RequestParam String hostId) {
+//        return service
+//                .findBedsByHostId(hostId)
+//                .switchIfEmpty(Flux.empty());
+//    }
 }

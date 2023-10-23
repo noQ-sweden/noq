@@ -1,16 +1,16 @@
 package com.noq.backend.controllers.might_delete;
 
-import com.noq.backend.services.UserService;
+//import com.noq.backend.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
-@RequiredArgsConstructor
-@CrossOrigin(origins = "*", allowedHeaders = "*")
-@RequestMapping(path = "/api/v1/user")
+//@RestController
+//@RequiredArgsConstructor
+//@CrossOrigin(origins = "*", allowedHeaders = "*")
+//@RequestMapping(path = "/api/v1/user")
 public class UserPageController {
 
-    private final UserService userService;
+//    private final UserService userService;
 
 
     // CREATE NEW USER
