@@ -20,7 +20,7 @@ class HostServiceTest {
     @Test
     void findByHostId() {
         String hostId = "efe102ca-e3e9-42b4-a722-f0fbc0306b7a";
-        Host block = hostService.findByHostId(hostId).block();
+        Host block = hostService.findByHostId(hostId);
         System.out.println(block);
     }
 

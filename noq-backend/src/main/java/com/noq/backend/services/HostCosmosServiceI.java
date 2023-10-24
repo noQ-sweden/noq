@@ -3,8 +3,10 @@ package com.noq.backend.services;
 import com.noq.backend.models.Host;
 import reactor.core.publisher.Mono;
 
-public interface HostCosmosServiceI {
-    Mono<Host> findByHostId(String id);
+import java.util.Optional;
 
-    Mono<Host> findById(String id);
+public interface HostCosmosServiceI {
+    Host findByHostId(String id);
+
+    Host findById(String id);
 }

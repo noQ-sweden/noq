@@ -9,13 +9,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/api/host/requests")
@@ -27,25 +28,30 @@ public class HostRequestsViewController {
     private final ReservationService reservationService;
 
     @GetMapping()
-    public Mono<HostRequestsViewDTO> requestsViewModel() {
+    public ResponseEntity<HostRequestsViewDTO> requestsViewModel() {
         log.info("requestsViewModel");
-        return toHostRequestsViewDTO(Optional.empty());
+        HostRequestsViewDTO hostRequestsViewDTO = toHostRequestsViewDTO(Optional.empty());
+        return ResponseEntity.ok(hostRequestsViewDTO);
     }
 
     @PutMapping("update-reservation-status-field")
-    public Mono<HostRequestsViewDTO> updateReservationStatusField(@RequestBody UpdateReservationStatusField reqBody) {
+    public ResponseEntity<HostRequestsViewDTO> updateReservationStatusField(@RequestBody UpdateReservationStatusField reqBody) {
         log.info("requestsViewModel");
         log.info("reqBody: {}", reqBody);
-        return toHostRequestsViewDTO(Optional.of(dtoBuilder -> reservationService.updateReservationField(reqBody.reservationId(), reqBody.newValue(), reqBody.updateChangeType())
-                .thenReturn(dtoBuilder)));
+        var hostRequestsViewDTO = toHostRequestsViewDTO(
+                Optional.of(dtoBuilder -> {
+                    reservationService.updateReservationField(reqBody.reservationId(), reqBody.newValue(), reqBody.updateChangeType());
+                    return dtoBuilder;
+                }));
+        return ResponseEntity.ok(hostRequestsViewDTO);
     }
 
-    private Mono<HostRequestsViewDTO> toHostRequestsViewDTO(Optional<Function<DTOBuilder, Mono<DTOBuilder>>> additionalProcessing) {
-        return Mono.just("")
-                .map(o -> new DTOBuilder())
-                .flatMap(additionalProcessing.orElse(Mono::just))
-                .flatMap(reservationService.updateDTOBuilderWithReservations(DTOBuilder::setReservations))
-                .map(HostRequestsViewController::toDTO);
+    private HostRequestsViewDTO toHostRequestsViewDTO(Optional<Function<DTOBuilder, DTOBuilder>> additionalProcessing) {
+        return Stream.of(new DTOBuilder())
+                .map(additionalProcessing.orElseGet(Function::identity))
+                .map(reservationService.updateDTOBuilderWithReservations(DTOBuilder::setReservations))
+                .map(HostRequestsViewController::toDTO)
+                .findFirst().get();
     }
 
     private static HostRequestsViewDTO toDTO(DTOBuilder DTOBuilder) {

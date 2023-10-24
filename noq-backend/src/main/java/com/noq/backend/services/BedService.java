@@ -1,20 +1,9 @@
 package com.noq.backend.services;
 
-import com.azure.cosmos.models.PartitionKey;
-import com.noq.backend.controllers.host.BedsViewController.BedDTO;
-import com.noq.backend.models.Bed;
 import com.noq.backend.repositories.BedRepository;
 import com.noq.backend.repositories.HostRepository;
-import com.noq.backend.utilities.ErrorHandler;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
-
-import static com.noq.backend.utilities.ErrorHandler.handleBedNotFound;
-import static com.noq.backend.utilities.ErrorHandler.handleHostNotFound;
-import static com.noq.backend.utilities.InputValidator.*;
-import static com.noq.backend.utilities.InputValidator.IdField.*;
 
 @Service
 @AllArgsConstructor
