@@ -13,6 +13,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -20,7 +21,7 @@ public class HostService implements HostCosmosServiceI {
     private final HostRepository repositoryCosmos;
 
     //CREATE NEW HOST
-    public Mono<HostDTO> create(HostDTO hostDTO) {
+    public Optional<HostDTO> create(HostDTO hostDTO) {
 //        Host host = Host.create(hostDTO.name(), hostDTO.address(), hostDTO.image());
 
 //        System.out.println("Creating Host with id: " + host.getHostId());
@@ -32,42 +33,40 @@ public class HostService implements HostCosmosServiceI {
     }
 
     @Override
-    public Mono<Host> findByHostId(String id) {
+    public Host findByHostId(String id) {
         return repositoryCosmos.findByHostId(id)
-                .switchIfEmpty(Mono.error(new HostNotFoundException(id)));
+                .orElseThrow(() -> new HostNotFoundException(id));
     }
     @Override
-    public Mono<Host> findById(String id) {
+    public Host findById(String id) {
         return repositoryCosmos.findById(id)
-                .switchIfEmpty(Mono.error(new HostNotFoundException(id)));
+                .orElseThrow(() -> new HostNotFoundException(id));
     }
 
     // GET HOST BY ID
-    public Mono<HostDTO> findById(String id, String email) {
+    public Optional<HostDTO> findById(String id, String email) {
         System.out.println("Searching host: " + id);
 
         return repositoryCosmos.findById(id, new PartitionKey(email))
-                .map(this::toDTO)
-                .onErrorResume(this::handleNotFoundError);
+                .map(this::toDTO);
     }
 
     // GET ALL HOSTS
-    public Flux<HostDTO> findAll() {
-        System.out.println("Listing all hosts...");
-        return repositoryCosmos.findAll().map(this::toDTO)
-                .onErrorResume(this::handleError);
-    }
+//    public Iterable<HostDTO> findAll() {
+//        System.out.println("Listing all hosts...");
+//        return repositoryCosmos.findAll();
+//    }
 
 
     // ERROR HANDLING ####################################################################################
-    private Mono<HostDTO> handleError(Throwable error) {
-        return Mono.error(new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
-                "Oops! Something went wrong!", error));
-    }
+//    private Optional<HostDTO> handleError(Throwable error) {
+//        return Mono.error(new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+//                "Oops! Something went wrong!", error));
+//    }
 
-    private Mono<HostDTO> handleNotFoundError(Throwable error) {
-        return Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND, "Resource not found.", error));
-    }
+//    private Optional<HostDTO> handleNotFoundError(Throwable error) {
+//        return Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND, "Resource not found.", error));
+//    }
     // ###################################################################################################
 
     // DTO CONVERTER

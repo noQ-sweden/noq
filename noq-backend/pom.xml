@@ -24,15 +24,14 @@
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-webflux</artifactId>
-            <version>3.1.4</version>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <scope>runtime</scope>
-            <optional>true</optional>
-        </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>org.springframework.boot</groupId>-->
+        <!--            <artifactId>spring-boot-devtools</artifactId>-->
+        <!--            <scope>runtime</scope>-->
+        <!--            <optional>true</optional>-->
+        <!--        </dependency>-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -40,32 +39,37 @@
         </dependency>
 
         <!--AZURE-->
+        <!--        <dependency>-->
+        <!--            <groupId>com.azure</groupId>-->
+        <!--            <artifactId>azure-cosmos</artifactId>-->
+        <!--            <version>4.49.0</version>-->
+        <!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>com.azure.spring</groupId>-->
+        <!--            <artifactId>spring-cloud-azure-starter-data-cosmos</artifactId>-->
+        <!--            <version>5.5.0</version>-->
+        <!--        </dependency>-->
         <dependency>
             <groupId>com.azure</groupId>
-            <artifactId>azure-cosmos</artifactId>
-            <version>4.49.0</version>
+            <artifactId>azure-spring-data-cosmos</artifactId>
+            <version>LATEST</version>
         </dependency>
         <dependency>
             <groupId>com.azure</groupId>
             <artifactId>azure-identity</artifactId>
             <version>1.10.1</version>
         </dependency>
-        <dependency>
-            <groupId>com.azure.spring</groupId>
-            <artifactId>spring-cloud-azure-starter-data-cosmos</artifactId>
-            <version>5.5.0</version>
-        </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>com.azure.spring</groupId>-->
+        <!--            <artifactId>spring-cloud-azure-starter-data-cosmos</artifactId>-->
+        <!--            <version>5.5.0</version>-->
+        <!--        </dependency>-->
         <!--AZURE-->
 
         <!--TEST-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.projectreactor</groupId>
-            <artifactId>reactor-test</artifactId>
             <scope>test</scope>
         </dependency>
         <!--TEST-->

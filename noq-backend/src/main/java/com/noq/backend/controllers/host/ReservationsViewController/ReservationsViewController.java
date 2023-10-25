@@ -14,13 +14,14 @@ import reactor.core.publisher.Mono;
 @RequestMapping("/api/host/reservations")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class ReservationsViewController {
-    private final ReservationService service;
+    private final ReservationService reservationService;
 
     @GetMapping
     public Mono<ResponseEntity<ReservationsViewDTO>> getReservation(@RequestParam String userId) {
-        return service
-                .getReservationByUserId(userId)
-                .mapNotNull(reservation -> ResponseEntity.ok(toDTO(reservation)));
+//        return reservationService
+//                .getReservationByUserId(userId)
+//                .mapNotNull(reservation -> ResponseEntity.ok(toDTO(reservation)));
+        return null;
     }
 
     @ExceptionHandler(ReservationNotFoundException.class)

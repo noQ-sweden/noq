@@ -1,6 +1,6 @@
 package com.noq.backend.utilities;
 
-import static io.micrometer.common.util.StringUtils.isBlank;
+//import static io.micrometer.common.util.StringUtils.isBlank;
 
 public class InputValidator {
     public enum IdField {
@@ -21,8 +21,8 @@ public class InputValidator {
     }
 
     public static void validateInputId(IdField field, String value) {
-        if (isBlank(value)) {
-            throw new IllegalArgumentException(field.getFieldName() + " is required.");
-        }
+//        if (isBlank(value)) {
+//            throw new IllegalArgumentException(field.getFieldName() + " is required.");
+//        }
     }
 }
