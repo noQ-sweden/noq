@@ -28,8 +28,9 @@ public class HostRequestsViewController {
     private final ReservationService reservationService;
 
     @GetMapping()
-    public ResponseEntity<HostRequestsViewDTO> requestsViewModel() {
+    public ResponseEntity<HostRequestsViewDTO> requestsViewModel(@RequestHeader("Authorization") String token) {
         log.info("requestsViewModel");
+        log.info("token: {}", token);
         HostRequestsViewDTO hostRequestsViewDTO = toHostRequestsViewDTO(Optional.empty());
         return ResponseEntity.ok(hostRequestsViewDTO);
     }

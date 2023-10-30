@@ -1,6 +1,13 @@
+"use client"
 import React from 'react';
+import {RequestsViewModel} from "@/components/requests/RequestsViewModel";
 
-const Requests = () => {
+interface RequestsProps {
+  data: RequestsViewModel
+}
+
+const Requests = (props: RequestsProps) => {
+  console.log(props.data)
   return (
       <div>
         Requests

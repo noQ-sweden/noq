@@ -1,8 +1,5 @@
-"use client"
-
 import React, {ReactNode} from "react";
 import Header from "@/layouts/Header";
-import Link from "next/link";
 import SideMenuLargeScreen from "@/layouts/SideMenuLargeScreen";
 
 type Props = {
@@ -17,7 +14,7 @@ const Layout = ({children}: Props) => {
           <div className="drawer-content">
             <Header/>
             <SideMenuLargeScreen/>
-            <main className="flex-1">{children}</main>
+            <main className="flex-1 md:ml-72 md:mt-5">{children}</main>
           </div>
           <div className="drawer-side">
             <label htmlFor="my-drawer" aria-label="close sidebar" className="drawer-overlay"></label>

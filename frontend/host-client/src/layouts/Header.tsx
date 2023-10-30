@@ -9,7 +9,7 @@ import Link from "next/link";
 const Header = () => {
 
   return (
-      <div className="navbar bg-zinc-50">
+      <div className="navbar bg-zinc-300">
         <div className="flex-none">
           <label htmlFor="my-drawer" className="btn btn-square btn-ghost drawer-button md:hidden">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
