@@ -8,7 +8,7 @@ import {
   UpdateReservationStatusField
 } from "@/components/requests/RequestsViewModel";
 import React, {useState} from "react";
-import {fetchUpdateReservationStatusField} from "@/components/requests/RequestsAPI";
+import {fetchUpdateReservationStatusField} from "@/components/requests/RequestsAPIHelper";
 
 interface RequestItemProps {
   request: Reservation
