@@ -36,7 +36,8 @@ public class HostRequestsViewController {
     }
 
     @PutMapping("update-reservation-status-field")
-    public ResponseEntity<HostRequestsViewDTO> updateReservationStatusField(@RequestBody UpdateReservationStatusField reqBody) {
+    public ResponseEntity<HostRequestsViewDTO> updateReservationStatusField(@RequestHeader("Authorization") String token,
+                                                                            @RequestBody UpdateReservationStatusField reqBody) {
         log.info("requestsViewModel");
         log.info("reqBody: {}", reqBody);
         var hostRequestsViewDTO = toHostRequestsViewDTO(

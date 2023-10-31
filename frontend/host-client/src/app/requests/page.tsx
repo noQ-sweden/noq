@@ -1,6 +1,6 @@
 import {Metadata} from "next";
-import Requests from "@/components/requests/Requests";
 import {RequestsViewModel, requestsViewModelMock} from "@/components/requests/RequestsViewModel";
+import Requests from "@/components/requests/Requests";
 
 export const metadata: Metadata = {
   title: 'noq',

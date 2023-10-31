@@ -1,12 +1,12 @@
 "use client"
 
-import {useRouter} from "next/router";
-
-// import dd from "../assets/profile-svgrepo-com.svg"
-import Image from "next/image";
 import Link from "next/link";
 
-const Header = () => {
+interface HeaderProps {
+  setSelected:  (value: string) => void;
+}
+
+const Header = (props: HeaderProps) => {
 
   return (
       <div className="navbar bg-zinc-300">
@@ -19,7 +19,7 @@ const Header = () => {
           </label>
         </div>
         <div className="flex-1">
-          <Link href={"/"} className="btn btn-ghost normal-case text-xl">
+          <Link href={"/"} onClick={() => props.setSelected("")} className="btn btn-ghost normal-case text-xl">
             NoQ
           </Link>
         </div>

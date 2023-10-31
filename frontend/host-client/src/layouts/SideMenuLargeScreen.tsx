@@ -1,14 +1,12 @@
 "use client"
 import Link from "next/link";
-import {useEffect, useState} from "react";
 
-const SideMenuLargeScreen = () => {
-  const [selected, setSelected] = useState<string>("");
+interface SideMenuLargeScreenProps {
+  setSelected: (value: string) => void;
+  selected: string
+}
 
-  useEffect(() => {
-    setSelected(window.location.pathname);
-  }, []);
-
+const SideMenuLargeScreen = (props: SideMenuLargeScreenProps) => {
   return (
       <div
           className="fixed inset-y-15 bg-zinc-300 left-0 h-full w-64 xxs:hidden md:block">
@@ -18,19 +16,19 @@ const SideMenuLargeScreen = () => {
             <li>
               <Link
                   href={"bookings"}
-                  onClick={() => setSelected("/bookings")}
+                  onClick={() => props.setSelected("/bookings")}
                   className={`
                   btn w-full border-none rounded-none no-animation hover:bg-zinc-300 text-black justify-start
-                  ${selected.includes("/bookings") ? "bg-zinc-400 hover:bg-zinc-400" : "bg-zinc-300"}`}
+                  ${props.selected.includes("/bookings") ? "bg-zinc-400 hover:bg-zinc-400" : "bg-zinc-300"}`}
               >
                 Bokningar
               </Link>
             </li>
             <li>
               <Link href={"requests"}
-                    onClick={() => setSelected("/requests")}
+                    onClick={() => props.setSelected("/requests")}
                     className={`btn w-full border-none rounded-none no-animation hover:bg-zinc-300 text-black justify-start
-                    ${selected.includes("/requests") ? "bg-zinc-400 hover:bg-zinc-400" : "bg-zinc-300"}`}
+                    ${props.selected.includes("/requests") ? "bg-zinc-400 hover:bg-zinc-400" : "bg-zinc-300"}`}
               >
                 Förfrågningar
               </Link>

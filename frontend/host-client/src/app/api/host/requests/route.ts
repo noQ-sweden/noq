@@ -1,36 +1,64 @@
 const port = process.env.BACKEND_URL_ENDPOINT
 const requestMapping = "api/host/requests"
+const CLIENT_DOMAIN = process.env.CLIENT_DOMAIN
+
+const handleResponse = async (response: Response, successStatus = 200) => {
+  try {
+    if (response.status === 401) {
+      return new Response(
+          JSON.stringify({error: "Unauthorized", message: "Authorization header missing or invalid"}),
+          {status: 401, headers: {"Content-Type": "application/json"}}
+      );
+    }
+
+    const responseBody = await response.json();
+    return new Response(JSON.stringify(responseBody), {
+      status: response.ok ? successStatus : response.status,
+      headers: {"Content-Type": "application/json"}
+    });
+  } catch (error) {
+    console.error("Error:", error);
+    return new Response(
+        JSON.stringify({error: "Internal Server Error", message: "An unexpected error occurred"}),
+        {status: 500, headers: {"Content-Type": "application/json"}}
+    );
+  }
+};
 
 export async function GET(request: Request) {
   try {
     const authorization = request.headers.get("authorization");
     if (!authorization) {
-      return new Response(JSON.stringify({ message: "No authorization header provided" }), {
-        status: 401,
-        headers: { "Content-Type": "application/json" }
-      });
+      return handleResponse(new Response(null), 401);
     }
 
     const res = await fetch(`${port}/${requestMapping}`, {
       method: "GET",
-      headers: { Authorization: authorization },
+      headers: {Authorization: authorization},
     });
 
-    const responseBody = res.ok ? await res.json() : { error: `Request failed with status ${res.status}`, message: res.statusText };
-    const status = res.ok ? 200 : res.status;
-
-    return new Response(JSON.stringify(responseBody), {
-      status,
-      headers: { "Content-Type": "application/json" }
-    });
+    return await handleResponse(res);
   } catch (error) {
-    console.error("Error:", error);
-    return new Response(JSON.stringify({
-      error: "Internal Server Error",
-      message: "An unexpected error occurred"
-    }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" }
+    return handleResponse(new Response(null), 500);
+  }
+}
+
+export async function PUT(request: Request) {
+  try {
+    const requestBody = await request.json();
+    const authorization = request.headers.get("authorization");
+    if (!authorization) {
+      return handleResponse(new Response(null), 401);
+    }
+
+    const res = await fetch(`${port}/${requestMapping}/update-reservation-status-field`, {
+      method: "PUT",
+      headers: {Authorization: authorization, "Content-Type": "application/json"},
+      body: JSON.stringify(requestBody)
     });
+
+    return await handleResponse(res);
+  } catch (error) {
+    return handleResponse(new Response(null), 500);
   }
 }
