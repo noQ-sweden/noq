@@ -2,6 +2,7 @@
 import React, {ReactNode, useEffect, useState} from "react";
 import Header from "@/layouts/Header";
 import SideMenuLargeScreen from "@/layouts/SideMenuLargeScreen";
+import action from "@/app/actions";
 
 type Props = {
   children: ReactNode;

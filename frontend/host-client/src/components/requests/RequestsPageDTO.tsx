@@ -1,4 +1,4 @@
-export interface RequestsViewModel {
+export interface RequestsPageDTO {
   id: string
   reservations: Reservation[];
 }
@@ -31,7 +31,7 @@ export enum UpdateChangeType {
 }
 
 /*Mock*/
-export const requestsViewModelMock: RequestsViewModel = {
+export const requestsPageDTOMock: RequestsPageDTO = {
   id: "",
   reservations: [{id: "", name: "", queuingPlace: 0, status: Status.APPROVED}]
 }

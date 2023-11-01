@@ -1,16 +1,14 @@
-package com.noq.backend.controllers.host.RequestsViewController;
+package com.noq.backend.controllers.host.bookings;
 
-public record HostRequestsViewDTO(
+public record HostBookingsPageDTO(
         String id,
         Reservation[] reservations
 ) {
-
-    public record Reservation(
+    record Reservation(
             String id,
             String name,
             int queuingPlace,
             com.noq.backend.models.Reservation.Status status
     ) {
     }
-
 }

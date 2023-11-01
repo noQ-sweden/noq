@@ -1,14 +1,14 @@
 "use client"
 import React, {useEffect, useState} from 'react';
-import {RequestsViewModel} from "@/components/requests/RequestsViewModel";
+import {RequestsPageDTO} from "@/components/requests/RequestsPageDTO";
 import RequestItem from "@/components/requests/components/RequestItem";
 
 interface RequestsProps {
-  data: RequestsViewModel
+  data: RequestsPageDTO
 }
 
 const Requests = (props: RequestsProps) => {
-  const [requestsViewModel, setRequestsViewModel] = useState<RequestsViewModel>(props.data);
+  const [requestsViewModel, setRequestsViewModel] = useState<RequestsPageDTO>(props.data);
 
   useEffect(() => {
     setRequestsViewModel(props.data)

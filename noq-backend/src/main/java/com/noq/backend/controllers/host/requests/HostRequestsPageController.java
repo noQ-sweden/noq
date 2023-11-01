@@ -1,9 +1,8 @@
-package com.noq.backend.controllers.host.RequestsViewController;
+package com.noq.backend.controllers.host.requests;
 
-import com.noq.backend.controllers.host.RequestsViewController.reqBodys.UpdateReservationStatusField;
+import com.noq.backend.controllers.host.requests.reqBodys.HostUpdateReservationStatusField;
 import com.noq.backend.models.Host;
 import com.noq.backend.models.Reservation;
-import com.noq.backend.services.HostService;
 import com.noq.backend.services.ReservationService;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,21 +22,20 @@ import java.util.stream.Stream;
 @CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 @Slf4j
-public class HostRequestsViewController {
-    private final HostService hostCosmosService;
+public class HostRequestsPageController {
     private final ReservationService reservationService;
 
     @GetMapping()
-    public ResponseEntity<HostRequestsViewDTO> requestsViewModel(@RequestHeader("Authorization") String token) {
-        log.info("requestsViewModel");
+    public ResponseEntity<HostRequestsPageDTO> requestsPage(@RequestHeader("Authorization") String token) {
+        log.info("requestsPage");
         log.info("token: {}", token);
-        HostRequestsViewDTO hostRequestsViewDTO = toHostRequestsViewDTO(Optional.empty());
-        return ResponseEntity.ok(hostRequestsViewDTO);
+        HostRequestsPageDTO hostRequestsPageDTO = toHostRequestsViewDTO(Optional.empty());
+        return ResponseEntity.ok(hostRequestsPageDTO);
     }
 
     @PutMapping("update-reservation-status-field")
-    public ResponseEntity<HostRequestsViewDTO> updateReservationStatusField(@RequestHeader("Authorization") String token,
-                                                                            @RequestBody UpdateReservationStatusField reqBody) {
+    public ResponseEntity<HostRequestsPageDTO> updateReservationStatusField(@RequestHeader("Authorization") String token,
+                                                                            @RequestBody HostUpdateReservationStatusField reqBody) {
         log.info("requestsViewModel");
         log.info("reqBody: {}", reqBody);
         var hostRequestsViewDTO = toHostRequestsViewDTO(
@@ -48,23 +46,23 @@ public class HostRequestsViewController {
         return ResponseEntity.ok(hostRequestsViewDTO);
     }
 
-    private HostRequestsViewDTO toHostRequestsViewDTO(Optional<Function<DTOBuilder, DTOBuilder>> additionalProcessing) {
+    private HostRequestsPageDTO toHostRequestsViewDTO(Optional<Function<DTOBuilder, DTOBuilder>> additionalProcessing) {
         return Stream.of(new DTOBuilder())
                 .map(additionalProcessing.orElseGet(Function::identity))
                 .map(reservationService.updateDTOBuilderWithReservations(DTOBuilder::setReservations))
-                .map(HostRequestsViewController::toDTO)
+                .map(HostRequestsPageController::toDTO)
                 .findFirst().get();
     }
 
-    private static HostRequestsViewDTO toDTO(DTOBuilder DTOBuilder) {
-        return new HostRequestsViewDTO(
+    private static HostRequestsPageDTO toDTO(DTOBuilder DTOBuilder) {
+        return new HostRequestsPageDTO(
                 "DTOBuilder.getHost().getHostId()",
-                DTOBuilder.getReservations().stream().map(HostRequestsViewController::toDTO).toArray(HostRequestsViewDTO.Reservation[]::new)
+                DTOBuilder.getReservations().stream().map(HostRequestsPageController::toDTO).toArray(HostRequestsPageDTO.Reservation[]::new)
         );
     }
 
-    private static HostRequestsViewDTO.Reservation toDTO(Reservation reservation) {
-        return new HostRequestsViewDTO.Reservation(
+    private static HostRequestsPageDTO.Reservation toDTO(Reservation reservation) {
+        return new HostRequestsPageDTO.Reservation(
                 reservation.getReservationId(),
                 reservation.getUser().getName(),
                 1,

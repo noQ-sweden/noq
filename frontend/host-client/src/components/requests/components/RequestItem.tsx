@@ -1,19 +1,19 @@
 "use client"
 
 import {
-  RequestsViewModel,
+  RequestsPageDTO,
   Reservation,
   Status,
   UpdateChangeType,
   UpdateReservationStatusField
-} from "@/components/requests/RequestsViewModel";
+} from "@/components/requests/RequestsPageDTO";
 import React, {useState} from "react";
 import {fetchUpdateReservationStatusField} from "@/components/requests/RequestsAPIHelper";
 
 interface RequestItemProps {
   request: Reservation
-  requestsViewModel: RequestsViewModel
-  setRequestsViewModel: (requestsViewModel: RequestsViewModel) => void
+  requestsViewModel: RequestsPageDTO
+  setRequestsViewModel: (requestsViewModel: RequestsPageDTO) => void
 }
 
 const RequestItem = (props: RequestItemProps) => {

@@ -1,11 +1,11 @@
 "use server"
-import {RequestsViewModel, UpdateReservationStatusField} from "./RequestsViewModel";
+import {RequestsPageDTO, UpdateReservationStatusField} from "./RequestsPageDTO";
 
 const CLIENT_DOMAIN = process.env.CLIENT_DOMAIN
 
 const requestMapping = "api/host/requests"
 
-export const fetchUpdateReservationStatusField = async (reqBody: UpdateReservationStatusField): Promise<RequestsViewModel> => {
+export const fetchUpdateReservationStatusField = async (reqBody: UpdateReservationStatusField): Promise<RequestsPageDTO> => {
   return fetch(`${CLIENT_DOMAIN}/${requestMapping}`, {
     method: "PUT",
     cache:  "no-cache",

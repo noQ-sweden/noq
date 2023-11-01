@@ -1,28 +1,34 @@
 import {Metadata} from "next";
-import {RequestsViewModel, requestsViewModelMock} from "@/components/requests/RequestsViewModel";
+import {RequestsPageDTO, requestsPageDTOMock} from "@/components/requests/RequestsPageDTO";
 import Requests from "@/components/requests/Requests";
 
 export const metadata: Metadata = {
-  title: 'noq',
+  title: 'Noq',
 }
 
 const CLIENT_DOMAIN = process.env.CLIENT_DOMAIN
 
-const getData = async (token: string): Promise<RequestsViewModel> => {
+const getData = async (token: string): Promise<RequestsPageDTO> => {
   return fetch(`${CLIENT_DOMAIN}/api/host/requests`, {
     method: "GET",
     cache: "no-store",
+    next: {tags: ["requests"]},
     headers: {Authorization: "Bearer " + token},
-  }).then(value => value.json());
+  }).then(res => {
+    if(res.ok) return res.json();
+    return Promise.reject(res)
+  }).catch(reason => {
+    console.error(reason)
+  });
 };
 
 export default async function Page() {
   const token = "fakeToken";
-  const data = await getData(token);
+  const data = await getData(token)
 
   return (
       <>
-        <Requests data={data ? data : requestsViewModelMock}/>
+        <Requests data={data ? data : requestsPageDTOMock}/>
       </>
   )
 }
