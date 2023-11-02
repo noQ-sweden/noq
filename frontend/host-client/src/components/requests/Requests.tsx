@@ -16,9 +16,8 @@ const Requests = (props: RequestsProps) => {
 
   return (
       <div>
-        <main className={"flex justify-center"}>
+        <main className={"flex mt-1 xxs:justify-center md:justify-start"}>
           <div className={"flex flex-col w-11/12"}>
-            <p className={"text-xl font-bold"}>Förfrågningar</p>
             <div className={"flex flex-col gap-1"}>
               {requestsViewModel.reservations && requestsViewModel.reservations.map(request => {
                 return (

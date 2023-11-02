@@ -33,7 +33,7 @@ const ApprovedItem = (props: RequestItemProps) => {
   }
 
   return (
-      <div key={props.reservation.id} className={"border-2 border-zinc-300 p-1"}>
+      <div key={props.reservation.id} className={"border-2 border-zinc-300 p-1 rounded"}>
         <p>Namn: {props.reservation.name}</p>
         <p>Status: {props.reservation.status}</p>
         <div className={"flex gap-1"}>

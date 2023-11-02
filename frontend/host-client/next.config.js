@@ -5,7 +5,7 @@ module.exports = {
     reactStrictMode: true,
     pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
     eslint: {
-        dirs: ['pages', 'components', 'lib', 'layouts', 'scripts'],
+        dirs: ['app', 'components', 'libs', 'layouts', 'scripts'],
     },
     webpack(config, {dev, isServer}) {
         config.resolve.fallback = {fs: false}

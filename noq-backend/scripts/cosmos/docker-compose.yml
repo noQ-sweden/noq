@@ -8,6 +8,9 @@
 # curl -k https://localhost:8081/_explorer/emulator.pem > "./emulatorcert$(date +'%Y%m%d%H%M').crt"
 # sudo keytool -import -file emulatorcert$(date +'%Y%m%d%H%M').crt -alias emulatorcert$(date +'%Y%m%d%H%M') -keystore ~/.jdks/corretto-17.0.8.1/lib/security/cacerts -storepass changeit
 
+# curl -k https://localhost:8081/_explorer/emulator.pem > "./emulatorcert$(date +'%Y%m%d%H%M').crt" && sudo keytool -import -file emulatorcert$(date +'%Y%m%d%H%M').crt -alias emulatorcert$(date +'%Y%m%d%H%M') -keystore ~/.jdks/corretto-17.0.8.1/lib/security/cacerts -storepass changeit
+
+
 version: '3.9'
 services:
   cosmos:
