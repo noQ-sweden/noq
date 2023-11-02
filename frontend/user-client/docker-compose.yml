@@ -1,0 +1,9 @@
+# docker build . -t user_client && docker compose up
+version: '3.9'
+
+services:
+  user_client:
+    container_name: user_client
+    image: user_client:latest
+    ports:
+      - "3001:3000"
