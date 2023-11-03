@@ -1,0 +1,9 @@
+# docker build . -t host_client && docker compose up
+version: '3.9'
+
+services:
+  host_client:
+    container_name: host_client
+    image: host_client:latest
+    ports:
+      - "3001:3000"

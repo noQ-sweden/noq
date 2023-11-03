@@ -1,8 +1,15 @@
 # docker compose up
-
 # https://localhost:8081/_explorer/index.html
+
 # curl -k https://localhost:8081/_explorer/emulator.pem > ./emulatorcert2423.crt
 # sudo keytool -import -file emulatorcert2423.crt -alias emulatorcert2423 -keystore ~/.jdks/corretto-17.0.8.1/lib/security/cacerts -storepass changeit
+
+# With current date
+# curl -k https://localhost:8081/_explorer/emulator.pem > "./emulatorcert$(date +'%Y%m%d%H%M').crt"
+# sudo keytool -import -file emulatorcert$(date +'%Y%m%d%H%M').crt -alias emulatorcert$(date +'%Y%m%d%H%M') -keystore ~/.jdks/corretto-17.0.8.1/lib/security/cacerts -storepass changeit
+
+# curl -k https://localhost:8081/_explorer/emulator.pem > "./emulatorcert$(date +'%Y%m%d%H%M').crt" && sudo keytool -import -file emulatorcert$(date +'%Y%m%d%H%M').crt -alias emulatorcert$(date +'%Y%m%d%H%M') -keystore ~/.jdks/corretto-17.0.8.1/lib/security/cacerts -storepass changeit
+
 
 version: '3.9'
 services:
