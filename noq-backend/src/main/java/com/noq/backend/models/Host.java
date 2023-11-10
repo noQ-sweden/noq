@@ -1,21 +1,14 @@
 package com.noq.backend.models;
 
-import com.azure.spring.data.cosmos.core.mapping.Container;
-import com.azure.spring.data.cosmos.core.mapping.PartitionKey;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
 
 import java.util.List;
 import java.util.UUID;
 
 @AllArgsConstructor
 @Data
-@Container(containerName = "hosts")
 public class Host {
-    @Id
-    @PartitionKey
     private String hostId;
     private String name;
     private Address[] address;
