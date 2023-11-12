@@ -1,15 +1,8 @@
 package com.noq.backend.services;
 
-import com.azure.cosmos.models.PartitionKey;
-import com.noq.backend.controllers.might_delete.DTOs.UserDTO;
-import com.noq.backend.models.User;
 import com.noq.backend.repositories.UserRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 @Service
 @AllArgsConstructor
@@ -46,17 +39,6 @@ public class UserService {
 //                .onErrorResume(this::handleError);
 //    }
 
-
-    // ERROR HANDLING ####################################################################################
-    private Mono<UserDTO> handleError(Throwable error) {
-        return Mono.error(new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
-                "Oops! Something went wrong!", error));
-    }
-
-    private Mono<UserDTO> handleNotFoundError(Throwable error) {
-        return Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND, "Resource not found.", error));
-    }
-    // ###################################################################################################
 
     // DTO CONVERTER
 //    private UserDTO toDTO(User user) {
