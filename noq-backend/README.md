@@ -1,19 +1,39 @@
 # noQ backend
+REST:ful API to support noQ frontend perform functions like Finding a Host, Administrating Hosts and Users Profiles.
 
 ## Data store
-
 noQ utilizes Postgresql Database as data store.
 
-### Setup
+### Requirements
+- Java 17 (Soon to be upgraded to Java 21)
+- Maven
+- JAVA_HOME environment variable points to the correct Java installation
 
-- Create file `resources/application-secret.properties`
+### Building the project
+```
+mvn clean install
+```
 
-For linux
+## Running the tests
+```
+mvn clean verify
+```
 
-- ```cd scripts```
-- ```docker compose up```
-- ```curl -k https://localhost:8081/_explorer/emulator.pem > ./emulatorcert1.crt```
-- ```sudo keytool -import -file emulatorcert1.crt -alias emulatorcert1 -keystore ~/.jdks/corretto-17.0.8.1/lib/security/cacerts -storepass changeit```
+## Run the application
+### Using java jar command
+```
+java -jar noq-backend-0.0.1.jar
+```
+### Using Docker
+##### Build and Push the Docker image
+```
+docker build -t noq-backend:0.0.1 .
+docker push <INSERT-your-docker-registry-location>/noq-backend:0.0.1
+```
+##### Run Docker container
+```
+docker run -p 8080:8080 -dit noq-backend:0.0.1
+```
 
 ### Provision new containers
 

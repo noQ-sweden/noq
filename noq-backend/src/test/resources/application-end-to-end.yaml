@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: noq-backend
+
+  datasource:
+    url: ${POSTGRES_URL:jdbc:postgresql://localhost:5432/postgres}
+    username: ${POSTGRES_USER:postgres}
+    password: ${POSTGRES_PWD:postgres}
+    hikari:
+      connection-timeout: 30000
+      idleTimeout: 600000
+      max-lifetime: 1800000
+      maximum-pool-size: 20
+      pool-name: "noq-hikari-conn-pool"
+    driver-class-name: org.postgresql.Driver
+
+  jmx:
+    enabled: false
+
+server:
+  port: 8080
