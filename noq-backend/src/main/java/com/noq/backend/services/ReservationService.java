@@ -4,8 +4,6 @@ import com.noq.backend.exceptions.HostNotFoundException;
 import com.noq.backend.models.Host;
 import com.noq.backend.models.Reservation;
 import com.noq.backend.repositories.HostRepository;
-import com.noq.backend.repositories.ReservationRepository;
-import com.noq.backend.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,11 +16,9 @@ import java.util.stream.StreamSupport;
 @AllArgsConstructor
 public class ReservationService implements ReservationServiceI {
     private final HostRepository hostRepository;
-    private final UserRepository usersUserRepository;
-    private final ReservationRepository reservationRepository;
 
     public Iterable<Reservation> findReservationsByHostId(String hostId) {
-        Host host = hostRepository.findByHostId(hostId).orElseThrow(() -> new HostNotFoundException(hostId));
+        Host host = hostRepository.findById(hostId).orElseThrow(() -> new HostNotFoundException(hostId));
         return findReservationsByHost(host);
     }
 
@@ -42,7 +38,7 @@ public class ReservationService implements ReservationServiceI {
     /*DTO_BUILDER_FUNCTIONS*/
     public <B> Function<B, B> updateDTOBuilderWithReservations(Function<B, Host> getHost, BiConsumer<B, List<Reservation>> setReservations) {
         return dtoBuilder -> {
-            List<Reservation> reservations = StreamSupport.stream(findReservationsByHostId(getHost.apply(dtoBuilder).getHostId()).spliterator(), false)
+            List<Reservation> reservations = StreamSupport.stream(findReservationsByHostId(getHost.apply(dtoBuilder).getId()).spliterator(), false)
                     .toList();
             setReservations.accept(dtoBuilder, reservations);
             return dtoBuilder;
@@ -58,5 +54,4 @@ public class ReservationService implements ReservationServiceI {
         };
     }
     /*DTO_BUILDER_FUNCTIONS*/
-
 }

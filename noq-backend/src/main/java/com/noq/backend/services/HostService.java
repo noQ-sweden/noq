@@ -19,7 +19,7 @@ public class HostService implements HostServiceI {
 
     @Override
     public Host findByHostId(String id) {
-        return hostRepository.findByHostId(id)
+        return hostRepository.findById(id)
                 .orElseThrow(() -> new HostNotFoundException(id));
     }
     @Override

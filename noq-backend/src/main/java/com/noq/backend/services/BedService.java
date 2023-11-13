@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 public class BedService {
+    /* TODO Implement
     private final BedRepository beds;
-    private final HostRepository hosts;
+    private final HostRepository hosts;*/
 }

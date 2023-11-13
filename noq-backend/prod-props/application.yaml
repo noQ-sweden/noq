@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: noq-backend
+
+  datasource:
+    url: ${POSTGRES_URL:jdbc:postgresql://localhost:5432/postgres}
+    username: ${POSTGRES_USER:postgres}
+    password: ${POSTGRES_PWD:postgres}
+    hikari:
+      connection-timeout: 30000
+      idleTimeout: 600000
+      max-lifetime: 1800000
+      maximum-pool-size: 20
+      pool-name: "noq-hikari-conn-pool"
+    driver-class-name: org.postgresql.Driver
+
+server:
+  port: 8080
+
+noq-backend:
+  cors:
+    allowedOrigin: https://ca-noq-frontend.thankfulglacier-35d24b26.swedencentral.azurecontainerapps.io/
