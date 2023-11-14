@@ -11,7 +11,9 @@ import org.testcontainers.containers.PostgreSQLContainer;
 abstract class PostgresqlContainerBase {
     static final PostgreSQLContainer<?> POSTGRE_SQL_CONTAINER;
 
-    public static final String LATEST_DOCKER_IMAGE = "postgres:16";
+    private static final String LATEST_DOCKER_IMAGE = "postgres:16";
+
+    private static final String DDL_SCRIPT_PATH = "ddl/createTables.sql";
 
     static {
         POSTGRE_SQL_CONTAINER = new PostgreSQLContainer<>(LATEST_DOCKER_IMAGE);
@@ -19,6 +21,7 @@ abstract class PostgresqlContainerBase {
                 .withDatabaseName("postgres")
                 .withPassword("postgres")
                 .withUsername("postgres")
+                .withInitScript(DDL_SCRIPT_PATH)
                 .start();
 
         System.setProperty("POSTGRES_URL", POSTGRE_SQL_CONTAINER.getJdbcUrl());

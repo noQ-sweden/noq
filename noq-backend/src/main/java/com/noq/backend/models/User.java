@@ -4,18 +4,16 @@ import com.noq.backend.models.utils.CommaSeparatedListConverter;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NonNull;
-import lombok.Value;
+import lombok.*;
 
 import java.util.List;
 import java.util.UUID;
 
+@NoArgsConstructor(force = true)
 @AllArgsConstructor
 @Value
-@Builder
-@Entity(name = "USER")
+@Builder(toBuilder = true)
+@Entity(name = "USERS")
 public class User {
 
     @Id
@@ -25,6 +23,8 @@ public class User {
     String firstName;
     @NonNull
     String lastName;
+    @NonNull
+    String dateOfBirth;
     String gender;
     @NonNull
     String unokod;

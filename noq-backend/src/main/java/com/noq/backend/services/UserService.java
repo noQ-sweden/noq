@@ -1,6 +1,8 @@
 package com.noq.backend.services;
 
 import com.noq.backend.models.User;
+import com.noq.backend.repositories.UserRepository;
+import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -12,35 +14,43 @@ import java.util.*;
 public class UserService {
 
     public static final int MIN_LENGTH_UNOKOD = 6;
-    private final List<User> users;
-    // FIXME Generate a unokodCache on Server Startup
+
+    private final UserRepository userRepository;
+
+    // FIXME Generate a unokodCache on Server Startup, so that new unokods can be created without risk of duplication
     private final Set<String> unokodCache;
 
-    public UserService(ArrayList<User> users) {
-        this.users = users;
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
         this.unokodCache = new HashSet<>();
     }
 
     public List<User> getAllUsers() {
-        return users;
+        return userRepository.findAll();
     }
 
     public User getUserByUnokod(String unokod) {
-        // Implement logic to find and return a user by ID
-        return null;
+        // Implement logic to find and return a user by UNOKOD
+        // TODO
+        throw new RuntimeException("getUserByUnokod Not Implemented");
     }
 
     public User getUserById(UUID id) {
-        // Implement logic to find and return a user by ID
-        return null;
+        // TODO Improve Error Handling
+        return userRepository.findById(id).orElseThrow(RuntimeException::new);
     }
 
     public User createUser(User user) {
-        // Implement logic to create a new user
-        users.add(user);
+        userRepository.save(user.toBuilder()
+                .unokod(generateUnoKod(user.getFirstName(), user.getLastName(), user.getDateOfBirth()))
+                .build());
         return user;
     }
 
+    /**
+     * Custom Business Logic to Generate New UNOKOD.
+     * If a duplicate is encountered on generation then it appends 1, 2, 3 and so on to every next one to keep UNOKOD simple as possible to remember.
+     */
     String generateUnoKod(@NonNull String firstName, @NonNull String lastName, @NonNull String dateOfBirth) {
         var generatedUnoKod = String.valueOf(firstName.toUpperCase().charAt(0)) + lastName.toUpperCase().charAt(0) + dateOfBirth.substring(4);
         if (!unokodCache.isEmpty() && unokodCache.contains(generatedUnoKod)) {
@@ -58,11 +68,13 @@ public class UserService {
     }
 
     public User updateUser(UUID id, User user) {
-        // Implement logic to update an existing user
-        return null;
+        userRepository.save(user.toBuilder()
+                .unokod(generateUnoKod(user.getFirstName(), user.getLastName(), user.getDateOfBirth()))
+                .build());
+        return user;
     }
 
-    public void deleteUser(Long id) {
-        // Implement logic to delete a user by ID
+    public void deleteUser(UUID userId) {
+        userRepository.deleteById(userId);
     }
 }

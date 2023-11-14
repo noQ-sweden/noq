@@ -2,6 +2,12 @@ spring:
   application:
     name: noq-backend
 
+  jpa:
+    hibernate:
+      naming:
+        # This enables auto conversion of Camel Casing Model Properties to Snake Case DB Columns
+        physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+
   datasource:
     url: ${POSTGRES_URL:jdbc:postgresql://localhost:5432/postgres}
     username: ${POSTGRES_USER:postgres}
@@ -13,6 +19,9 @@ spring:
       maximum-pool-size: 20
       pool-name: "noq-hikari-conn-pool"
     driver-class-name: org.postgresql.Driver
+
+  jmx:
+    enabled: false
 
 server:
   port: 8080
