@@ -64,7 +64,7 @@ public class HostRequestsPageController {
     private static HostRequestsPageDTO.Reservation toDTO(Reservation reservation) {
         return new HostRequestsPageDTO.Reservation(
                 reservation.getReservationId(),
-                reservation.getUser().getName(),
+                reservation.getUser().getFirstName(),
                 1,
                 reservation.getStatus()
         );

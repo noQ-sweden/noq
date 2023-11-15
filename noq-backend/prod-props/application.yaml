@@ -17,6 +17,6 @@ spring:
 server:
   port: 8080
 
-noq-backend:
-  cors:
-    allowedOrigin: https://ca-noq-frontend.thankfulglacier-35d24b26.swedencentral.azurecontainerapps.io/
+#noq-backend:
+#  cors:
+#    allowedOrigin: https://ca-noq-frontend.thankfulglacier-35d24b26.swedencentral.azurecontainerapps.io/

@@ -51,7 +51,7 @@ public class HostBookingsPageController {
     private static HostBookingsPageDTO.Reservation toDTO(Reservation reservation) {
         return new HostBookingsPageDTO.Reservation(
                 reservation.getReservationId(),
-                reservation.getUser().getName(),
+                reservation.getUser().getFirstName(),
                 1,
                 reservation.getStatus()
         );
