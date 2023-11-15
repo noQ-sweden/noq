@@ -12,11 +12,16 @@ public class CreateUserDto {
     String dateOfBirth;
     String phone;
     String email;
-    String hasAccessToInternet;
     String caseManager;
 
-    public static User toDomain() {
-        // TODO Implement Tests
-        return User.builder().build();
+    public User toDomain() {
+        return User.builder()
+                .firstName(firstName)
+                .lastName(lastName)
+                .dateOfBirth(dateOfBirth)
+                .phone(phone)
+                .email(email)
+                .caseManager(caseManager)
+                .build();
     }
 }

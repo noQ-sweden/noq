@@ -1,10 +1,9 @@
 package com.noq.backend.models;
 
 import com.noq.backend.models.utils.CommaSeparatedListConverter;
-import jakarta.persistence.Convert;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.id.uuid.UuidGenerator;
 
 import java.util.List;
 import java.util.UUID;
@@ -17,7 +16,7 @@ import java.util.UUID;
 public class User {
 
     @Id
-    @NonNull
+    @GeneratedValue(strategy = GenerationType.UUID)
     UUID userId;
     @NonNull
     String firstName;
@@ -26,7 +25,6 @@ public class User {
     @NonNull
     String dateOfBirth;
     String gender;
-    @NonNull
     String unokod;
     String phone;
     String email;

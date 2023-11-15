@@ -23,7 +23,7 @@ public class UserController {
         return userService.getAllUsers();
     }
 
-    @GetMapping("/{unokod}")
+    @GetMapping("/unokod/{unokod}")
     public ResponseEntity<User> getUserByUnoKod(@PathVariable String unokod) {
         User user = userService.getUserByUnokod(unokod);
         if (user != null) {
@@ -33,7 +33,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     public ResponseEntity<User> getUserById(@PathVariable UUID id) {
         User user = userService.getUserById(id);
         if (user != null) {
@@ -45,7 +45,7 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<User> createUser(@RequestBody CreateUserDto user) {
-        User createdUser = userService.createUser(CreateUserDto.toDomain());
+        User createdUser = userService.createUser(user.toDomain());
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
 
