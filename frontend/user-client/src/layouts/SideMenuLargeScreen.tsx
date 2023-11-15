@@ -10,7 +10,7 @@ interface SideMenuLargeScreenProps {
 const SideMenuLargeScreen = (props: SideMenuLargeScreenProps) => {
   return (
       <div
-          className="fixed inset-y-15 bg-zinc-300 left-0 h-full w-64 xxs:hidden md:block">
+          className="fixed inset-y-15 bg-zinc-50 left-0 h-full w-64 xxs:hidden md:block">
         <section className={""}>
 
           <ul className="bg-transparent">
@@ -22,10 +22,10 @@ const SideMenuLargeScreen = (props: SideMenuLargeScreenProps) => {
                     await revalidateCache("bookings")
                   }}
                   className={`
-                  btn w-full border-none rounded-none no-animation hover:bg-zinc-300 text-black justify-start
-                  ${props.selected.includes("/bookings") ? "bg-zinc-400 hover:bg-zinc-400" : "bg-zinc-300"}`}
+                  btn w-full border-none rounded-none font-normal no-animation hover:bg-zinc-50 text-emerald-700 justify-start
+                  ${props.selected.includes("/bookings") ? "bg-emerald-700 hover:bg-emerald-800 text-white" : "hover:bg-zinc-100 bg-zinc-50"}`}
               >
-                Bokningar
+                Boka Boende
               </Link>
             </li>
             <li>
@@ -34,10 +34,10 @@ const SideMenuLargeScreen = (props: SideMenuLargeScreenProps) => {
                       props.setSelected("/requests")
                       await revalidateCache("requests")
                     }}
-                    className={`btn w-full border-none rounded-none no-animation hover:bg-zinc-300 text-black justify-start
-                    ${props.selected.includes("/requests") ? "bg-zinc-400 hover:bg-zinc-400" : "bg-zinc-300"}`}
+                    className={`btn w-full border-none border-indigo-500 font-normal rounded-none no-animation text-emerald-700 justify-start
+                    ${props.selected.includes("/requests") ? "bg-emerald-700 hover:bg-emerald-800 text-white" : "hover:bg-zinc-100 bg-zinc-50"}`}
               >
-                Förfrågningar
+                Mina Bokningar
               </Link>
             </li>
           </ul>

@@ -17,6 +17,11 @@ export interface UpdateReservationStatusField {
   updateChangeType: UpdateChangeType
 }
 
+export interface FilterSearchReqBody {
+  area: string
+  sort: string
+}
+
 /*enums*/
 export enum Status {
   APPROVED = "APPROVED",
