@@ -1,6 +1,8 @@
 package com.noq.backend;
 
+import com.noq.backend.models.Host;
 import com.noq.backend.models.User;
+import com.noq.backend.repositories.HostRepository;
 import com.noq.backend.repositories.UserRepository;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
@@ -9,7 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import javax.sql.DataSource;
-
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -26,6 +27,9 @@ class NoqBackendApplication_EndToEnd_IT extends PostgresqlContainerBase {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    HostRepository hostRepository;
 
     @SneakyThrows
     @Test
@@ -60,5 +64,36 @@ class NoqBackendApplication_EndToEnd_IT extends PostgresqlContainerBase {
         // And
         userRepository.delete(user);
         assertThat(userRepository.findAll()).isEmpty();
+    }
+
+    @Test
+    void shouldSuccessfullySetupHostRepository_withDatabaseTablesFromDDL() {
+        // Given
+        var host = Host.builder()
+                .name("Boende Härbärge 1")
+                .address1("Address 1")
+                .address2("Street 1")
+                .city("Stockholm")
+                .addressPostcode("111 20")
+                .email("host1@example.com")
+                .countOfAvailablePlaces(10)
+                .totalPlaces(50)
+                .facilities("Boende, Mat, Dusch, Tvätt, Samtalsstöd")
+                .targetAudience("Homeless")
+                .build();
+        ;
+
+        // When
+        hostRepository.save(host);
+
+        // Then
+        assertThat(hostRepository.findAll()).hasSize(1);
+
+        // And
+        assertThat(hostRepository.findById(host.getHostId())).hasValue(host);
+
+        // And
+        hostRepository.delete(host);
+        assertThat(hostRepository.findAll()).isEmpty();
     }
 }

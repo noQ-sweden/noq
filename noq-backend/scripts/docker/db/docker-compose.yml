@@ -13,3 +13,4 @@ services:
     volumes:
       - ./postgresql.conf:/etc/postgresql.conf
       - ./../../../src/main/resources/ddl/createTables.sql:/docker-entrypoint-initdb.d/createTables.sql
+      - ./testdata/insert-testdata.sql:/docker-entrypoint-initdb.d/insert-testdata.sql

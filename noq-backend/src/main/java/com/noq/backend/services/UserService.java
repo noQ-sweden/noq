@@ -2,12 +2,14 @@ package com.noq.backend.services;
 
 import com.noq.backend.models.User;
 import com.noq.backend.repositories.UserRepository;
-import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
 @Service
 @Slf4j

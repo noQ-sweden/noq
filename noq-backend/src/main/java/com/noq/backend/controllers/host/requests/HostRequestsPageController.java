@@ -1,21 +1,10 @@
 package com.noq.backend.controllers.host.requests;
 
-import com.noq.backend.controllers.host.requests.reqBodys.HostUpdateReservationStatusField;
-import com.noq.backend.models.Host;
-import com.noq.backend.models.Reservation;
-import com.noq.backend.services.ReservationService;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.function.Function;
-import java.util.stream.Stream;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/host/requests")
@@ -23,7 +12,7 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor
 @Slf4j
 public class HostRequestsPageController {
-    private final ReservationService reservationService;
+/*    private final ReservationService reservationService;
 
     @GetMapping()
     public ResponseEntity<HostRequestsPageDTO> requestsPage(@RequestHeader("Authorization") String token) {
@@ -75,6 +64,6 @@ public class HostRequestsPageController {
     private static class DTOBuilder {
         private Host host;
         private List<Reservation> reservations = new ArrayList<>();
-    }
+    }*/
 
 }

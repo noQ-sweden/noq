@@ -6,6 +6,8 @@ import com.noq.backend.repositories.HostRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 @AllArgsConstructor
 public class HostService implements HostServiceI {
@@ -19,7 +21,7 @@ public class HostService implements HostServiceI {
 
     @Override
     public Host findByHostId(String id) {
-        return hostRepository.findById(id)
+        return hostRepository.findById(UUID.fromString(id))
                 .orElseThrow(() -> new HostNotFoundException(id));
     }
     @Override
