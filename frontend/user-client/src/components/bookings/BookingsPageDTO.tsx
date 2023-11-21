@@ -1,18 +1,21 @@
 export interface BookingsPageDTO {
-  id: string
-  reservations: Reservation[];
+  availableHosts: Host[];
 }
 
-export interface Reservation {
+export interface Host {
   id: string;
-  name: string
-  queuingPlace: number
-  status: Status
+  name: string;
+  address1: string;
+  address2: string;
+  postalCode: string;
+  city: string;
+  countOfAvailablePlaces: number;
+  totalAvailablePlaces: number;
 }
 
 /*reqBody*/
 export interface UpdateReservationStatusField {
-  reservationId: string,
+  hostId: string,
   newValue: string,
   updateChangeType: UpdateChangeType
 }
@@ -37,6 +40,37 @@ export enum UpdateChangeType {
 
 /*Mock*/
 export const bookingsPageDTOMock: BookingsPageDTO = {
-  id: "",
-  reservations: [{id: "", name: "", queuingPlace: 0, status: Status.APPROVED}]
-}
+  availableHosts: [
+    {
+      id: "686569fa-4ec0-4c66-9b98-9e9858fdcc8d",
+      name: "Boställe 1",
+      address1: "Stockholmsgatan 1",
+      address2: "Södermalm",
+      postalCode: "11826",
+      city: "Stockholm",
+      countOfAvailablePlaces: 5,
+      totalAvailablePlaces: 10,
+    },
+    {
+      id: "979569aa-4ec0-8d66-9b98-9e9858fdcc9b",
+      name: "Boställe 2",
+      address1: "Stockholmsgatan 1",
+      address2: "Södermalm",
+      postalCode: "11826",
+      city: "Stockholm",
+      countOfAvailablePlaces: 5,
+      totalAvailablePlaces: 10,
+    },
+    {
+      id: "686569aa-4ec0-8d66-9b98-9e9858fdcc8a",
+      name: "Boställe 3",
+      address1: "Stockholmsgatan 1",
+      address2: "Södermalm",
+      postalCode: "11826",
+      city: "Stockholm",
+      countOfAvailablePlaces: 0,
+      totalAvailablePlaces: 10,
+    },
+  ],
+};
+

@@ -7,7 +7,7 @@ interface RequestsProps {
   data: RequestsPageDTO
 }
 
-const Requests = (props: RequestsProps) => {
+const RequestsPage = (props: RequestsProps) => {
   const [requestsViewModel, setRequestsViewModel] = useState<RequestsPageDTO>(props.data);
 
   useEffect(() => {
@@ -36,4 +36,4 @@ const Requests = (props: RequestsProps) => {
   );
 };
 
-export default Requests;
+export default RequestsPage;

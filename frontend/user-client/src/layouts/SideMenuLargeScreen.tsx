@@ -1,6 +1,7 @@
 "use client"
 import Link from "next/link";
 import {revalidateCache} from "@/app/actions";
+import {useEffect, useState} from "react";
 
 interface SideMenuLargeScreenProps {
   setSelected: (value: string) => void;
@@ -22,8 +23,8 @@ const SideMenuLargeScreen = (props: SideMenuLargeScreenProps) => {
                     await revalidateCache("bookings")
                   }}
                   className={`
-                  btn w-full border-none rounded-none font-normal no-animation hover:bg-zinc-50 text-emerald-700 justify-start
-                  ${props.selected.includes("/bookings") ? "bg-emerald-700 hover:bg-emerald-800 text-white" : "hover:bg-zinc-100 bg-zinc-50"}`}
+                  btn w-full border-none border-indigo-500 font-normal rounded-none no-animation text-emerald-700 justify-start
+                  ${props.selected.includes("/bookings") ? "bg-emerald-700 hover:bg-emerald-700 text-white" : "hover:bg-zinc-100 bg-zinc-50"}`}
               >
                 Boka Boende
               </Link>
@@ -35,7 +36,7 @@ const SideMenuLargeScreen = (props: SideMenuLargeScreenProps) => {
                       await revalidateCache("requests")
                     }}
                     className={`btn w-full border-none border-indigo-500 font-normal rounded-none no-animation text-emerald-700 justify-start
-                    ${props.selected.includes("/requests") ? "bg-emerald-700 hover:bg-emerald-800 text-white" : "hover:bg-zinc-100 bg-zinc-50"}`}
+                    ${props.selected.includes("/requests") ? "bg-emerald-700 hover:bg-emerald-700 text-white" : "hover:bg-zinc-100 bg-zinc-50"}`}
               >
                 Mina Bokningar
               </Link>

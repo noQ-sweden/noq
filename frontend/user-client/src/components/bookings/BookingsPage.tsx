@@ -1,14 +1,14 @@
 "use client"
 import React, {useEffect, useState} from 'react';
 import {BookingsPageDTO, FilterSearchReqBody} from "@/components/bookings/BookingsPageDTO";
-import ApprovedItem from "@/components/bookings/components/ApprovedItem";
+import AvailableBookingItem from "@/components/bookings/components/AvailableBookingItem";
 import {useRouter, useSearchParams} from "next/navigation";
 
 interface BookingsProps {
   data: BookingsPageDTO
 }
 
-const Bookings = (props: BookingsProps) => {
+const BookingsPage = (props: BookingsProps) => {
   const searchParams = useSearchParams()
   const router = useRouter();
 
@@ -23,7 +23,7 @@ const Bookings = (props: BookingsProps) => {
   console.log(filterSearchContext)
   useEffect(() => {
     setBookingsPageDTO(props.data)
-  }, []);
+  }, [props.data]);
 
   const onChangeOptionArea = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value = event.currentTarget.value;
@@ -44,7 +44,7 @@ const Bookings = (props: BookingsProps) => {
     const updatedUrl = `/bookings?area=${area}&sort=${sortValue}`
     router.push(updatedUrl);
   };
-
+  console.log(bookingsPageDTO)
   return (
       <div>
         <main className={"flex mt-1 xxs:justify-center md:justify-start"}>
@@ -76,10 +76,10 @@ const Bookings = (props: BookingsProps) => {
             </section>
 
             <div className={"flex flex-col gap-1"}>
-              {bookingsPageDTO.reservations && bookingsPageDTO.reservations.map(request => {
+              {bookingsPageDTO.availableHosts && bookingsPageDTO.availableHosts.map(availableHost => {
                 return (
-                    <div key={request.id}>
-                      <ApprovedItem reservation={request}
+                    <div key={availableHost.id}>
+                      <AvailableBookingItem availableHost={availableHost}
                                     requestsViewModel={bookingsPageDTO}
                                     setRequestsViewModel={setBookingsPageDTO}
                       />
@@ -93,4 +93,4 @@ const Bookings = (props: BookingsProps) => {
   );
 };
 
-export default Bookings;
+export default BookingsPage;
