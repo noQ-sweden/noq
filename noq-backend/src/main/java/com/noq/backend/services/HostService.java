@@ -1,46 +1,33 @@
 package com.noq.backend.services;
 
-import com.noq.backend.exceptions.HostNotFoundException;
 import com.noq.backend.models.Host;
 import com.noq.backend.repositories.HostRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class HostService implements HostServiceI {
+@Slf4j
+public class HostService {
     private final HostRepository hostRepository;
 
-    //CREATE NEW HOST
-    /* TODO
-    public Optional<HostDTO> create(HostDTO hostDTO) {
-        return null;
-    }*/
-
-    @Override
-    public Host findByHostId(String id) {
-        return hostRepository.findById(UUID.fromString(id))
-                .orElseThrow(() -> new HostNotFoundException(id));
-    }
-    @Override
-    public Host findById(String id) {
-        throw new RuntimeException("findById Not Implemented");
+    public Optional<Host> create(Host host) {
+        // TODO Implement this when you create the Frontend for the same
+        throw new RuntimeException("HostService.create :: Not Implemented");
     }
 
-/*  TODO GET HOST BY ID */
+    public List<Host> findByHostCity(String city) {
+        log.info("Looking for Hosts in city: {}", city);
+        return hostRepository.getAllByCity(city.toLowerCase());
+    }
 
-    // TODO GET ALL HOSTS
-
-    // DTO CONVERTER
-/*    private HostDTO toDTO(Host host) {
-        return new HostDTO(
-                host.getHostId(),
-                host.getName(),
-                host.getAddress(),
-                host.getImage()
-        );
-        return null;
-    }*/
+    public List<Host> allHosts() {
+        List<Host> hosts = hostRepository.findAll();
+        log.info("Found {} Hosts in total: ", hosts);
+        return hosts;
+    }
 }

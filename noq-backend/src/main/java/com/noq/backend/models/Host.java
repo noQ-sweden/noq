@@ -21,8 +21,8 @@ public class Host {
     @GeneratedValue(strategy = GenerationType.UUID)
     UUID hostId;
     String name;
-    String address1;
-    String address2;
+    String address_1;
+    String address_2;
     String city;
     String addressPostcode;
     String email;

@@ -6,7 +6,7 @@
       "address1": "Stockholmsgatan 1",
       "address2": "Södermalm",
       "postalCode": "11826",
-      "city": "Stockholm",
+      "city": "stockholm",
       "countOfAvailablePlaces": 5,
       "totalAvailablePlaces": 10
     },
@@ -16,7 +16,7 @@
       "address1": "Stockholmsgatan 1",
       "address2": "Södermalm",
       "postalCode": "11826",
-      "city": "Stockholm",
+      "city": "stockholm",
       "countOfAvailablePlaces": 5,
       "totalAvailablePlaces": 10
     },
@@ -26,7 +26,7 @@
       "address1": "Stockholmsgatan 1",
       "address2": "Södermalm",
       "postalCode": "11826",
-      "city": "Stockholm",
+      "city": "stockholm",
       "countOfAvailablePlaces": 0,
       "totalAvailablePlaces": 10
     }
