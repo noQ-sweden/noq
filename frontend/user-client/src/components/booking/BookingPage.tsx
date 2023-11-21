@@ -10,7 +10,7 @@ interface BookingProps {
   data: BookingPageDTO
 }
 
-const Booking = (props: BookingProps) => {
+const BookingPage = (props: BookingProps) => {
   console.log(props.data)
   const router = useRouter();
 
@@ -51,4 +51,4 @@ const Booking = (props: BookingProps) => {
   );
 };
 
-export default Booking;
+export default BookingPage;

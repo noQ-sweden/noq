@@ -8,7 +8,7 @@ interface BookingsProps {
   data: BookingsPageDTO
 }
 
-const Bookings = (props: BookingsProps) => {
+const BookingsPage = (props: BookingsProps) => {
   const searchParams = useSearchParams()
   const router = useRouter();
 
@@ -93,4 +93,4 @@ const Bookings = (props: BookingsProps) => {
   );
 };
 
-export default Bookings;
+export default BookingsPage;

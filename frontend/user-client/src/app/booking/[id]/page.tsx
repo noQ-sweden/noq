@@ -1,8 +1,8 @@
 import {Metadata} from "next";
-import Bookings from "@/components/bookings/Bookings";
+import BookingsPage from "@/components/bookings/BookingsPage";
 import {BookingsPageDTO, bookingsPageDTOMock} from "@/components/bookings/BookingsPageDTO";
 import {BookingPageDTO, bookingPageMock} from "@/components/booking/BookingPageDTO";
-import Booking from "@/components/booking/Booking";
+import BookingPage from "@/components/booking/BookingPage";
 
 export const metadata: Metadata = {
   title: 'Noq',
@@ -30,7 +30,7 @@ export default async function Page({params}: { params: { id: string } }) {
 
   return (
       <>
-        <Booking data={data ? data : bookingPageMock}/>
+        <BookingPage data={data ? data : bookingPageMock}/>
       </>
   )
 }

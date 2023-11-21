@@ -1,6 +1,6 @@
 import {Metadata} from "next";
 import {RequestsPageDTO, requestsPageDTOMock} from "@/components/requests/RequestsPageDTO";
-import Requests from "@/components/requests/Requests";
+import RequestsPage from "@/components/requests/RequestsPage";
 
 export const metadata: Metadata = {
   title: 'Noq',
@@ -28,7 +28,7 @@ export default async function Page() {
 
   return (
       <>
-        <Requests data={data ? data : requestsPageDTOMock}/>
+        <RequestsPage data={data ? data : requestsPageDTOMock}/>
       </>
   )
 }
