@@ -1,7 +1,7 @@
 "use client"
 import React, {useEffect, useState} from 'react';
 import {BookingsPageDTO, FilterSearchReqBody} from "@/components/bookings/BookingsPageDTO";
-import AvailableHostitem from "@/components/bookings/components/ApprovedItem";
+import AvailableBookingItem from "@/components/bookings/components/AvailableBookingItem";
 import {useRouter, useSearchParams} from "next/navigation";
 
 interface BookingsProps {
@@ -79,7 +79,7 @@ const Bookings = (props: BookingsProps) => {
               {bookingsPageDTO.availableHosts && bookingsPageDTO.availableHosts.map(availableHost => {
                 return (
                     <div key={availableHost.id}>
-                      <AvailableHostitem availableHost={availableHost}
+                      <AvailableBookingItem availableHost={availableHost}
                                     requestsViewModel={bookingsPageDTO}
                                     setRequestsViewModel={setBookingsPageDTO}
                       />

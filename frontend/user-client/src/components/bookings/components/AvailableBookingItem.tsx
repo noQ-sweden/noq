@@ -11,7 +11,7 @@ interface RequestItemProps {
   setRequestsViewModel: (requestsViewModel: BookingsPageDTO) => void
 }
 
-const ApprovedItem = (props: RequestItemProps) => {
+const AvailableBookingItem = (props: RequestItemProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const onClickHost = (id: string) => {
@@ -35,4 +35,4 @@ const ApprovedItem = (props: RequestItemProps) => {
   )
 }
 
-export default ApprovedItem;
+export default AvailableBookingItem;
