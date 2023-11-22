@@ -71,8 +71,8 @@ class NoqBackendApplication_EndToEnd_IT extends PostgresqlContainerBase {
         // Given
         var host = Host.builder()
                 .name("Boende Härbärge 1")
-                .address1("Address 1")
-                .address2("Street 1")
+                .address_1("Address 1")
+                .address_2("Street 1")
                 .city("Stockholm")
                 .addressPostcode("111 20")
                 .email("host1@example.com")

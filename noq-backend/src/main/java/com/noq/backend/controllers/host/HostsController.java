@@ -16,11 +16,17 @@ public class HostsController {
 
     @GetMapping
     public HostsListPageDTO getAllHosts() {
-        return new HostsListPageDTO(hostService.allHosts());
+        return new HostsListPageDTO(hostService.allHosts()
+                .stream()
+                .map(HostDTO::from)
+                .toList());
     }
 
     @GetMapping("/city/{city}")
     public HostsListPageDTO getHostsForCity(@PathVariable("city") String city) {
-        return new HostsListPageDTO(hostService.findByHostCity(city));
+        return new HostsListPageDTO(hostService.findByHostCity(city)
+                .stream()
+                .map(HostDTO::from)
+                .toList());
     }
 }

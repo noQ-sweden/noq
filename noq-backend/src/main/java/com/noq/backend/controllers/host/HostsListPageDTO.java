@@ -4,5 +4,5 @@ import com.noq.backend.models.Host;
 
 import java.util.List;
 
-record HostsListPageDTO(List<Host> availableHosts) {
+record HostsListPageDTO(List<HostDTO> availableHosts) {
 }
