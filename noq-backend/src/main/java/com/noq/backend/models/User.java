@@ -3,7 +3,6 @@ package com.noq.backend.models;
 import com.noq.backend.models.utils.CommaSeparatedListConverter;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.id.uuid.UuidGenerator;
 
 import java.util.List;
 import java.util.UUID;

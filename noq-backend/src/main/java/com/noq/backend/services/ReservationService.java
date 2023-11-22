@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.stream.StreamSupport;
@@ -18,7 +19,7 @@ public class ReservationService implements ReservationServiceI {
     private final HostRepository hostRepository;
 
     public Iterable<Reservation> findReservationsByHostId(String hostId) {
-        Host host = hostRepository.findById(hostId).orElseThrow(() -> new HostNotFoundException(hostId));
+        Host host = hostRepository.findById(UUID.fromString(hostId)).orElseThrow(() -> new HostNotFoundException(hostId));
         return findReservationsByHost(host);
     }
 
@@ -38,7 +39,7 @@ public class ReservationService implements ReservationServiceI {
     /*DTO_BUILDER_FUNCTIONS*/
     public <B> Function<B, B> updateDTOBuilderWithReservations(Function<B, Host> getHost, BiConsumer<B, List<Reservation>> setReservations) {
         return dtoBuilder -> {
-            List<Reservation> reservations = StreamSupport.stream(findReservationsByHostId(getHost.apply(dtoBuilder).getId()).spliterator(), false)
+            List<Reservation> reservations = StreamSupport.stream(findReservationsByHostId(getHost.apply(dtoBuilder).getHostId().toString()).spliterator(), false)
                     .toList();
             setReservations.accept(dtoBuilder, reservations);
             return dtoBuilder;
