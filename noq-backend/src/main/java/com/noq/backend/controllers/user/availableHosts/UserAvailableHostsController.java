@@ -20,12 +20,4 @@ public class UserAvailableHostsController {
                 .map(HostDTO::toDTO)
                 .toList());
     }
-
-//    @GetMapping("/city/{city}")
-//    public UserBookingsPageDTO getHostsForCity(@PathVariable("city") String city) {
-//        return new UserBookingsPageDTO(hostService.findByHostCity(city)
-//                .stream()
-//                .map(HostDTO::toDTO)
-//                .toList());
-//    }
 }
