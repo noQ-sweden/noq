@@ -1,6 +1,6 @@
 package com.noq.backend.utilities;
 
-import com.noq.backend.controllers.host.BedsViewController.BedDTO;
+//import com.noq.backend.controllers.host.BedsViewController.BedDTO;
 import com.noq.backend.exceptions.BedNotFoundException;
 import com.noq.backend.exceptions.HostNotFoundException;
 import com.noq.backend.exceptions.ReservationNotFoundException;

@@ -1,18 +1,18 @@
 "use client"
 import React, {useEffect, useState} from 'react';
-import {BookingsPageDTO, FilterSearchReqBody} from "@/components/bookings/BookingsPageDTO";
+import {AvailableHostsDTO, FilterSearchReqBody} from "@/components/bookings/AvailableHostsDTO";
 import AvailableBookingItem from "@/components/bookings/components/AvailableBookingItem";
 import {useRouter, useSearchParams} from "next/navigation";
 
 interface BookingsProps {
-  data: BookingsPageDTO
+  data: AvailableHostsDTO
 }
 
 const BookingsPage = (props: BookingsProps) => {
   const searchParams = useSearchParams()
   const router = useRouter();
 
-  const [bookingsPageDTO, setBookingsPageDTO] = useState<BookingsPageDTO>(props.data);
+  const [bookingsPageDTO, setBookingsPageDTO] = useState<AvailableHostsDTO>(props.data);
   const [defaultAreaSelected, setDefaultAreaSelected] = useState(searchParams.get('area') || "Välj bostadsområde");
   const [defaultSortSelected] = useState(searchParams.get('sort') || "featured");
 

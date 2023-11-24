@@ -1,4 +1,4 @@
-package com.noq.backend.controllers.host;
+package com.noq.backend.controllers.user.availableHosts;
 
 import com.noq.backend.models.Host;
 import lombok.Builder;
@@ -18,7 +18,7 @@ record HostDTO(UUID hostId,
     public HostDTO {
     }
 
-    public static HostDTO from(Host host) {
+    public static HostDTO toDTO(Host host) {
         return HostDTO.builder()
                 .hostId(host.getHostId())
                 .name(host.getName())

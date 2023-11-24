@@ -13,7 +13,6 @@ import java.util.UUID;
 @Builder(toBuilder = true)
 @Entity(name = "USERS")
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     UUID userId;
@@ -40,4 +39,27 @@ public class User {
     String goals;
     String commentsAndRemarks;
     UUID reservationId;
+
+    public static User create(String firstName, String lastName, String dateOfBirth, String caseManager) {
+        return User.builder()
+                .firstName(firstName)
+                .lastName(lastName)
+                .dateOfBirth(dateOfBirth)
+                .gender(caseManager)
+                .unokod("")
+                .phone("")
+                .email("")
+                .kommun("")
+                .place("")
+                .payingCharges(false)
+                .caseManager("")
+                .understandsSwedish(false)
+                .languagesKnown(List.of())
+                .isFlagged(false)
+                .reasonsForHomelessness("")
+                .goals("")
+                .commentsAndRemarks("")
+                .reservationId(null)
+                .build();
+    }
 }

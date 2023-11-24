@@ -1,20 +1,21 @@
 "use client"
 
 import React, {useState} from "react";
-import {BookingsPageDTO, Host} from "@/components/bookings/BookingsPageDTO";
+import {AvailableHostsDTO, Host} from "@/components/bookings/AvailableHostsDTO";
 import Button1 from "@/libs/Button1";
 import Link from "next/link";
 
 interface RequestItemProps {
   availableHost: Host
-  requestsViewModel: BookingsPageDTO
-  setRequestsViewModel: (requestsViewModel: BookingsPageDTO) => void
+  requestsViewModel: AvailableHostsDTO
+  setRequestsViewModel: (requestsViewModel: AvailableHostsDTO) => void
 }
 
 const AvailableBookingItem = (props: RequestItemProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const onClickHost = (id: string) => {
+    "use server"
     console.log(id);
   };
 

@@ -1,6 +1,6 @@
 import {Metadata} from "next";
 import BookingsPage from "@/components/bookings/BookingsPage";
-import {BookingsPageDTO, bookingsPageDTOMock} from "@/components/bookings/BookingsPageDTO";
+import {AvailableHostsDTO, availableHostsDTOMock} from "@/components/bookings/AvailableHostsDTO";
 import {BookingPageDTO, bookingPageMock} from "@/components/booking/BookingPageDTO";
 import BookingPage from "@/components/booking/BookingPage";
 
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 const CLIENT_DOMAIN = process.env.CLIENT_DOMAIN
 
 const getData = async (token: string, id: string): Promise<BookingPageDTO> => {
-  // return fetch(`${CLIENT_DOMAIN}/api/host/booking`, {
+  // return fetch(`${CLIENT_DOMAIN}/api/user/booking`, {
   //   method: "GET",
   //   cache: "no-store",
   //   next: {tags: ["booking"]},

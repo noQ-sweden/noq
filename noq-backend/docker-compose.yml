@@ -13,6 +13,18 @@ services:
       networks:
         - noq_net
 
+    noq-backend-postgres:
+      image: postgres:16
+      container_name: noq-backend-postgres
+      environment:
+        POSTGRES_DB: postgres
+        POSTGRES_USER: admin
+        POSTGRES_PASSWORD: admin
+      ports:
+        - "5432:5432"
+      networks:
+        - noq_net
+
 networks:
   noq_net:
     name: noq_net
