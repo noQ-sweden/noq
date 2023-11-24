@@ -18,23 +18,23 @@ public class NoqBackendApplication {
         SpringApplication.run(NoqBackendApplication.class, args);
     }
 
-    @Bean
-    ApplicationRunner applicationRunner (
-            HostRepository hostRepository,
-            UserRepository userRepository
-    ){
-        return args -> {
-            userRepository.deleteAll();
-            hostRepository.deleteAll();
-            System.out.println("Hello World");
-
-            User user = User.create("John", "Doe", "1990-01-01", "Case Manager");
-            userRepository.save(user);
-
-            for(int i = 0; i < 10; i++) {
-                Host host = Host.create( "Host Name", "Address 1", "Address 2", "City", "12345", " email", 1, 1, "Facilities", "Target Audience");
-                hostRepository.save(host);
-            }
-        };
-    }
+//    @Bean
+//    ApplicationRunner applicationRunner (
+//            HostRepository hostRepository,
+//            UserRepository userRepository
+//    ){
+//        return args -> {
+//            userRepository.deleteAll();
+//            hostRepository.deleteAll();
+//            System.out.println("Hello World");
+//
+//            User user = User.create("John", "Doe", "1990-01-01", "Case Manager");
+//            userRepository.save(user);
+//
+//            for(int i = 0; i < 10; i++) {
+//                Host host = Host.create( "Host Name", "Address 1", "Address 2", "City", "12345", " email", 1, 1, "Facilities", "Target Audience");
+//                hostRepository.save(host);
+//            }
+//        };
+//    }
 }

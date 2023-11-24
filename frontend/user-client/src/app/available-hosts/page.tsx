@@ -1,6 +1,6 @@
 import {Metadata} from "next";
-import BookingsPage from "@/components/bookings/BookingsPage";
-import {AvailableHostsDTO, availableHostsDTOMock} from "@/components/bookings/AvailableHostsDTO";
+import AvailableHosts from "@/components/available-hosts/BookingsPage";
+import {AvailableHostsDTO, availableHostsDTOMock} from "@/components/available-hosts/AvailableHostsDTO";
 
 export const metadata: Metadata = {
   title: 'Noq',
@@ -27,7 +27,7 @@ export default async function Page() {
 
   return (
       <>
-        <BookingsPage data={data ? data : availableHostsDTOMock}/>
+        <AvailableHosts data={data ? data : availableHostsDTOMock}/>
       </>
   )
 }

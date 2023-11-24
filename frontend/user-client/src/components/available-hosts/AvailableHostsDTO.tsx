@@ -3,7 +3,7 @@ export interface AvailableHostsDTO {
 }
 
 export interface Host {
-  id: string;
+  hostId: string;
   name: string;
   address1: string;
   address2: string;
@@ -42,7 +42,7 @@ export enum UpdateChangeType {
 export const availableHostsDTOMock: AvailableHostsDTO = {
   availableHosts: [
     {
-      id: "686569fa-4ec0-4c66-9b98-9e9858fdcc8d",
+      hostId: "686569fa-4ec0-4c66-9b98-9e9858fdcc8d",
       name: "Boställe 1",
       address1: "Stockholmsgatan 1",
       address2: "Södermalm",
@@ -52,7 +52,7 @@ export const availableHostsDTOMock: AvailableHostsDTO = {
       totalAvailablePlaces: 10,
     },
     {
-      id: "979569aa-4ec0-8d66-9b98-9e9858fdcc9b",
+      hostId: "979569aa-4ec0-8d66-9b98-9e9858fdcc9b",
       name: "Boställe 2",
       address1: "Stockholmsgatan 1",
       address2: "Södermalm",
@@ -62,7 +62,7 @@ export const availableHostsDTOMock: AvailableHostsDTO = {
       totalAvailablePlaces: 10,
     },
     {
-      id: "686569aa-4ec0-8d66-9b98-9e9858fdcc8a",
+      hostId: "686569aa-4ec0-8d66-9b98-9e9858fdcc8a",
       name: "Boställe 3",
       address1: "Stockholmsgatan 1",
       address2: "Södermalm",

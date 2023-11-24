@@ -17,7 +17,7 @@ const SideMenuLargeScreen = (props: SideMenuLargeScreenProps) => {
           <ul className="bg-transparent">
             <li>
               <Link
-                  href={"/bookings"}
+                  href={"/available-hosts"}
                   onClick={async () => {
                     props.setSelected("/bookings")
                     await revalidateCache("bookings")

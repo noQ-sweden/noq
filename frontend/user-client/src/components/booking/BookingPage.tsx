@@ -1,22 +1,28 @@
 "use client"
 import React from 'react';
-import {BookingPageDTO, bookingPageMock} from "@/components/booking/BookingPageDTO";
+import {BookingPageDTO, BookingReqBody} from "@/components/booking/BookingPageDTO";
 import Button1 from "@/libs/Button1";
 import {useRouter} from "next/navigation";
-import SelectedHostItem from "@/components/booking/components/SelectedHostItem";
-import Link from "next/link";
+import {fetchSendHostRequest} from "@/components/booking/BookingPageAPI";
 
 interface BookingProps {
   data: BookingPageDTO
 }
 
 const BookingPage = (props: BookingProps) => {
-  console.log(props.data)
   const router = useRouter();
 
-  const onClickSendHostRequest = (id: string, hostId: string) => {
-    console.log(id)
-    console.log(hostId)
+  const onClickSendHostRequest = (userId: string, hostId: string) => {
+    const reqBody: BookingReqBody = {
+      userId: userId,
+      hostId: hostId,
+    }
+    fetchSendHostRequest(reqBody)
+        .then(res => console.log(res))
+        .finally(() => {
+              router.push("/booking/confirmation")
+            }
+        )
   };
 
   return (
@@ -44,7 +50,8 @@ const BookingPage = (props: BookingProps) => {
           </section>
 
           <section>
-            <Button1 title={"Skicka Förfrågan"} isLoading={false} onClick={() => onClickSendHostRequest(props.data.id, props.data.hostId)}/>
+            <Button1 title={"Skicka Förfrågan"} isLoading={false}
+                     onClick={() => onClickSendHostRequest(props.data.userId, props.data.hostId)}/>
           </section>
         </div>
       </main>
