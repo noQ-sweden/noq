@@ -1,4 +1,4 @@
-export interface BookingsPageDTO {
+export interface AvailableHostsDTO {
   availableHosts: Host[];
 }
 
@@ -39,7 +39,7 @@ export enum UpdateChangeType {
 }
 
 /*Mock*/
-export const bookingsPageDTOMock: BookingsPageDTO = {
+export const availableHostsDTOMock: AvailableHostsDTO = {
   availableHosts: [
     {
       id: "686569fa-4ec0-4c66-9b98-9e9858fdcc8d",

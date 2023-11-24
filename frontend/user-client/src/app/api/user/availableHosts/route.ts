@@ -1,5 +1,5 @@
 const port = process.env.BACKEND_URL_ENDPOINT
-const requestMapping = "api/host/bookings"
+const requestMapping = "api/user/available-hosts"
 
 const handleResponse = async (response: Response, successStatus = 200) => {
   try {
@@ -33,7 +33,7 @@ export async function GET(request: Request) {
 
     const res = await fetch(`${port}/${requestMapping}`, {
       method: "GET",
-      headers: {Authorization: authorization},
+      // headers: {Authorization: authorization},
     });
 
     return await handleResponse(res);

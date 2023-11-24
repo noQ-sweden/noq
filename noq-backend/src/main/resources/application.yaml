@@ -12,6 +12,9 @@ spring:
     url: ${POSTGRES_URL:jdbc:postgresql://localhost:5432/postgres}
     username: ${POSTGRES_USER:postgres}
     password: ${POSTGRES_PWD:postgres}
+#    url: jdbc:postgresql://localhost:5432/postgres
+#    username: admin
+#    password: admin
     hikari:
       connection-timeout: 30000
       idleTimeout: 600000
