@@ -1,6 +1,6 @@
-package com.noq.backend.controllers.user;
+package com.noq.backend.clients.user;
 
-import com.noq.backend.controllers.user.dto.CreateUserDto;
+import com.noq.backend.clients.user.availableHosts.dto.CreateUserDto;
 import com.noq.backend.models.User;
 import com.noq.backend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

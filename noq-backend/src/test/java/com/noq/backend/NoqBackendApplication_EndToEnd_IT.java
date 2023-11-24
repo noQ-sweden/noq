@@ -67,7 +67,6 @@ class NoqBackendApplication_EndToEnd_IT extends PostgresqlContainerBase {
         assertThat(userRepository.findAll()).isEmpty();
     }
 
-    @Disabled("Assert Correct Results, oterwise it works")
     @Test
     void shouldSuccessfullySetupHostRepository_withDatabaseTablesFromDDL() {
         // Given
@@ -89,13 +88,13 @@ class NoqBackendApplication_EndToEnd_IT extends PostgresqlContainerBase {
         hostRepository.save(host);
 
         // Then
-        assertThat(hostRepository.findAll()).hasSize(1);
+        assertThat(hostRepository.findAll()).hasSize(11);
 
         // And
         assertThat(hostRepository.findById(host.getHostId())).hasValue(host);
 
         // And
         hostRepository.delete(host);
-        assertThat(hostRepository.findAll()).isEmpty();
+        assertThat(hostRepository.findById(host.getHostId())).isEmpty();
     }
 }

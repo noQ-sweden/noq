@@ -1,4 +1,4 @@
-package com.noq.backend.controllers.user.dto;
+package com.noq.backend.clients.user.availableHosts.dto;
 
 import com.noq.backend.models.User;
 import lombok.Builder;

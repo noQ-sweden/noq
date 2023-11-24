@@ -1,6 +1,7 @@
 package com.noq.backend.controllers.user;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.noq.backend.clients.user.UserController;
 import com.noq.backend.models.User;
 import com.noq.backend.services.UserService;
 import org.junit.jupiter.api.Test;

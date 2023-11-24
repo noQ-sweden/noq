@@ -1,4 +1,4 @@
-package com.noq.backend.controllers.user.availableHosts;
+package com.noq.backend.clients.user.availableHosts;
 
 import com.noq.backend.services.HostService;
 import org.springframework.beans.factory.annotation.Autowired;

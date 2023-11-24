@@ -1,4 +1,4 @@
-package com.noq.backend.controllers.user.availableHosts;
+package com.noq.backend.clients.user.availableHosts;
 
 import com.noq.backend.models.Host;
 import lombok.Builder;

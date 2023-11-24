@@ -1,4 +1,4 @@
-package com.noq.backend.controllers.user.availableHosts;
+package com.noq.backend.clients.user.availableHosts;
 
 import java.util.List;
 
