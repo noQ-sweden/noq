@@ -22,13 +22,21 @@ module backendAppIdentity '../resource-templates/managed-identity-template.bicep
   }
 }
 
+module frontendAppIdentity '../resource-templates/managed-identity-template.bicep' = {
+  name: 'noq_fei_${dateStamp}'
+  params: {
+    resourceName: 'id-noq-frontend-${toLower(envShortName)}'
+    location: azureLocationName
+  }
+}
+
 //Reference to the key vault resource
 resource keyVault 'Microsoft.KeyVault/vaults@2023-07-01' existing = {
   name: keyVaultName
 }
 
 //Grant ContainerApp system assigned identity access to key vault
-resource secretsRead 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+resource beSecretRead 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
   name: guid(keyVault.name, 'id-noq-backend', '4633458b-17de-408a-b874-0445c86b69e6')
   scope: keyVault
   properties: {
@@ -38,6 +46,19 @@ resource secretsRead 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
   }
 }
 
+//Grant ContainerApp system assigned identity access to key vault
+resource feSecretRead 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  name: guid(keyVault.name, 'id-noq-frontend', '4633458b-17de-408a-b874-0445c86b69e6')
+  scope: keyVault
+  properties: {
+    roleDefinitionId: resourceId('Microsoft.Authorization/roleDefinitions','4633458b-17de-408a-b874-0445c86b69e6')
+    principalId: frontendAppIdentity.outputs.principalId
+    principalType: 'ServicePrincipal'
+  }
+}
+
 output backendAppIdentityId string = backendAppIdentity.outputs.principalId
 output backendAppIdentityResourceId string = backendAppIdentity.outputs.resourceId
 output backendAppIdentityName string = backendAppIdentity.outputs.resourceName
+
+output frontendAppIdentityName string = frontendAppIdentity.outputs.resourceName

@@ -110,19 +110,19 @@ jobs:
           docker login $CONTAINER_REGISTRY --username 00000000-0000-0000-0000-000000000000 --password-stdin <<< $TOKEN
 
       - name: "Build and push user-client image"
-        working-directory: frontend/react
+        working-directory: frontend/user-client
         run: |
           docker build . -t ${{ steps.arm.outputs.registryLoginServer }}/frontend/noq-user-client:${{ github.sha }}
           docker push ${{ steps.arm.outputs.registryLoginServer }}/frontend/noq-user-client:${{ github.sha }}
 
       - name: "Build and push admin-client image"
-        working-directory: frontend/admin
+        working-directory: frontend/admin-client
         run: |
           docker build . -t ${{ steps.arm.outputs.registryLoginServer }}/frontend/noq-admin-client:${{ github.sha }}
           docker push ${{ steps.arm.outputs.registryLoginServer }}/frontend/noq-admin-client:${{ github.sha }}
 
       - name: "Build and push host-client image"
-        working-directory: frontend/host
+        working-directory: frontend/host-client
         run: |
           docker build . -t ${{ steps.arm.outputs.registryLoginServer }}/frontend/noq-host-client:${{ github.sha }}
           docker push ${{ steps.arm.outputs.registryLoginServer }}/frontend/noq-host-client:${{ github.sha }}
@@ -133,6 +133,8 @@ jobs:
           docker build . -t ${{ steps.arm.outputs.registryLoginServer }}/backend/noq-backend:${{ github.sha }}
           docker push ${{ steps.arm.outputs.registryLoginServer }}/backend/noq-backend:${{ github.sha }}
 
+      # TODO: Grant managed identities access to pull from container registry,
+      # then remove this step
       - name: Get container registry credentials
         id: keyVaultSecrets
         run: |
@@ -168,69 +170,71 @@ jobs:
             backendAppIdentityName="${{ steps.arm.outputs.backendAppIdentityName }}"
           failOnStdErr: false
 
-      # # Provision container app for user-client
-      # - name: Provision user-client container app
-      #   id: user_client
-      #   uses: azure/arm-deploy@v1
-      #   with:
-      #     subscriptionId: ${{ vars.AZURE_SUBSCRIPTIONID }}
-      #     scope: subscription
-      #     region: swedencentral
-      #     template: ./infrastructure/noq-frontend-client.bicep
-      #     deploymentName: "noq_fe_client_${{ steps.date.outputs.ts }}"
-      #     parameters: >
-      #       registryPassword=${{ env.registryPassword }}
-      #       registryUsername=${{ env.registryUsername }}
-      #       registry=${{ steps.arm.outputs.registryLoginServer }}
-      #       envShortName=${{ vars.ENV_SHORTNAME }}
-      #       appName="noq-user-client"
-      #       containerEnvironment=${{ steps.arm.outputs.containerEnvironmentName }}
-      #       containerImage=${{ steps.arm.outputs.registryLoginServer }}/frontend/noq-user-client:${{ github.sha }}
-      #       targetPort=80
-      #       backendUrl="${{ steps.backend.outputs.containerFqdn}}"
-      #     failOnStdErr: false
+      # Provision container app for user-client
+      - name: Provision user-client container app
+        id: user_client
+        uses: azure/arm-deploy@v1
+        with:
+          subscriptionId: ${{ vars.AZURE_SUBSCRIPTIONID }}
+          scope: subscription
+          region: swedencentral
+          template: ./infrastructure/noq-frontend-client.bicep
+          deploymentName: "noq_user_client_${{ steps.date.outputs.ts }}"
+          parameters: >
+            registryUsername=${{ env.registryUsername }}
+            registry=${{ steps.arm.outputs.registryLoginServer }}
+            envShortName=${{ vars.ENV_SHORTNAME }}
+            appName="noq-user-client"
+            containerEnvironment=${{ steps.arm.outputs.containerEnvironmentName }}
+            containerImage=${{ steps.arm.outputs.registryLoginServer }}/frontend/noq-user-client:${{ github.sha }}
+            targetPort=80
+            backendUrl="${{ steps.backend.outputs.containerFqdn}}"
+            registryPasswordUri="${{ steps.arm.outputs.containerRegistryPasswordUri}}"
+            appManagedIdentityName="${{ steps.arm.outputs.frontendAppIdentityName }}"
+          failOnStdErr: false
 
-      # # Provision container app for admin-client
-      # - name: Provision admin-client container app
-      #   id: admin_client
-      #   uses: azure/arm-deploy@v1
-      #   with:
-      #     subscriptionId: ${{ vars.AZURE_SUBSCRIPTIONID }}
-      #     scope: subscription
-      #     region: swedencentral
-      #     template: ./infrastructure/noq-frontend-client.bicep
-      #     deploymentName: "noq_fe_admin_${{ steps.date.outputs.ts }}"
-      #     parameters: >
-      #       registryPassword=${{ env.registryPassword }}
-      #       registryUsername=${{ env.registryUsername }}
-      #       registry=${{ steps.arm.outputs.registryLoginServer }}
-      #       envShortName=${{ vars.ENV_SHORTNAME }}
-      #       appName="noq-admin-client"
-      #       containerEnvironment=${{ steps.arm.outputs.containerEnvironmentName }}
-      #       containerImage=${{ steps.arm.outputs.registryLoginServer }}/frontend/noq-admin-client:${{ github.sha }}
-      #       targetPort=80
-      #       backendUrl="${{ steps.backend.outputs.containerFqdn}}"
-      #     failOnStdErr: false
+      # Provision container app for admin-client
+      - name: Provision admin-client container app
+        id: admin_client
+        uses: azure/arm-deploy@v1
+        with:
+          subscriptionId: ${{ vars.AZURE_SUBSCRIPTIONID }}
+          scope: subscription
+          region: swedencentral
+          template: ./infrastructure/noq-frontend-client.bicep
+          deploymentName: "noq_admin_client_${{ steps.date.outputs.ts }}"
+          parameters: >
+            registryUsername=${{ env.registryUsername }}
+            registry=${{ steps.arm.outputs.registryLoginServer }}
+            envShortName=${{ vars.ENV_SHORTNAME }}
+            appName="noq-user-client"
+            containerEnvironment=${{ steps.arm.outputs.containerEnvironmentName }}
+            containerImage=${{ steps.arm.outputs.registryLoginServer }}/frontend/noq-admin-client:${{ github.sha }}
+            targetPort=80
+            backendUrl="${{ steps.backend.outputs.containerFqdn}}"
+            registryPasswordUri="${{ steps.arm.outputs.containerRegistryPasswordUri}}"
+            appManagedIdentityName="${{ steps.arm.outputs.frontendAppIdentityName }}"
+          failOnStdErr: false
 
-      # # Provision container app for host-client
-      # - name: Provision host-client container app
-      #   id: host_client
-      #   uses: azure/arm-deploy@v1
-      #   with:
-      #     subscriptionId: ${{ vars.AZURE_SUBSCRIPTIONID }}
-      #     scope: subscription
-      #     region: swedencentral
-      #     template: ./infrastructure/noq-frontend-client.bicep
-      #     deploymentName: "noq_fe_host_${{ steps.date.outputs.ts }}"
-      #     parameters: >
-      #       registryPassword=${{ env.registryPassword }}
-      #       registryUsername=${{ env.registryUsername }}
-      #       registry=${{ steps.arm.outputs.registryLoginServer }}
-      #       envShortName=${{ vars.ENV_SHORTNAME }}
-      #       appName="noq-host-client"
-      #       containerEnvironment=${{ steps.arm.outputs.containerEnvironmentName }}
-      #       containerImage=${{ steps.arm.outputs.registryLoginServer }}/frontend/noq-host-client:${{ github.sha }}
-      #       targetPort=80
-      #       backendUrl="${{ steps.backend.outputs.containerFqdn}}"
-      #     failOnStdErr: false
-
+      # Provision container app for host-client
+      - name: Provision host-client container app
+        id: host_client
+        uses: azure/arm-deploy@v1
+        with:
+          subscriptionId: ${{ vars.AZURE_SUBSCRIPTIONID }}
+          scope: subscription
+          region: swedencentral
+          template: ./infrastructure/noq-frontend-client.bicep
+          deploymentName: "noq_host_client_${{ steps.date.outputs.ts }}"
+          parameters: >
+            registryUsername=${{ env.registryUsername }}
+            registry=${{ steps.arm.outputs.registryLoginServer }}
+            envShortName=${{ vars.ENV_SHORTNAME }}
+            appName="noq-user-client"
+            containerEnvironment=${{ steps.arm.outputs.containerEnvironmentName }}
+            containerImage=${{ steps.arm.outputs.registryLoginServer }}/frontend/noq-host-client:${{ github.sha }}
+            targetPort=80
+            backendUrl="${{ steps.backend.outputs.containerFqdn}}"
+            registryPasswordUri="${{ steps.arm.outputs.containerRegistryPasswordUri}}"
+            appManagedIdentityName="${{ steps.arm.outputs.frontendAppIdentityName }}"
+          failOnStdErr: false

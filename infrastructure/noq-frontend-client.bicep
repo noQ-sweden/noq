@@ -12,8 +12,6 @@ param envShortName string
 @description('Select primary region to deploy resources in, default is West Europe')
 param azureLocationName string = 'Sweden Central'
 
-@secure()
-param registryPassword string
 param registryUsername string
 param registry string
 
@@ -28,8 +26,18 @@ param hasExternalIngress bool = true
 
 param backendUrl string
 
+#disable-next-line secure-secrets-in-params
+param registryPasswordUri string
+
+param appManagedIdentityName string
+
 //Resource group for environment
 var resourceGroupName = 'rg-noq-${toLower(envShortName)}'
+
+resource identity 'Microsoft.ManagedIdentity/userAssignedIdentities@2023-01-31' existing = {
+  name: appManagedIdentityName
+  scope: resourceGroup(resourceGroupName)
+}
 
 module containerApp './resource-templates/container-app-template.bicep' = {
   name: 'noq_${appName}_${dateStamp}'
@@ -44,9 +52,16 @@ module containerApp './resource-templates/container-app-template.bicep' = {
     containerImage: containerImage
     registry: registry
     registryUsername: registryUsername
-    registryPassword: registryPassword
+    managedIdentityResourceId: identity.id
     allowedOrigins: [
       allowedOrigin
+    ]
+    keyVaultSecretReferences: [
+      {
+        name: 'registry-password'
+        keyVaultUrl: registryPasswordUri
+        identity: identity.id
+      }
     ]
     environmentVariables: [
       {

@@ -174,3 +174,4 @@ output postgresAdminPasswordUri string = postgreSqlServer.outputs.postgresAdminP
 output containerRegistryPasswordUri string = containerRegistry.outputs.pwdPrimaryKeyVaultUri
 
 output backendAppIdentityName string = identities.outputs.backendAppIdentityName
+output frontendAppIdentityName string = identities.outputs.frontendAppIdentityName
