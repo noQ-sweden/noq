@@ -16,32 +16,21 @@ param hasExternalIngress bool
 
 param registry string
 param registryUsername string
-@secure()
-param registryPassword string
+
+param keyVaultName string
 
 param allowedOrigins array = []
 
 param environmentVariables array = []
 
-@secure()
-param cosmosDbAccountKey string = ''
+param keyVaultSecretReferences array = []
 
 var corsPolicy = empty(allowedOrigins) ? null : allowedOrigins
 
-
-var baseSecrets = [
-  {
-    name: 'registry-password'
-    value: registryPassword
-  }
-]
-
-var cosmosKeySecret = empty(cosmosDbAccountKey) ? null : {
-  name: 'cosmos-account-key'
-  value: cosmosDbAccountKey
+//Reference to the key vault resource
+resource keyVault 'Microsoft.KeyVault/vaults@2023-07-01' existing = {
+  name: keyVaultName
 }
-
-var allSecrets = concat(baseSecrets, array(cosmosKeySecret))
 
 // Reference the managed environment resource
 resource environment 'Microsoft.App/managedEnvironments@2022-10-01' existing = {
@@ -49,7 +38,7 @@ resource environment 'Microsoft.App/managedEnvironments@2022-10-01' existing = {
 }
 
 // Create a container app resource
-resource containerApp 'Microsoft.App/containerApps@2022-10-01' ={
+resource containerApp 'Microsoft.App/containerApps@2023-05-01' ={
   name: resourceName
   location: azureLocationName
   identity: {
@@ -58,7 +47,7 @@ resource containerApp 'Microsoft.App/containerApps@2022-10-01' ={
   properties:{
     managedEnvironmentId: environment.id
     configuration: {
-      secrets: allSecrets
+      secrets: keyVaultSecretReferences
       ingress: {
         corsPolicy: {
           allowedOrigins: corsPolicy!
@@ -88,6 +77,17 @@ resource containerApp 'Microsoft.App/containerApps@2022-10-01' ={
         maxReplicas: 2
       }
     }
+  }
+}
+
+//Grant ContainerApp system assigned identity access to key vault
+resource secretsRead 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  name: guid(keyVault.name, containerApp.name, '4633458b-17de-408a-b874-0445c86b69e6')
+  scope: keyVault
+  properties: {
+    roleDefinitionId: resourceId('Microsoft.Authorization/roleDefinitions','4633458b-17de-408a-b874-0445c86b69e6')
+    principalId: containerApp.identity.principalId
+    principalType: 'ServicePrincipal'
   }
 }
 
