@@ -165,7 +165,6 @@ jobs:
             psqlUsernameUri="${{ steps.arm.outputs.postgresAdminUsernameUri}}"
             psqlPasswordUri="${{ steps.arm.outputs.postgresAdminPasswordUri}}"
             registryPasswordUri="${{ steps.arm.outputs.containerRegistryPasswordUri}}"
-            keyVaultName=${{ steps.arm.outputs.keyVaultName }}
             managedIdentityResourceId=${{ steps.arm.outputs.backendAppIdentityReousrceId }}
           failOnStdErr: false
 
