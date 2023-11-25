@@ -56,7 +56,7 @@ resource codb 'Microsoft.DocumentDB/databaseAccounts@2021-03-15' = {
 
 module cosmosSecrets 'key-vault-secret-template.bicep' = {
   scope: resourceGroup(keyVaultResource.resourceGroupName)
-  name: 'cwis_cosno_secrets_${dateStamp}'
+  name: 'noq_cosno_secrets_${dateStamp}'
   params: {
     keyVaultResourceName: keyVaultResource.resourceName
     secrets: [

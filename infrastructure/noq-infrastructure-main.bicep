@@ -12,6 +12,12 @@ param envShortName string
 @description('Select primary region to deploy resources in, default is West Europe')
 param azureLocationName string = 'Sweden Central'
 
+@secure()
+param postgresUsername string
+
+@secure()
+param postgresPassword string
+
 //Resource group for environment
 var resourceGroupName = 'rg-noq-${toLower(envShortName)}'
 
@@ -39,7 +45,7 @@ module keyVault 'resource-templates/key-vault-template.bicep' = {
     azureLocationName: azureLocationName
     enableRbacAuthorization: true
     skuName: 'standard'
-    skuFamily: 'A'    
+    skuFamily: 'A'
   }
 }
 
@@ -99,6 +105,25 @@ module cosmosDbAccount 'resource-templates/cosmos-db-account-template.bicep' = {
   }
 }
 
+//Create a PostgrSQL server
+module postgreSqlServer 'resource-templates/postgres-flexible-server-template.bicep' = {
+  name: 'noq_psql_${dateStamp}'
+  dependsOn: [
+    envResourceGroup
+    keyVault
+  ]
+  scope: resourceGroup(resourceGroupName)
+  params: {
+    dateStamp: dateStamp
+    serverAdminLogin: postgresUsername
+    serverAdminPassword: postgresPassword
+    resourceName: 'psql-noq-${toLower(envShortName)}'
+    azureLocationName: azureLocationName
+    keyVaultResource: keyVault.outputs.keyVaultResource
+    envShortName: envShortName
+  }
+}
+
 //Creates a Azure Container Apps environment
 module containerAppEnv './resource-templates/container-apps-environment-template.bicep' = {
   name: 'noq_cae_${dateStamp}'
@@ -122,3 +147,13 @@ output containerEnvironmentName string = containerAppEnv.outputs.resourceName
 output cosmosDbAccountName string = cosmosDbAccount.outputs.resourceName
 output cosmosDbAccountEndpoint string = cosmosDbAccount.outputs.accountUrl
 output cosmosDbAccountKeySecretName string = cosmosDbAccount.outputs.primaryKeySecretName
+output psqlServerName string = postgreSqlServer.outputs.postgresServerName
+
+#disable-next-line outputs-should-not-contain-secrets
+output postgresAdminUsernameUri string = postgreSqlServer.outputs.postgresAdminUsernameUri
+
+#disable-next-line outputs-should-not-contain-secrets
+output postgresAdminPasswordUri string = postgreSqlServer.outputs.postgresAdminPasswordUri
+
+#disable-next-line outputs-should-not-contain-secrets
+output containerRegistryPasswordUri string = containerRegistry.outputs.pwdPrimaryKeyVaultUri

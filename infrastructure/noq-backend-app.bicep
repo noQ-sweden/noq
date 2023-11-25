@@ -20,23 +20,22 @@ param containerEnvironment string
 
 param registry string
 param registryUsername string
-@secure()
-param registryPassword string
 param targetPort int
 param allowedOrigin string = ''
-param cosmosDbAccountName string
-param cosmosDbAccountEndpoint string
 
-param keyVaultResourceName string
-param cosmosDbAccountKeySecretName string
+param psqlServerName string
+param psqlUsernameUri string
+
+#disable-next-line secure-secrets-in-params
+param psqlPasswordUri string
+
+#disable-next-line secure-secrets-in-params
+param registryPasswordUri string
+
+param keyVaultName string
 
 //Resource group for environment
 var resourceGroupName = 'rg-noq-${toLower(envShortName)}'
-
-resource keyVault 'Microsoft.KeyVault/vaults@2023-02-01' existing = {
-  name: keyVaultResourceName
-  scope: resourceGroup(resourceGroupName)
-}
 
 module containerApp './resource-templates/container-app-template.bicep' = {
   name: 'noq_be_app_${dateStamp}'
@@ -48,39 +47,42 @@ module containerApp './resource-templates/container-app-template.bicep' = {
     environmentName: containerEnvironment
     hasExternalIngress: true
     azureLocationName: azureLocationName
+    keyVaultName: keyVaultName
     containerImage: containerImage
     registry: registry
     registryUsername: registryUsername
-    registryPassword: registryPassword
     allowedOrigins: [
       allowedOrigin
     ]
-    cosmosDbAccountKey: keyVault.getSecret(cosmosDbAccountKeySecretName)
-    environmentVariables: [
+    keyVaultSecretReferences: [
       {
-        name: 'COSMOS_DB_ACCOUNT_NAME'
-        value: cosmosDbAccountEndpoint
+        name: 'registry-password'
+        keyVaultUrl: registryPasswordUri
+        identity: 'System'
       }
       {
-        name: 'COSMOS_DB_ACCOUNT_KEY'
-        secretRef: 'cosmos-account-key'
+        name: 'postgres-username'
+        keyVaultUrl: psqlUsernameUri
+        identity: 'System'
+      }
+      {
+        name: 'postgres-password'
+        keyVaultUrl: psqlPasswordUri
+        identity: 'System'
       }
     ]
-  }
-}
-
-module stateStore 'resource-templates/cosmos-db-database-template.bicep' = {
-  name: 'noq_state_store_${dateStamp}'
-  scope: resourceGroup(resourceGroupName)
-  params: {
-    resourceName: 'noq'
-    cosmosDbAccountName: cosmosDbAccountName
-    ownerIdentityPrincipalId: containerApp.outputs.managedIdentityId
-    ownerRoleName: '40b4b8d6-2c6f-403a-8844-1dfbbeed9732'
-    containers: [
+    environmentVariables: [
       {
-        name: 'tmp_test'
-        partitionKeyPath: '/id'
+        name: 'POSTGRES_URL'
+        value: psqlServerName
+      }
+      {
+        name: 'POSTGRES_USER'
+        secretRef: 'postgres-username'
+      }
+      {
+        name: 'POSTGRES_PWD'
+        secretRef: 'postgres-password'
       }
     ]
   }

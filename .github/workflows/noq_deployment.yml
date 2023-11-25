@@ -94,7 +94,11 @@ jobs:
           region: swedencentral
           template: ./infrastructure/noq-infrastructure-main.bicep
           deploymentName: "noq_main_${{ steps.date.outputs.ts }}"
-          parameters: "envShortName=${{ vars.ENV_SHORTNAME }}"
+          parameters: >
+            envShortName=${{ vars.ENV_SHORTNAME }}
+            azureLocationName="Sweden Central"
+            postgresUsername=${{ secrets.POSTGRES_USERNAME }}
+            postgresPassword=${{ secrets.POSTGRES_PASSWORD }}
           failOnStdErr: false
 
       - shell: bash
@@ -149,7 +153,19 @@ jobs:
           region: swedencentral
           template: ./infrastructure/noq-backend-app.bicep
           deploymentName: "noq_be_${{ steps.date.outputs.ts }}"
-          parameters: 'registryPassword=${{ env.registryPassword }} registryUsername=${{ env.registryUsername }} registry=${{ steps.arm.outputs.registryLoginServer }} envShortName=${{ vars.ENV_SHORTNAME }} appName="noq-backend" containerEnvironment=${{ steps.arm.outputs.containerEnvironmentName }} containerImage=${{ steps.arm.outputs.registryLoginServer }}/backend/noq-backend:${{ github.sha }} targetPort=8080 allowedOrigin=${{ steps.frontend.outputs.containerFqdn }} cosmosDbAccountName=${{ steps.arm.outputs.cosmosDbAccountName }} cosmosDbAccountEndpoint=${{ steps.arm.outputs.cosmosDbAccountEndpoint }} keyVaultResourceName=${{ steps.arm.outputs.keyVaultName }} cosmosDbAccountKeySecretName=${{ steps.arm.outputs.cosmosDbAccountKeySecretName }}'
+          parameters: >
+            registryUsername=${{ env.registryUsername }}
+            registry=${{ steps.arm.outputs.registryLoginServer }}
+            envShortName=${{ vars.ENV_SHORTNAME }}
+            appName="noq-backend"
+            containerEnvironment=${{ steps.arm.outputs.containerEnvironmentName }}
+            containerImage=${{ steps.arm.outputs.registryLoginServer }}/backend/noq-backend:${{ github.sha }}
+            targetPort=8080
+            psqlServerName="${{ steps.arm.outputs.psqlServerName}}"
+            psqlUsernameUri="${{ steps.arm.outputs.postgresAdminUsernameUri}}"
+            psqlPasswordUri="${{ steps.arm.outputs.postgresAdminPasswordUri}}"
+            registryPasswordUri="${{ steps.arm.outputs.containerRegistryPasswordUri}}"
+            keyVaultName=${{ steps.arm.outputs.keyVaultName }}
           failOnStdErr: false
 
       # Provision container app for user-client
@@ -162,7 +178,16 @@ jobs:
           region: swedencentral
           template: ./infrastructure/noq-frontend-client.bicep
           deploymentName: "noq_fe_client_${{ steps.date.outputs.ts }}"
-          parameters: 'registryPassword=${{ env.registryPassword }} registryUsername=${{ env.registryUsername }} registry=${{ steps.arm.outputs.registryLoginServer }} envShortName=${{ vars.ENV_SHORTNAME }} appName="noq-user-client" containerEnvironment=${{ steps.arm.outputs.containerEnvironmentName }} containerImage=${{ steps.arm.outputs.registryLoginServer }}/frontend/noq-user-client:${{ github.sha }} targetPort=80 backendUrl="${{ steps.backend.outputs.containerFqdn}}"'
+          parameters: >
+            registryPassword=${{ env.registryPassword }}
+            registryUsername=${{ env.registryUsername }}
+            registry=${{ steps.arm.outputs.registryLoginServer }}
+            envShortName=${{ vars.ENV_SHORTNAME }}
+            appName="noq-user-client"
+            containerEnvironment=${{ steps.arm.outputs.containerEnvironmentName }}
+            containerImage=${{ steps.arm.outputs.registryLoginServer }}/frontend/noq-user-client:${{ github.sha }}
+            targetPort=80
+            backendUrl="${{ steps.backend.outputs.containerFqdn}}"
           failOnStdErr: false
 
       # Provision container app for admin-client
@@ -175,7 +200,16 @@ jobs:
           region: swedencentral
           template: ./infrastructure/noq-frontend-client.bicep
           deploymentName: "noq_fe_admin_${{ steps.date.outputs.ts }}"
-          parameters: 'registryPassword=${{ env.registryPassword }} registryUsername=${{ env.registryUsername }} registry=${{ steps.arm.outputs.registryLoginServer }} envShortName=${{ vars.ENV_SHORTNAME }} appName="noq-admin-client" containerEnvironment=${{ steps.arm.outputs.containerEnvironmentName }} containerImage=${{ steps.arm.outputs.registryLoginServer }}/frontend/noq-admin-client:${{ github.sha }} targetPort=80 backendUrl="${{ steps.backend.outputs.containerFqdn}}"'
+          parameters: >
+            registryPassword=${{ env.registryPassword }}
+            registryUsername=${{ env.registryUsername }}
+            registry=${{ steps.arm.outputs.registryLoginServer }}
+            envShortName=${{ vars.ENV_SHORTNAME }}
+            appName="noq-admin-client"
+            containerEnvironment=${{ steps.arm.outputs.containerEnvironmentName }}
+            containerImage=${{ steps.arm.outputs.registryLoginServer }}/frontend/noq-admin-client:${{ github.sha }}
+            targetPort=80
+            backendUrl="${{ steps.backend.outputs.containerFqdn}}"
           failOnStdErr: false
 
       # Provision container app for host-client
@@ -188,6 +222,15 @@ jobs:
           region: swedencentral
           template: ./infrastructure/noq-frontend-client.bicep
           deploymentName: "noq_fe_host_${{ steps.date.outputs.ts }}"
-          parameters: 'registryPassword=${{ env.registryPassword }} registryUsername=${{ env.registryUsername }} registry=${{ steps.arm.outputs.registryLoginServer }} envShortName=${{ vars.ENV_SHORTNAME }} appName="noq-host-client" containerEnvironment=${{ steps.arm.outputs.containerEnvironmentName }} containerImage=${{ steps.arm.outputs.registryLoginServer }}/frontend/noq-host-client:${{ github.sha }} targetPort=80 backendUrl="${{ steps.backend.outputs.containerFqdn}}"'
+          parameters: >
+            registryPassword=${{ env.registryPassword }}
+            registryUsername=${{ env.registryUsername }}
+            registry=${{ steps.arm.outputs.registryLoginServer }}
+            envShortName=${{ vars.ENV_SHORTNAME }}
+            appName="noq-host-client"
+            containerEnvironment=${{ steps.arm.outputs.containerEnvironmentName }}
+            containerImage=${{ steps.arm.outputs.registryLoginServer }}/frontend/noq-host-client:${{ github.sha }}
+            targetPort=80
+            backendUrl="${{ steps.backend.outputs.containerFqdn}}"
           failOnStdErr: false
 
