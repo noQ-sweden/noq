@@ -17,20 +17,15 @@ param hasExternalIngress bool
 param registry string
 param registryUsername string
 
-param keyVaultName string
-
 param allowedOrigins array = []
 
 param environmentVariables array = []
 
 param keyVaultSecretReferences array = []
 
-var corsPolicy = empty(allowedOrigins) ? null : allowedOrigins
+param managedIdentityResourceId string
 
-//Reference to the key vault resource
-resource keyVault 'Microsoft.KeyVault/vaults@2023-07-01' existing = {
-  name: keyVaultName
-}
+var corsPolicy = empty(allowedOrigins) ? null : allowedOrigins
 
 // Reference the managed environment resource
 resource environment 'Microsoft.App/managedEnvironments@2022-10-01' existing = {
@@ -42,7 +37,10 @@ resource containerApp 'Microsoft.App/containerApps@2023-05-01' ={
   name: resourceName
   location: azureLocationName
   identity: {
-    type: 'SystemAssigned'
+    type: 'UserAssigned'
+    userAssignedIdentities: {
+      '${managedIdentityResourceId}': {}
+    }
   }
   properties:{
     managedEnvironmentId: environment.id
@@ -77,17 +75,6 @@ resource containerApp 'Microsoft.App/containerApps@2023-05-01' ={
         maxReplicas: 2
       }
     }
-  }
-}
-
-//Grant ContainerApp system assigned identity access to key vault
-resource secretsRead 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
-  name: guid(keyVault.name, containerApp.name, '4633458b-17de-408a-b874-0445c86b69e6')
-  scope: keyVault
-  properties: {
-    roleDefinitionId: resourceId('Microsoft.Authorization/roleDefinitions','4633458b-17de-408a-b874-0445c86b69e6')
-    principalId: containerApp.identity.principalId
-    principalType: 'ServicePrincipal'
   }
 }
 

@@ -124,6 +124,21 @@ module postgreSqlServer 'resource-templates/postgres-flexible-server-template.bi
   }
 }
 
+module identities 'modules/managed-identity-create.bicep' = {
+  name: 'noq_mi_${dateStamp}'
+  dependsOn: [
+    envResourceGroup
+    keyVault
+  ]
+  scope: resourceGroup(resourceGroupName)
+  params: {
+    azureLocationName: azureLocationName
+    envShortName: envShortName
+    keyVaultName: keyVault.outputs.keyVaultName
+    dateStamp: dateStamp
+  }
+}
+
 //Creates a Azure Container Apps environment
 module containerAppEnv './resource-templates/container-apps-environment-template.bicep' = {
   name: 'noq_cae_${dateStamp}'
@@ -157,3 +172,5 @@ output postgresAdminPasswordUri string = postgreSqlServer.outputs.postgresAdminP
 
 #disable-next-line outputs-should-not-contain-secrets
 output containerRegistryPasswordUri string = containerRegistry.outputs.pwdPrimaryKeyVaultUri
+
+output backendAppIdentityReousrceId string = identities.outputs.backendAppIdentityResourceId
