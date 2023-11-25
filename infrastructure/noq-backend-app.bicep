@@ -32,10 +32,15 @@ param psqlPasswordUri string
 #disable-next-line secure-secrets-in-params
 param registryPasswordUri string
 
-param managedIdentityResourceId string
+param backendAppIdentityName string
 
 //Resource group for environment
 var resourceGroupName = 'rg-noq-${toLower(envShortName)}'
+
+resource identity 'Microsoft.ManagedIdentity/userAssignedIdentities@2023-01-31' existing = {
+  name: backendAppIdentityName
+  scope: resourceGroup(resourceGroupName)
+}
 
 module containerApp './resource-templates/container-app-template.bicep' = {
   name: 'noq_be_app_${dateStamp}'
@@ -47,7 +52,7 @@ module containerApp './resource-templates/container-app-template.bicep' = {
     environmentName: containerEnvironment
     hasExternalIngress: true
     azureLocationName: azureLocationName
-    managedIdentityResourceId: managedIdentityResourceId
+    managedIdentityResourceId: identity.id
     containerImage: containerImage
     registry: registry
     registryUsername: registryUsername
@@ -58,17 +63,17 @@ module containerApp './resource-templates/container-app-template.bicep' = {
       {
         name: 'registry-password'
         keyVaultUrl: registryPasswordUri
-        identity: managedIdentityResourceId
+        identity: identity.id
       }
       {
         name: 'postgres-username'
         keyVaultUrl: psqlUsernameUri
-        identity: managedIdentityResourceId
+        identity: identity.id
       }
       {
         name: 'postgres-password'
         keyVaultUrl: psqlPasswordUri
-        identity: managedIdentityResourceId
+        identity: identity.id
       }
     ]
     environmentVariables: [

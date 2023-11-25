@@ -40,3 +40,4 @@ resource secretsRead 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
 
 output backendAppIdentityId string = backendAppIdentity.outputs.principalId
 output backendAppIdentityResourceId string = backendAppIdentity.outputs.resourceId
+output backendAppIdentityName string = backendAppIdentity.outputs.resourceName

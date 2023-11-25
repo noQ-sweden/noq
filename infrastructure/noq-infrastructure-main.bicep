@@ -173,4 +173,4 @@ output postgresAdminPasswordUri string = postgreSqlServer.outputs.postgresAdminP
 #disable-next-line outputs-should-not-contain-secrets
 output containerRegistryPasswordUri string = containerRegistry.outputs.pwdPrimaryKeyVaultUri
 
-output backendAppIdentityReousrceId string = identities.outputs.backendAppIdentityResourceId
+output backendAppIdentityName string = identities.outputs.backendAppIdentityName

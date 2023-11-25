@@ -165,7 +165,7 @@ jobs:
             psqlUsernameUri="${{ steps.arm.outputs.postgresAdminUsernameUri}}"
             psqlPasswordUri="${{ steps.arm.outputs.postgresAdminPasswordUri}}"
             registryPasswordUri="${{ steps.arm.outputs.containerRegistryPasswordUri}}"
-            managedIdentityResourceId=${{ steps.arm.outputs.backendAppIdentityReousrceId }}
+            backendAppIdentityName="${{ steps.arm.outputs.backendAppIdentityName }}"
           failOnStdErr: false
 
       # # Provision container app for user-client
