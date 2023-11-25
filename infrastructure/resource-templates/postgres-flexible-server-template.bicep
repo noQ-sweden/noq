@@ -76,7 +76,7 @@ output postgresServerName string = postgresServer.name
 output postgresServerFQDN string = postgresServer.properties.fullyQualifiedDomainName
 
 #disable-next-line outputs-should-not-contain-secrets
-output postgresAdminUsernameUri string = '${keyVaultResource.resourceUri}/secrets/${userNameSecretName}'
+output postgresAdminUsernameUri string = '${keyVaultResource.resourceUri}secrets/${userNameSecretName}'
 
 #disable-next-line outputs-should-not-contain-secrets
-output postgresAdminPasswordUri string = '${keyVaultResource.resourceUri}/secrets/${passwordSecretName}'
+output postgresAdminPasswordUri string = '${keyVaultResource.resourceUri}secrets/${passwordSecretName}'
