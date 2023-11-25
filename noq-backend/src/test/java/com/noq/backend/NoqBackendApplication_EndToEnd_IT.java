@@ -97,4 +97,12 @@ class NoqBackendApplication_EndToEnd_IT extends PostgresqlContainerBase {
         hostRepository.delete(host);
         assertThat(hostRepository.findById(host.getHostId())).isEmpty();
     }
+
+    @Test
+    void shouldCreateABooking_whenHostAndUserExists() {
+        // TODO
+        // Given
+        // When
+        // Then
+    }
 }
