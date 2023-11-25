@@ -71,7 +71,7 @@ resource account 'Microsoft.Storage/storageAccounts@2022-09-01' = {
   }
   resource blobService 'blobServices@2021-02-01' = {
     name: 'default'
-    properties: { 
+    properties: {
       changeFeed: {
         enabled: false
        }
@@ -93,6 +93,7 @@ resource account 'Microsoft.Storage/storageAccounts@2022-09-01' = {
 
 //Create requested containers
 resource container 'Microsoft.Storage/storageAccounts/blobServices/containers@2021-04-01' = [for containerName in containers: {
+  #disable-next-line use-parent-property
   name: '${account.name}/default/${containerName}'
   properties: {
     publicAccess: 'None'
