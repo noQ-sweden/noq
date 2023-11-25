@@ -58,17 +58,17 @@ module containerApp './resource-templates/container-app-template.bicep' = {
       {
         name: 'registry-password'
         keyVaultUrl: registryPasswordUri
-        identity: 'system'
+        identity: managedIdentityResourceId
       }
       {
         name: 'postgres-username'
         keyVaultUrl: psqlUsernameUri
-        identity: 'system'
+        identity: managedIdentityResourceId
       }
       {
         name: 'postgres-password'
         keyVaultUrl: psqlPasswordUri
-        identity: 'system'
+        identity: managedIdentityResourceId
       }
     ]
     environmentVariables: [
