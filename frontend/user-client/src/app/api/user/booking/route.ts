@@ -50,7 +50,7 @@ export async function PUT(request: Request) {
     }
     console.log(requestBody)
     const res = await fetch(`${port}/${requestMapping}/send-host-request`, {
-      method: "POST",
+      method: "PUT",
       body: requestBody
     });
 
