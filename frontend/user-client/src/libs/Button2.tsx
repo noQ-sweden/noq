@@ -1,12 +1,12 @@
 import React from 'react';
 
-interface Button1Props {
+interface Button2Props {
   title: string
   onClick: () => void;
   isLoading: boolean
 }
 
-const Button2 = (props: Button1Props) => {
+const Button2 = (props: Button2Props) => {
   return (
       <button onClick={() => props.onClick()}
               className="btn bg-emerald-700 w-42 hover:bg-emerald-700">
