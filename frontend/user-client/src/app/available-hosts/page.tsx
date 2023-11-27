@@ -1,6 +1,6 @@
 import {Metadata} from "next";
-import AvailableHosts from "@/components/available-hosts/BookingsPage";
 import {AvailableHostsDTO, availableHostsDTOMock} from "@/components/available-hosts/AvailableHostsDTO";
+import AvailableHosts from "@/components/available-hosts/AvailableHosts";
 
 export const metadata: Metadata = {
   title: 'Noq',
