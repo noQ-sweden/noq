@@ -52,7 +52,7 @@ export async function PUT(request: Request) {
 
     const res = await fetch(`${port}/${requestMapping}/update-reservation-status-field`, {
       method: "PUT",
-      headers: {Authorization: authorization, "Content-Type": "application/json"},
+      // headers: {Authorization: authorization, "Content-Type": "application/json"},
       body: JSON.stringify(requestBody),
     });
 
