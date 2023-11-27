@@ -41,7 +41,7 @@ export async function GET(request: Request) {
   }
 }
 
-export async function POST(request: Request) {
+export async function PUT(request: Request) {
   try {
     const requestBody = await request.json();
     const authorization = request.headers.get("authorization");
