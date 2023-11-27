@@ -1,7 +1,7 @@
 "use client"
 import React, {useEffect, useState} from 'react';
-import {AvailableHostsDTO, FilterSearchReqBody} from "@/components/bookings/AvailableHostsDTO";
-import AvailableBookingItem from "@/components/bookings/components/AvailableBookingItem";
+import {AvailableHostsDTO, FilterSearchReqBody} from "@/components/available-hosts/AvailableHostsDTO";
+import AvailableBookingItem from "@/components/available-hosts/components/AvailableBookingItem";
 import {useRouter, useSearchParams} from "next/navigation";
 
 interface BookingsProps {
@@ -12,7 +12,7 @@ const BookingsPage = (props: BookingsProps) => {
   const searchParams = useSearchParams()
   const router = useRouter();
 
-  const [bookingsPageDTO, setBookingsPageDTO] = useState<AvailableHostsDTO>(props.data);
+  const [availableHostsDTO, setAvailableHostsDTO] = useState<AvailableHostsDTO>(props.data);
   const [defaultAreaSelected, setDefaultAreaSelected] = useState(searchParams.get('area') || "Välj bostadsområde");
   const [defaultSortSelected] = useState(searchParams.get('sort') || "featured");
 
@@ -20,9 +20,9 @@ const BookingsPage = (props: BookingsProps) => {
     area: searchParams.get('area') || "ANY",
     sort: searchParams.get('sort') || "newest",
   });
-  console.log(filterSearchContext)
+
   useEffect(() => {
-    setBookingsPageDTO(props.data)
+    setAvailableHostsDTO(props.data)
   }, [props.data]);
 
   const onChangeOptionArea = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -31,7 +31,7 @@ const BookingsPage = (props: BookingsProps) => {
     const areaValue = event.currentTarget.value
     const currentParams = new URLSearchParams(window.location.search)
     const sort = currentParams.get('sort') || "newest"
-    const updatedUrl = `/bookings?area=${areaValue}&sort=${sort}`
+    const updatedUrl = `/available-hosts?area=${areaValue}&sort=${sort}`
     router.push(updatedUrl);
   };
 
@@ -41,10 +41,10 @@ const BookingsPage = (props: BookingsProps) => {
     const sortValue = event.currentTarget.value
     const currentParams = new URLSearchParams(window.location.search)
     const area = currentParams.get('area') || "ANY"
-    const updatedUrl = `/bookings?area=${area}&sort=${sortValue}`
+    const updatedUrl = `/available-hosts?area=${area}&sort=${sortValue}`
     router.push(updatedUrl);
   };
-  console.log(bookingsPageDTO)
+
   return (
       <div>
         <main className={"flex mt-1 xxs:justify-center md:justify-start"}>
@@ -76,12 +76,12 @@ const BookingsPage = (props: BookingsProps) => {
             </section>
 
             <div className={"flex flex-col gap-1"}>
-              {bookingsPageDTO.availableHosts && bookingsPageDTO.availableHosts.map(availableHost => {
+              {availableHostsDTO.availableHosts && availableHostsDTO.availableHosts.map(availableHost => {
                 return (
-                    <div key={availableHost.id}>
+                    <div key={availableHost.hostId}>
                       <AvailableBookingItem availableHost={availableHost}
-                                    requestsViewModel={bookingsPageDTO}
-                                    setRequestsViewModel={setBookingsPageDTO}
+                                    requestsViewModel={availableHostsDTO}
+                                    setRequestsViewModel={setAvailableHostsDTO}
                       />
                     </div>
                 )

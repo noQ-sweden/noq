@@ -1,5 +1,5 @@
 const port = process.env.BACKEND_URL_ENDPOINT
-const requestMapping = "api/host/requests"
+const requestMapping = "api/user/booking"
 
 const handleResponse = async (response: Response, successStatus = 200) => {
   try {
@@ -33,7 +33,6 @@ export async function GET(request: Request) {
 
     const res = await fetch(`${port}/${requestMapping}`, {
       method: "GET",
-      headers: {Authorization: authorization},
     });
 
     return await handleResponse(res);
@@ -49,15 +48,15 @@ export async function PUT(request: Request) {
     if (!authorization) {
       return handleResponse(new Response(null), 401);
     }
-
-    const res = await fetch(`${port}/${requestMapping}/update-reservation-status-field`, {
+    console.log(requestBody)
+    const res = await fetch(`${port}/${requestMapping}/send-host-request`, {
       method: "PUT",
-      // headers: {Authorization: authorization, "Content-Type": "application/json"},
-      body: JSON.stringify(requestBody),
+      body: requestBody
     });
 
-    return await handleResponse(res);
+    return await handleResponse(res, 201);
   } catch (error) {
     return handleResponse(new Response(null), 500);
   }
 }
+
