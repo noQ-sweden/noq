@@ -1,5 +1,6 @@
 package com.noq.backend.clients.user.availableHosts;
 
+import com.noq.backend.clients.user.availableHosts.dto.HostDTO;
 import com.noq.backend.services.HostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

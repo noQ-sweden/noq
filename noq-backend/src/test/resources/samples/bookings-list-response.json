@@ -1,0 +1,13 @@
+[
+  {
+    "bookingId": "28fadc92-37d8-4418-a7bf-f400b9cb3ca6",
+    "startDateTime": "2023-11-29T14:20:26.003152",
+    "endDateTime": "2023-11-29T22:20:26.003152",
+    "caseManagerName": "Handläggare Namn",
+    "caseManagerEmail": "handlaggare@noq.se",
+    "hostId": "0faa18ba-d20f-43ff-aa38-77172eb1e594",
+    "userId": "49c3ee91-db77-47f0-9c53-8d2453af5641",
+    "bookingStatus": "PENDING",
+    "approvalStatus": "PENDING"
+  }
+]

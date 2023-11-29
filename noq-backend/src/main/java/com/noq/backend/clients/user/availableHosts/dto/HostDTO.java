@@ -1,19 +1,19 @@
-package com.noq.backend.clients.user.availableHosts;
+package com.noq.backend.clients.user.availableHosts.dto;
 
 import com.noq.backend.models.Host;
 import lombok.Builder;
 
 import java.util.UUID;
 
-record HostDTO(UUID hostId,
-               String name,
-               String address1,
-               String address2,
-               String city,
-               String addressPostcode,
-               String email,
-               int countOfAvailablePlaces,
-               int totalPlaces) {
+public record HostDTO(UUID hostId,
+                      String name,
+                      String address1,
+                      String address2,
+                      String city,
+                      String addressPostcode,
+                      String email,
+                      int countOfAvailablePlaces,
+                      int totalPlaces) {
     @Builder
     public HostDTO {
     }

@@ -1,9 +1,6 @@
 package com.noq.backend.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -27,7 +24,8 @@ public class Booking {
     // TODO Model for this Handläggare (Case Manager) is implemented
     String caseManagerEmail;
 
-    Host host;
+    UUID hostId;
+    UUID userId;
 
     BookingStatus bookingStatus;
     ApprovalStatus approvalStatus;
