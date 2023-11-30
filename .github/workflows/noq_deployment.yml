@@ -24,19 +24,19 @@ jobs:
           node-version: 18.x
 
       - name: Build user-client
-        working-directory: frontend/react
+        working-directory: frontend/user-client
         run: |
           npm install
           npm run build
 
       - name: Build admin-client
-        working-directory: frontend/admin
+        working-directory: frontend/admin-client
         run: |
           npm install
           npm run build
 
       - name: Build host-client
-        working-directory: frontend/host
+        working-directory: frontend/host-client
         run: |
           npm install
           npm run build
