@@ -38,28 +38,4 @@ public class User {
     String reasonsForHomelessness;
     String goals;
     String commentsAndRemarks;
-    UUID reservationId;
-
-    public static User create(String firstName, String lastName, String dateOfBirth, String caseManager) {
-        return User.builder()
-                .firstName(firstName)
-                .lastName(lastName)
-                .dateOfBirth(dateOfBirth)
-                .gender(caseManager)
-                .unokod("")
-                .phone("")
-                .email("")
-                .kommun("")
-                .place("")
-                .payingCharges(false)
-                .caseManager("")
-                .understandsSwedish(false)
-                .languagesKnown(List.of())
-                .isFlagged(false)
-                .reasonsForHomelessness("")
-                .goals("")
-                .commentsAndRemarks("")
-                .reservationId(null)
-                .build();
-    }
 }

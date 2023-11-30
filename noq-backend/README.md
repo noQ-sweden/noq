@@ -9,6 +9,11 @@ noQ utilizes Postgresql Database as data store.
 - Maven
 - JAVA_HOME environment variable points to the correct Java installation
 
+### API Documentation Links
+These are available once the server is running successfully
+- [Swagger UI for API Documentation](http://localhost:8080/swagger-ui/index.html)
+- [API Documentation JSON](http://localhost:8080/api-docs)
+
 ### Building the project
 ```
 mvn clean install
