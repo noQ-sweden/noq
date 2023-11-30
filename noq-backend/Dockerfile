@@ -16,4 +16,4 @@ EXPOSE 8080
 COPY --from=builder /app/target/noq-backend-*.jar /app/noq-backend.jar
 COPY --from=builder /prod-config /app
 
-ENTRYPOINT ["java", "-Dspring.profiles.active=prod", "-jar", "/app/noq-backend.jar", "--spring.config.location=/app/application.yaml"]
+ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=prod", "/app/noq-backend.jar"]
