@@ -9,7 +9,7 @@ const ConfirmationPage = () => {
         <div className={"flex flex-col md:items-center gap-4 p-5"}>
           <p className={"font-bold"}>Din förfrågan har nu skickats till bostället!</p>
           <p>Plats för en informativ text om vad som sker härnest och eventuella instruktioner</p>
-          <Link href={`/requests`}>
+          <Link href={`/my-bookings`}>
             <Button2 title={"Mina Bokningar"} onClick={() => {
             }} isLoading={false}/>
           </Link>

@@ -1,5 +1,8 @@
 package com.noq.backend.services;
 
+import com.noq.backend.exceptions.BookingException;
+import com.noq.backend.exceptions.HostNotFoundException;
+import com.noq.backend.models.Booking;
 import com.noq.backend.models.Host;
 import com.noq.backend.repositories.HostRepository;
 import lombok.AllArgsConstructor;
@@ -8,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -29,5 +33,10 @@ public class HostService {
         List<Host> hosts = hostRepository.findAll();
         log.info("Found {} Hosts in total: ", hosts);
         return hosts;
+    }
+
+    public Host findHostById(UUID id) {
+        return hostRepository.findById(id)
+                .orElseThrow( () -> new HostNotFoundException(id.toString()));
     }
 }

@@ -59,3 +59,8 @@ Infrastructure resources are deployed using GitHub Actions. The following steps 
 - `Get container registry credentials` - Get credentials for container registry from Key Vault
 - `Provision frontend container app` - Deploy frontend app container to container apps environment.
 - `Provision backend container app` - Deploy backend app container to container apps environment.
+
+User: https://ca-noq-user-client.thankfulglacier-35d24b26.swedencentral.azurecontainerapps.io
+Host: https://ca-noq-host-client.thankfulglacier-35d24b26.swedencentral.azurecontainerapps.io
+Admin: https://ca-noq-admin-client.thankfulglacier-35d24b26.swedencentral.azurecontainerapps.io
+Backend: https://ca-noq-backend.thankfulglacier-35d24b26.swedencentral.azurecontainerapps.io

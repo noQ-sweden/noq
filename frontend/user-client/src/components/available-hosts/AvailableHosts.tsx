@@ -24,7 +24,7 @@ const BookingsPage = (props: BookingsProps) => {
   useEffect(() => {
     setAvailableHostsDTO(props.data)
   }, [props.data]);
-
+  console.log(props.data)
   const onChangeOptionArea = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value = event.currentTarget.value;
     setFilterSearchContext(prevState => ({...prevState, area: value}));
