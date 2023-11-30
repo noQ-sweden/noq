@@ -25,9 +25,13 @@ mvn clean verify
 ```
 
 ## Run the application
-### Using java jar command
+### Using java jar command (This needs a DB running at localhost)
 ```
 java -jar noq-backend-0.0.1.jar
+```
+### Run with environment variables (This is how it will be run in production / docker environments)
+```
+java -jar -Dspring.profiles.active=prod -DPOSTGRES_URL=jdbc:postgresql://localhost:5432/postgres -DPOSTGRES_USER=postgres -DPOSTGRES_PASSWORD=postgres noq-backend-0.0.1.jar
 ```
 ### Using Docker
 ##### Build and Push the Docker image
