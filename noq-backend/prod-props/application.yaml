@@ -3,9 +3,9 @@ spring:
     name: noq-backend
 
   datasource:
-    url: ${POSTGRES_URL:jdbc:postgresql://localhost:5432/postgres}
-    username: ${POSTGRES_USER:postgres}
-    password: ${POSTGRES_PWD:postgres}
+    url: ${POSTGRES_URL}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PWD}
     hikari:
       connection-timeout: 30000
       idleTimeout: 600000
@@ -20,3 +20,4 @@ server:
 #noq-backend:
 #  cors:
 #    allowedOrigin: https://ca-noq-frontend.thankfulglacier-35d24b26.swedencentral.azurecontainerapps.io/
+#java -jar -Dspring.profiles.active=prod -DPOSTGRES_URL=jdbc:postgresql://localhost:5432/postgres -DPOSTGRES_USER=postgres -DPOSTGRES_PASSWORD=postgres
