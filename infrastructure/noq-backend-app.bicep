@@ -79,7 +79,7 @@ module containerApp './resource-templates/container-app-template.bicep' = {
     environmentVariables: [
       {
         name: 'POSTGRES_URL'
-        value: '${psqlServerName}.postgres.database.azure.com'
+        value: 'jdbc:postgresql://${psqlServerName}.postgres.database.azure.com:5432/postgres'
       }
       {
         name: 'POSTGRES_USER'
