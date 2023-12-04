@@ -1,5 +1,5 @@
 const port = process.env.BACKEND_URL_ENDPOINT
-const requestMapping = "api/user/booking"
+const requestMapping = "api/user/my-bookings"
 
 const handleResponse = async (response: Response, successStatus = 200) => {
   try {
@@ -24,25 +24,20 @@ const handleResponse = async (response: Response, successStatus = 200) => {
   }
 };
 
-export async function PUT(request: Request) {
+export async function GET(request: Request) {
   try {
-    const requestBody = await request.json();
     const authorization = request.headers.get("authorization");
     if (!authorization) {
       return handleResponse(new Response(null), 401);
     }
 
-    console.log(requestBody)
-
     const res = await fetch(`${port}/${requestMapping}`, {
-      method: "PUT",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify(requestBody)
+      method: "GET",
+      // headers: {Authorization: authorization},
     });
 
-    return await handleResponse(res, 201);
+    return await handleResponse(res);
   } catch (error) {
     return handleResponse(new Response(null), 500);
   }
 }
-

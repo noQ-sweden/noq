@@ -1,6 +1,6 @@
 import {Metadata} from "next";
-import {RequestsPageDTO, requestsPageDTOMock} from "@/components/requests/RequestsPageDTO";
-import RequestsPage from "@/components/requests/RequestsPage";
+import {MyBookingsPageDTO, requestsPageDTOMock} from "@/components/my-bookings/MyBookingsPageDTO";
+import MyBookingsPage from "@/components/my-bookings/MyBookingsPage";
 
 export const metadata: Metadata = {
   title: 'Noq',
@@ -8,8 +8,8 @@ export const metadata: Metadata = {
 
 const CLIENT_DOMAIN = process.env.CLIENT_DOMAIN
 
-const getData = async (token: string): Promise<RequestsPageDTO> => {
-  return fetch(`${CLIENT_DOMAIN}/api/host/requests`, {
+const getData = async (token: string): Promise<MyBookingsPageDTO> => {
+  return fetch(`${CLIENT_DOMAIN}/api/user/my-bookings`, {
     method: "GET",
     cache: "no-store",
     next: {tags: ["requests"]},
@@ -28,7 +28,7 @@ export default async function Page() {
 
   return (
       <>
-        <RequestsPage data={data ? data : requestsPageDTOMock}/>
+        <MyBookingsPage data={data ? data : requestsPageDTOMock}/>
       </>
   )
 }

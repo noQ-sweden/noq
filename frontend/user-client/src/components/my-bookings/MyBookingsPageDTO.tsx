@@ -1,13 +1,23 @@
-export interface RequestsPageDTO {
+export interface MyBookingsPageDTO {
   id: string
-  reservations: Reservation[];
+  bookings: Booking[];
 }
 
-export interface Reservation {
-  id: string;
+export interface Booking {
+  id: string
+  bookingStatus: string
+  host: Host
+}
+
+export interface Host {
+  id: string
   name: string
-  queuingPlace: number
-  status: Status
+  address1: string
+  address2: string
+  postalCode: string
+  city: string
+  countOfAvailablePlaces: number
+  totalAvailablePlaces: number
 }
 
 /*reqBody*/
@@ -31,7 +41,7 @@ export enum UpdateChangeType {
 }
 
 /*Mock*/
-export const requestsPageDTOMock: RequestsPageDTO = {
+export const requestsPageDTOMock: MyBookingsPageDTO = {
   id: "",
-  reservations: [{id: "", name: "", queuingPlace: 0, status: Status.APPROVED}]
+  bookings: []
 }

@@ -27,7 +27,7 @@ const Layout = ({children}: Props) => {
             <label htmlFor="my-drawer" aria-label="close sidebar" className="drawer-overlay"></label>
             <ul className="menu p-4 w-80 min-h-full bg-zinc-50 text-base-content">
               <li className={"text-black"}><a className={"p-5 hover:text-emerald-700"} href={"available-hosts"}>Bokningar</a></li>
-              <li className={"text-black"}><a className={"p-5 hover:text-emerald-700"} href={"requests"}>Förfrågningar</a></li>
+              <li className={"text-black"}><a className={"p-5 hover:text-emerald-700"} href={"my-bookings"}>Förfrågningar</a></li>
             </ul>
           </div>
         </div>

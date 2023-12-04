@@ -30,13 +30,13 @@ const SideMenuLargeScreen = (props: SideMenuLargeScreenProps) => {
               </Link>
             </li>
             <li>
-              <Link href={"/requests"}
+              <Link href={"/my-bookings"}
                     onClick={async () => {
-                      props.setSelected("/requests")
-                      await revalidateCache("requests")
+                      props.setSelected("/my-bookings")
+                      await revalidateCache("my-bookings")
                     }}
                     className={`btn w-full border-none border-indigo-500 font-normal rounded-none no-animation text-emerald-700 justify-start
-                    ${props.selected.includes("/requests") ? "bg-emerald-700 hover:bg-emerald-700 text-white" : "hover:bg-zinc-100 bg-zinc-50"}`}
+                    ${props.selected.includes("/my-bookings") ? "bg-emerald-700 hover:bg-emerald-700 text-white" : "hover:bg-zinc-100 bg-zinc-50"}`}
               >
                 Mina Bokningar
               </Link>

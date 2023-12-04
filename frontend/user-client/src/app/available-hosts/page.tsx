@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 const CLIENT_DOMAIN = process.env.CLIENT_DOMAIN
 
 const getData = async (token: string): Promise<AvailableHostsDTO> => {
-  return fetch(`${CLIENT_DOMAIN}/api/user/availableHosts`, {
+  return fetch(`${CLIENT_DOMAIN}/api/user/available-hosts`, {
     method: "GET",
     cache: "no-store",
     next: {tags: ["bookings"]},

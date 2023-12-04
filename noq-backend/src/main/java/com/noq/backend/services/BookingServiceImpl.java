@@ -1,5 +1,6 @@
 package com.noq.backend.services;
 
+import com.noq.backend.exceptions.BookingException;
 import com.noq.backend.exceptions.HostNotFoundException;
 import com.noq.backend.models.*;
 import com.noq.backend.repositories.BookingRepository;

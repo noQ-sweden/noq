@@ -24,23 +24,19 @@ const handleResponse = async (response: Response, successStatus = 200) => {
   }
 };
 
-export async function PUT(request: Request) {
+export async function GET(request: Request, context: { params: { id: string } }) {
   try {
-    const requestBody = await request.json();
     const authorization = request.headers.get("authorization");
     if (!authorization) {
       return handleResponse(new Response(null), 401);
     }
 
-    console.log(requestBody)
-
-    const res = await fetch(`${port}/${requestMapping}`, {
-      method: "PUT",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify(requestBody)
+    const hostId = context.params.id
+    const res = await fetch(`${port}/${requestMapping}/${hostId}`, {
+      method: "GET",
     });
 
-    return await handleResponse(res, 201);
+    return await handleResponse(res);
   } catch (error) {
     return handleResponse(new Response(null), 500);
   }
