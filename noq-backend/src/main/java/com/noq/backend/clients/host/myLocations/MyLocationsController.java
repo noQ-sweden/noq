@@ -1,32 +1,30 @@
-package com.noq.backend.clients.host.booking;
+package com.noq.backend.clients.host.myLocations;
 
+import com.noq.backend.clients.host.myLocations.reqBody.BookingApprovalDTO;
 import com.noq.backend.models.ApprovalStatus;
-import com.noq.backend.models.Booking;
+import com.noq.backend.models.Host;
 import com.noq.backend.services.BookingService;
 import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @Slf4j
 @RestController
 @RequestMapping("/api/host/bookings")
-@AllArgsConstructor
-public class HostBookingController {
+@RequiredArgsConstructor
+public class MyLocationsController {
+    private final BookingService bookingService;
 
-    @Autowired
-    private BookingService bookingService;
-
-    @GetMapping("/{hostId}")
-    public HostBookingsDTO findBookingsForHost(@PathVariable UUID hostId) {
-        log.info("Finding Bookings for HostId: {}", hostId);
-        // TODO Create a BookingDTO for convenience & not mixing View (DTO) with Domain Models
-        return new HostBookingsDTO(bookingService.findBookingsForHost(hostId));
+    @GetMapping
+    public ResponseEntity<MyLocationsDTO> getPage() {
+        return ResponseEntity.ok(toDTO(new DTOBuilder()));
     }
 
     @PostMapping("/{hostId}/approve")
@@ -49,6 +47,15 @@ public class HostBookingController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
+    }
+
+    MyLocationsDTO toDTO(DTOBuilder dtoBuilder) {
+        return null;
+    }
+
+    @Data
+    static class DTOBuilder {
+        Host host;
     }
 }
 

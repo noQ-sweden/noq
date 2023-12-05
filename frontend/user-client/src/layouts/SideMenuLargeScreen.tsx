@@ -1,7 +1,6 @@
 "use client"
 import Link from "next/link";
 import {revalidateCache} from "@/app/actions";
-import {useEffect, useState} from "react";
 
 interface SideMenuLargeScreenProps {
   setSelected: (value: string) => void;
@@ -9,7 +8,7 @@ interface SideMenuLargeScreenProps {
 }
 
 const SideMenuLargeScreen = (props: SideMenuLargeScreenProps) => {
-  console.log(props.selected);
+
   return (
       <div
           className="fixed inset-y-15 bg-zinc-50 left-0 h-full w-64 xxs:hidden md:block">

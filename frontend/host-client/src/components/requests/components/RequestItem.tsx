@@ -8,7 +8,7 @@ import {
   UpdateReservationStatusField
 } from "@/components/requests/RequestsPageDTO";
 import React, {useState} from "react";
-import {fetchUpdateReservationStatusField} from "@/components/requests/RequestsAPIHelper";
+import {fetchUpdateReservationStatusField} from "@/components/requests/RequestsAPI";
 
 interface RequestItemProps {
   request: Reservation

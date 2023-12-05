@@ -8,24 +8,25 @@ interface SideMenuLargeScreenProps {
 }
 
 const SideMenuLargeScreen = (props: SideMenuLargeScreenProps) => {
+
   return (
       <div
-          className="fixed inset-y-15 bg-zinc-300 left-0 h-full w-64 xxs:hidden md:block">
+          className="fixed inset-y-15 bg-zinc-50 left-0 h-full w-64 xxs:hidden md:block">
         <section className={""}>
 
           <ul className="bg-transparent">
             <li>
               <Link
-                  href={"/bookings"}
+                  href={"/my-locations"}
                   onClick={async () => {
-                    props.setSelected("/bookings")
-                    await revalidateCache("bookings")
+                    props.setSelected("/my-locations")
+                    await revalidateCache("my-locations")
                   }}
                   className={`
-                  btn w-full border-none rounded-none no-animation hover:bg-zinc-300 text-black justify-start
-                  ${props.selected.includes("/bookings") ? "bg-zinc-400 hover:bg-zinc-400" : "bg-zinc-300"}`}
+                  btn w-full border-none border-indigo-500 font-normal rounded-none no-animation text-emerald-700 justify-start
+                  ${props.selected.includes("/my-locations") ? "bg-emerald-700 hover:bg-emerald-700 text-white" : "hover:bg-zinc-100 bg-zinc-50"}`}
               >
-                Bokningar
+                Mina Boenden
               </Link>
             </li>
             <li>
@@ -34,8 +35,8 @@ const SideMenuLargeScreen = (props: SideMenuLargeScreenProps) => {
                       props.setSelected("/requests")
                       await revalidateCache("requests")
                     }}
-                    className={`btn w-full border-none rounded-none no-animation hover:bg-zinc-300 text-black justify-start
-                    ${props.selected.includes("/requests") ? "bg-zinc-400 hover:bg-zinc-400" : "bg-zinc-300"}`}
+                    className={`btn w-full border-none border-indigo-500 font-normal rounded-none no-animation text-emerald-700 justify-start
+                    ${props.selected.includes("/requests") ? "bg-emerald-700 hover:bg-emerald-700 text-white" : "hover:bg-zinc-100 bg-zinc-50"}`}
               >
                 Förfrågningar
               </Link>

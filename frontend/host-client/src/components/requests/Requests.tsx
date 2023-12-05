@@ -2,16 +2,16 @@
 import React, {useEffect, useState} from 'react';
 import {RequestsPageDTO} from "@/components/requests/RequestsPageDTO";
 import RequestItem from "@/components/requests/components/RequestItem";
+import {fetchPage} from "@/components/requests/RequestsAPI";
 
 interface RequestsProps {
-  data: RequestsPageDTO
 }
 
 const Requests = (props: RequestsProps) => {
-  const [requestsViewModel, setRequestsViewModel] = useState<RequestsPageDTO>(props.data);
+  const [requestsViewModel, setRequestsViewModel] = useState<RequestsPageDTO>();
 
   useEffect(() => {
-    setRequestsViewModel(props.data)
+    fetchPage("").then(setRequestsViewModel)
   }, []);
 
   return (
@@ -19,7 +19,7 @@ const Requests = (props: RequestsProps) => {
         <main className={"flex mt-1 xxs:justify-center md:justify-start"}>
           <div className={"flex flex-col w-11/12"}>
             <div className={"flex flex-col gap-1"}>
-              {requestsViewModel.reservations && requestsViewModel.reservations.map(request => {
+              {requestsViewModel && requestsViewModel.reservations && requestsViewModel.reservations.map(request => {
                 return (
                     <div key={request.id}>
                       <RequestItem request={request}

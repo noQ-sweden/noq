@@ -1,6 +1,6 @@
 import {Metadata} from "next";
-import Requests from "@/components/requests/Requests";
 import Layout from "@/layouts/Layout";
+import MyLocations from "@/components/my-locations/MyLocations";
 
 export const metadata: Metadata = {
   title: 'Noq',
@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 export default async function Page() {
   return (
       <Layout>
-        <Requests/>
+        <MyLocations/>
       </Layout>
   )
 }
