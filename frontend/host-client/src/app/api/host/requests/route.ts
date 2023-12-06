@@ -1,5 +1,5 @@
 const port = process.env.BACKEND_URL_ENDPOINT
-const requestMapping = "api/host/requests"
+const requestMapping = "api/host/bookings"
 
 const handleResponse = async (response: Response, successStatus = 200) => {
   try {
@@ -25,14 +25,20 @@ const handleResponse = async (response: Response, successStatus = 200) => {
   }
 };
 
+
+
+ //får inte den här till att visa sig?
 export async function GET(request: Request) {
+
+const hostId = "b118ae60-f08e-4277-8f5e-1e98a33625df"
+
   try {
     const authorization = request.headers.get("authorization");
     if (!authorization) {
       return handleResponse(new Response(null), 401);
     }
 
-    const res = await fetch(`${port}/${requestMapping}`, {
+    const res = await fetch(`${port}/${requestMapping}/${hostId}`, {
       method: "GET",
       headers: {Authorization: authorization},
     });
