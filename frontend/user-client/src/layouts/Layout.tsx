@@ -2,16 +2,18 @@
 import React, {ReactNode, useEffect, useState} from "react";
 import Header from "@/layouts/Header";
 import SideMenuLargeScreen from "@/layouts/SideMenuLargeScreen";
+import {usePathname} from "next/navigation";
 
 type Props = {
   children: ReactNode;
 };
 
 const Layout = ({children}: Props) => {
-  const [selected, setSelected] = useState<string>("");
+  const pathname = usePathname();
+  const [selected, setSelected] = useState<string>(pathname);
 
   useEffect(() => {
-    setSelected(window.location.pathname);
+    setSelected(pathname);
   }, []);
 
   return (

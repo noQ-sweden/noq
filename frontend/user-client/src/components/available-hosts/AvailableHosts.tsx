@@ -3,16 +3,18 @@ import React, {useEffect, useState} from 'react';
 import {AvailableHostsDTO, FilterSearchReqBody} from "@/components/available-hosts/AvailableHostsDTO";
 import AvailableBookingItem from "@/components/available-hosts/components/AvailableBookingItem";
 import {useRouter, useSearchParams} from "next/navigation";
+import {fetchPage} from "@/components/available-hosts/AvailableHostsAPI";
+import LoadingSpinner from "@/libs/LoadingSpinner";
 
 interface BookingsProps {
-  data: AvailableHostsDTO
 }
 
 const BookingsPage = (props: BookingsProps) => {
   const searchParams = useSearchParams()
   const router = useRouter();
 
-  const [availableHostsDTO, setAvailableHostsDTO] = useState<AvailableHostsDTO>(props.data);
+  const [availableHostsDTO, setAvailableHostsDTO] = useState<AvailableHostsDTO>();
+
   const [defaultAreaSelected, setDefaultAreaSelected] = useState(searchParams.get('area') || "Välj bostadsområde");
   const [defaultSortSelected] = useState(searchParams.get('sort') || "featured");
 
@@ -22,9 +24,9 @@ const BookingsPage = (props: BookingsProps) => {
   });
 
   useEffect(() => {
-    setAvailableHostsDTO(props.data)
-  }, [props.data]);
-  console.log(props.data)
+    fetchPage("").then(setAvailableHostsDTO)
+  }, []);
+
   const onChangeOptionArea = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value = event.currentTarget.value;
     setFilterSearchContext(prevState => ({...prevState, area: value}));
@@ -74,19 +76,23 @@ const BookingsPage = (props: BookingsProps) => {
                 <option value="oldest">Äldst först</option>
               </select>
             </section>
+            {availableHostsDTO ? <>
+              <div className={"flex flex-col gap-1"}>
+                {availableHostsDTO.availableHosts && availableHostsDTO.availableHosts.map(availableHost => {
+                  return (
+                      <div key={availableHost.hostId}>
+                        <AvailableBookingItem availableHost={availableHost}
+                                              requestsViewModel={availableHostsDTO}
+                                              setRequestsViewModel={setAvailableHostsDTO}
+                        />
+                      </div>
+                  )
+                })}
+              </div>
+            </> : <>
+              <LoadingSpinner/>
+            </>}
 
-            <div className={"flex flex-col gap-1"}>
-              {availableHostsDTO.availableHosts && availableHostsDTO.availableHosts.map(availableHost => {
-                return (
-                    <div key={availableHost.hostId}>
-                      <AvailableBookingItem availableHost={availableHost}
-                                    requestsViewModel={availableHostsDTO}
-                                    setRequestsViewModel={setAvailableHostsDTO}
-                      />
-                    </div>
-                )
-              })}
-            </div>
           </div>
         </main>
       </div>

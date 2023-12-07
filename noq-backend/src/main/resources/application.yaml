@@ -9,9 +9,12 @@ spring:
         physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
 
   datasource:
-    url: ${POSTGRES_URL}
-    username: ${POSTGRES_USER}
-    password: ${POSTGRES_PWD}
+#    url: ${POSTGRES_URL}
+    url: jdbc:postgresql://localhost:5432/postgres
+#    username: ${POSTGRES_USER}
+#    password: ${POSTGRES_PWD}
+    username: postgres
+    password: postgres
     hikari:
       connection-timeout: 30000
       idleTimeout: 600000

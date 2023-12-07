@@ -1,15 +1,15 @@
 import {Metadata} from "next";
-import BookingPage from "@/components/booking/BookingPage";
 import Layout from "@/layouts/Layout";
+import MyLocations from "@/components/my-locations/MyLocations";
 
 export const metadata: Metadata = {
   title: 'Noq',
 }
 
-export default async function Page({params}: { params: { id: string } }) {
+export default async function Page() {
   return (
       <Layout>
-        <BookingPage id={params.id}/>
+        <MyLocations/>
       </Layout>
   )
 }

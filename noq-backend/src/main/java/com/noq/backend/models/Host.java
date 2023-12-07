@@ -1,14 +1,12 @@
 package com.noq.backend.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 import lombok.Value;
 
+import java.util.List;
 import java.util.UUID;
 
 @NoArgsConstructor(force = true)
@@ -30,5 +28,7 @@ public class Host {
     int totalPlaces;
     String facilities;
     String targetAudience;
+    @OneToMany
+    List<Booking> bookingList;
 }
 
