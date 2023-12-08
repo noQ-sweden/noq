@@ -210,7 +210,7 @@ jobs:
             appName="noq-user-client"
             containerEnvironment=${{ steps.arm.outputs.containerEnvironmentName }}
             containerImage=${{ steps.arm.outputs.registryLoginServer }}/frontend/noq-admin-client:${{ github.sha }}
-            targetPort=80
+            targetPort=3000
             backendUrl="${{ steps.backend.outputs.containerFqdn}}"
             registryPasswordUri="${{ steps.arm.outputs.containerRegistryPasswordUri}}"
             appManagedIdentityName="${{ steps.arm.outputs.frontendAppIdentityName }}"
@@ -233,7 +233,7 @@ jobs:
             appName="noq-user-client"
             containerEnvironment=${{ steps.arm.outputs.containerEnvironmentName }}
             containerImage=${{ steps.arm.outputs.registryLoginServer }}/frontend/noq-host-client:${{ github.sha }}
-            targetPort=80
+            targetPort=3000
             backendUrl="${{ steps.backend.outputs.containerFqdn}}"
             registryPasswordUri="${{ steps.arm.outputs.containerRegistryPasswordUri}}"
             appManagedIdentityName="${{ steps.arm.outputs.frontendAppIdentityName }}"
