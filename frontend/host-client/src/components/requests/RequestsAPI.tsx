@@ -1,12 +1,13 @@
 "use server"
-import {RequestsPageDTO, UpdateReservationStatusField} from "./RequestsPageDTO";
+import {RequestsPageDTO, requestsPageDTOMock} from "./RequestsPageDTO";
 
-const CLIENT_DOMAIN = process.env.CLIENT_DOMAIN
+const BACKEND_URL_ENDPOINT = process.env.BACKEND_URL_ENDPOINT
 
 const requestMapping = "api/host/requests"
 
-export const fetchPage = async (token: string): Promise<RequestsPageDTO> => {
-  return fetch(`${CLIENT_DOMAIN}/api/host/requests`, {
+export const fetchPage = async (token: string, hostId: string): Promise<RequestsPageDTO> => {
+  console.log("fetchPage")
+  return fetch(`${BACKEND_URL_ENDPOINT}/${requestMapping}/${hostId}`, {
     method: "GET",
     cache: "no-store",
     next: {tags: ["requests"]},
@@ -16,14 +17,15 @@ export const fetchPage = async (token: string): Promise<RequestsPageDTO> => {
     return Promise.reject(res)
   }).catch(reason => {
     console.error(reason)
+    return requestsPageDTOMock
   });
 };
 
-export const fetchUpdateReservationStatusField = async (reqBody: UpdateReservationStatusField): Promise<RequestsPageDTO> => {
-  return fetch(`${CLIENT_DOMAIN}/${requestMapping}`, {
-    method: "PUT",
-    cache:  "no-cache",
-    headers: {"Content-Type": "application/json", Authorization: "Bearer " + "token"},
-    body: JSON.stringify(reqBody)
-  }).then(value => value.json());
-}
+// export const fetchUpdateReservationStatusField = async (reqBody: UpdateReservationStatusField): Promise<RequestsPageDTO> => {
+//   return fetch(`${BACKEND_URL_ENDPOINT}/${requestMapping}`, {
+//     method: "PUT",
+//     cache:  "no-cache",
+//     headers: {"Content-Type": "application/json", Authorization: "Bearer " + "token"},
+//     body: JSON.stringify(reqBody)
+//   }).then(value => value.json());
+// }

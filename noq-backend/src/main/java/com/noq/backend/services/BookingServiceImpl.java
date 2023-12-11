@@ -88,7 +88,7 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public List<Booking> findBookingsForHost(UUID hostId) {
         List<Booking> bookingsByHostId = bookingRepository.findAllByHostId(hostId);
-        log.info("Found {} bookings for HostId {}", bookingsByHostId.size(), hostId);
+//        log.info("Found {} bookings for HostId {}", bookingsByHostId.size(), hostId);
         return bookingsByHostId;
     }
 

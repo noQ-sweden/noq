@@ -1,29 +1,31 @@
 export interface RequestsPageDTO {
   id: string
-  reservations: Reservation[];
+  approvedBookings: Booking[];
+  disapprovedBookings: Booking[];
+  pendingBookings: Booking[];
 }
 
-export interface Reservation {
+export interface Booking {
   id: string;
+  userId: string
   name: string
+  unoCode: string
   queuingPlace: number
   status: Status
-}
-
-/*reqBody*/
-export interface UpdateReservationStatusField {
-  reservationId: string,
-  newValue: string,
-  updateChangeType: UpdateChangeType
 }
 
 /*enums*/
 export enum Status {
   APPROVED = "APPROVED",
   PENDING = "PENDING",
-  RESERVED = "RESERVED",
-  CANCELLED = "CANCELLED",
   DENIED = "DENIED"
+}
+
+/*reqBody*/
+export interface UpdateReservationStatusField {
+reservationId: string,
+newValue: string,
+updateChangeType: UpdateChangeType
 }
 
 export enum UpdateChangeType {
@@ -32,6 +34,17 @@ export enum UpdateChangeType {
 
 /*Mock*/
 export const requestsPageDTOMock: RequestsPageDTO = {
-  id: "",
-  reservations: [{id: "", name: "", queuingPlace: 0, status: Status.APPROVED}]
+  id: "id",
+  approvedBookings: [
+    {id: "1", userId: "1", name: "name", unoCode: "HG56k", queuingPlace: 1, status: Status.APPROVED},
+    {id: "2", userId: "2", name: "name", unoCode: "HG56k", queuingPlace: 1, status: Status.APPROVED},
+  ],
+  disapprovedBookings: [
+    {id: "1", userId: "1", name: "name", unoCode: "HG56k", queuingPlace: 1, status: Status.DENIED},
+    {id: "2", userId: "2", name: "name", unoCode: "HG56k", queuingPlace: 1, status: Status.DENIED},
+  ],
+  pendingBookings: [
+    {id: "1", userId: "1", name: "name", unoCode: "HG56k", queuingPlace: 1, status: Status.PENDING},
+    {id: "2", userId: "2", name: "name", unoCode: "HG56k", queuingPlace: 1, status: Status.PENDING},
+  ]
 }

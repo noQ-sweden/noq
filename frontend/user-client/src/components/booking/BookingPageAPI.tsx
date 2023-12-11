@@ -2,10 +2,10 @@
 
 import {BookingPageDTO, BookingReqBody} from "@/components/booking/BookingPageDTO";
 
-const CLIENT_DOMAIN = process.env.CLIENT_DOMAIN
+const BACKEND_URL_ENDPOINT = process.env.BACKEND_URL_ENDPOINT
 
 export const fetchPage = async (token: string, id: string): Promise<BookingPageDTO> => {
-  return fetch(`${CLIENT_DOMAIN}/api/user/booking/${id}`, {
+  return fetch(`${BACKEND_URL_ENDPOINT}/api/user/booking/${id}`, {
     method: "GET",
     cache: "no-store",
     next: {tags: ["booking"]},
@@ -19,9 +19,14 @@ export const fetchPage = async (token: string, id: string): Promise<BookingPageD
 };
 
 export const fetchSendHostRequest = async (reqBody :BookingReqBody) => {
-  return fetch(`${CLIENT_DOMAIN}/api/user/booking`, {
+  return fetch(`${BACKEND_URL_ENDPOINT}/api/user/booking`, {
     method: "PUT",
     headers: {Authorization: "Bearer " + "token", "Content-Type": "application/json"},
     body: JSON.stringify(reqBody)
-  }).then(res => res.json())
+  }).then(res => {
+    if (res.ok) return res.json();
+    return Promise.reject(res)
+  }).catch(reason => {
+    console.error(reason)
+  });
 };
