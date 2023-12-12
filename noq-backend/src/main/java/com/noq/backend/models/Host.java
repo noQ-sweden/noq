@@ -28,7 +28,4 @@ public class Host {
     int totalPlaces;
     String facilities;
     String targetAudience;
-//    @OneToMany
-//    List<Booking> bookingList;
 }
-
