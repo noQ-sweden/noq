@@ -24,7 +24,6 @@ const BookingPage = (props: BookingProps) => {
       hostId: hostId,
     }
     fetchSendHostRequest(reqBody)
-        .then(res => console.log(res))
         .finally(() => router.push("/booking/confirmation"))
   };
 

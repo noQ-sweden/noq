@@ -18,10 +18,11 @@ export const fetchPage = async (token: string, id: string): Promise<BookingPageD
   });
 };
 
-export const fetchSendHostRequest = async (reqBody :BookingReqBody) => {
+export const fetchSendHostRequest = async (reqBody :BookingReqBody): Promise<string> => {
+  console.log(reqBody)
   return fetch(`${BACKEND_URL_ENDPOINT}/api/user/booking`, {
     method: "PUT",
-    headers: {Authorization: "Bearer " + "token", "Content-Type": "application/json"},
+    headers: {"Content-Type": "application/json"},
     body: JSON.stringify(reqBody)
   }).then(res => {
     if (res.ok) return res.json();

@@ -33,13 +33,14 @@ public class BookingsPageController {
         // FIXME Error when Host does not exist
         Host host = hostService.findHostById(UUID.fromString(hostId));
         List<Booking> allBookingsForHost = bookingService.findBookingsForHost(UUID.fromString(hostId));
-        return ResponseEntity.ok(BookingsPageDTO.builder()
+        BookingsPageDTO dto = BookingsPageDTO.builder()
                 .id(hostId)
                 .approvedBookings(allBookingsForHost.stream()
                         .filter(booking -> booking.getBookingStatus() == BookingStatus.APPROVED).map(this::createBookingDTO).toArray(BookingsPageDTO.BookingDTO[]::new))
                 .disapprovedBookings(allBookingsForHost.stream().filter(booking -> booking.getBookingStatus() == BookingStatus.DENIED).map(this::createBookingDTO).toArray(BookingsPageDTO.BookingDTO[]::new))
                 .pendingBookings(allBookingsForHost.stream().filter(booking -> booking.getBookingStatus() == BookingStatus.PENDING).map(this::createBookingDTO).toArray(BookingsPageDTO.BookingDTO[]::new))
-                .build());
+                .build();
+        return ResponseEntity.ok(dto);
     }
 
     private BookingsPageDTO.BookingDTO createBookingDTO(Booking booking) {

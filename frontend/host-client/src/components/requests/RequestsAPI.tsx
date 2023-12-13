@@ -7,7 +7,7 @@ const requestMapping = "api/host/requests"
 
 export const fetchPage = async (token: string, hostId: string): Promise<RequestsPageDTO> => {
   console.log("fetchPage")
-  return fetch(`${BACKEND_URL_ENDPOINT}/${requestMapping}/${hostId}`, {
+  return fetch(`${BACKEND_URL_ENDPOINT}/${requestMapping}`, {
     method: "GET",
     cache: "no-store",
     next: {tags: ["requests"]},
