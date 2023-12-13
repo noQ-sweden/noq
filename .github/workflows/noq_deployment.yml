@@ -207,7 +207,7 @@ jobs:
             registryUsername=${{ env.registryUsername }}
             registry=${{ steps.arm.outputs.registryLoginServer }}
             envShortName=${{ vars.ENV_SHORTNAME }}
-            appName="noq-user-client"
+            appName="noq-admin-client"
             containerEnvironment=${{ steps.arm.outputs.containerEnvironmentName }}
             containerImage=${{ steps.arm.outputs.registryLoginServer }}/frontend/noq-admin-client:${{ github.sha }}
             targetPort=3000
@@ -230,7 +230,7 @@ jobs:
             registryUsername=${{ env.registryUsername }}
             registry=${{ steps.arm.outputs.registryLoginServer }}
             envShortName=${{ vars.ENV_SHORTNAME }}
-            appName="noq-user-client"
+            appName="noq-host-client"
             containerEnvironment=${{ steps.arm.outputs.containerEnvironmentName }}
             containerImage=${{ steps.arm.outputs.registryLoginServer }}/frontend/noq-host-client:${{ github.sha }}
             targetPort=3000
