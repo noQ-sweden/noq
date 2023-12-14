@@ -1,7 +1,5 @@
 package com.noq.backend.clients.user.myBookings;
 
-import com.noq.backend.clients.user.booking.UserBookingController;
-import com.noq.backend.clients.user.booking.UserBookingPageDTO;
 import com.noq.backend.models.Booking;
 import com.noq.backend.models.Host;
 import com.noq.backend.models.User;
@@ -26,6 +24,7 @@ import java.util.function.Function;
 public class MyBookingsController {
     private final BookingService bookingService;
     private final HostService hostService;
+    String userId = "550e8400-e29b-41d4-a716-446655440010";
 
     @GetMapping
     public ResponseEntity<MyBookingsDTO> getMyBookingsPage() {
@@ -36,7 +35,7 @@ public class MyBookingsController {
 
     public MyBookingsDTO buildDTO() {
         DTOBuilder dtoBuilder = new DTOBuilder();
-        List<Booking> bookingsForUser = bookingService.findBookingsForUser(UUID.fromString("550e8400-e29b-41d4-a716-446655440011"));
+        List<Booking> bookingsForUser = bookingService.findBookingsForUser(UUID.fromString(userId));
         List<Host> hosts = hostService.allHosts();
         dtoBuilder.setBookings(bookingsForUser);
         dtoBuilder.setHosts(hosts);
