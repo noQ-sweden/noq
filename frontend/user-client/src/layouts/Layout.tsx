@@ -17,7 +17,7 @@ const Layout = ({children}: Props) => {
   }, []);
 
   return (
-      <div aria-label={"mobile_drawer_wrapper"} style={{minHeight: '100vh'}} className={"flex flex-col"}>
+      <div aria-label={"mobile_drawer_wrapper"} style={{minHeight: '100vh'}} className={"flex flex-col  bg-white"}>
         <div className="drawer">
           <input id="my-drawer" type="checkbox" className="drawer-toggle"/>
           <div className="drawer-content">
@@ -28,8 +28,8 @@ const Layout = ({children}: Props) => {
           <div className="drawer-side">
             <label htmlFor="my-drawer" aria-label="close sidebar" className="drawer-overlay"></label>
             <ul className="menu p-4 w-80 min-h-full bg-zinc-50 text-base-content">
-              <li className={"text-black"}><a className={"p-5 hover:text-emerald-700"} href={"available-hosts"}>Bokningar</a></li>
-              <li className={"text-black"}><a className={"p-5 hover:text-emerald-700"} href={"my-bookings"}>Förfrågningar</a></li>
+              <li className={"text-black"}><a className={"p-5 hover:primary"} href={"available-hosts"}>Bokningar</a></li>
+              <li className={"text-black"}><a className={"p-5 hover:primary"} href={"my-bookings"}>Förfrågningar</a></li>
             </ul>
           </div>
         </div>

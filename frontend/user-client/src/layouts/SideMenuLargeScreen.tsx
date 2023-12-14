@@ -24,7 +24,7 @@ const SideMenuLargeScreen = (props: SideMenuLargeScreenProps) => {
                   }}
                   className={`
                   btn w-full border-none border-indigo-500 font-normal rounded-none no-animation text-emerald-700 justify-start
-                  ${props.selected.includes("/available-hosts") ? "bg-emerald-700 hover:bg-emerald-700 text-white" : "hover:bg-zinc-100 bg-zinc-50"}`}
+                  ${props.selected.includes("/available-hosts") ? "bg-primary hover:bg-primary text-white" : "hover:bg-zinc-100 bg-zinc-50"}`}
               >
                 Boka Boende
               </Link>
@@ -36,7 +36,7 @@ const SideMenuLargeScreen = (props: SideMenuLargeScreenProps) => {
                       await revalidateCache("my-bookings")
                     }}
                     className={`btn w-full border-none border-indigo-500 font-normal rounded-none no-animation text-emerald-700 justify-start
-                    ${props.selected.includes("/my-bookings") ? "bg-emerald-700 hover:bg-emerald-700 text-white" : "hover:bg-zinc-100 bg-zinc-50"}`}
+                    ${props.selected.includes("/my-bookings") ? "bg-primary hover:bg-primary text-white" : "hover:bg-zinc-100 bg-zinc-50"}`}
               >
                 Mina Bokningar
               </Link>

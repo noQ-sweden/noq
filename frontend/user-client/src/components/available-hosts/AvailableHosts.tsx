@@ -54,8 +54,8 @@ const BookingsPage = (props: BookingsProps) => {
 
             <section aria-label={"select-area"} className={"md:w-5/12 lg:w-4/12"}>
               <select id="countries"
-                      className="bg-gray-50 border border-emerald-700 text-emerald-900 text-sm rounded focus:ring-emerald-700 focus:border-emerald-700
-                      block w-full p-2.5 hover:border-emerald-700"
+                      className="bg-gray-50 border border-primary text-emerald-900 text-sm rounded focus:ring-emerald-700 focus:border-emerald-700
+                      block w-full p-2.5 hover:border-primary"
                       defaultValue={defaultAreaSelected}
                       onChange={event => onChangeOptionArea(event)}
               >
@@ -65,7 +65,7 @@ const BookingsPage = (props: BookingsProps) => {
               </select>
             </section>
 
-            <section aria-label={"select-sort"} className={"md:w-5/12 lg:w-4/12"}>
+          {/*   <section aria-label={"select-sort"} className={"md:w-5/12 lg:w-4/12"}>
               <select id="sort"
                       className="bg-gray-50 border border-emerald-700 text-emerald-900 text-sm rounded focus:ring-emerald-700 focus:border-emerald-700
                       block w-full p-2.5 hover:border-emerald-700"
@@ -75,7 +75,7 @@ const BookingsPage = (props: BookingsProps) => {
                 <option value={"newest"}>Nyast först</option>
                 <option value="oldest">Äldst först</option>
               </select>
-            </section>
+            </section> */}
             {availableHostsDTO ? <>
               <div className={"flex flex-col gap-1"}>
                 {availableHostsDTO.availableHosts && availableHostsDTO.availableHosts.map(availableHost => {
