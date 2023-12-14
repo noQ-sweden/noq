@@ -18,4 +18,5 @@ public interface BookingRepository extends JpaRepository<Booking, UUID> {
 //    @Query("SELECT b FROM BOOKING b WHERE b.hostId = :hostId")
     List<Booking> findAllByHostId(UUID hostId);
     Optional<Booking> findByHostId(UUID hostId);
+
 }

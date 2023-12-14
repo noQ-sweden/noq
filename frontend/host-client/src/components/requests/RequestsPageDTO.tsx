@@ -23,9 +23,14 @@ export enum Status {
 
 /*reqBody*/
 export interface UpdateReservationStatusField {
-reservationId: string,
-newValue: string,
-updateChangeType: UpdateChangeType
+  reservationId: string,
+  newValue: string,
+  updateChangeType: UpdateChangeType
+}
+
+export interface BookingReqBody {
+  hostId: string
+  bookingId: string
 }
 
 export enum UpdateChangeType {
