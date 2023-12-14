@@ -12,7 +12,7 @@ export default function Home() {
           Hantera förfrågningar
         </h2>
         <p className="">
-          I vänster meny kan du välja att godkänna elelr neka förfrågningar
+          I vänster meny kan du välja att godkänna eller neka förfrågningar
           under fliken FÖRFRÅGNINGAR.
         </p>
       </main>

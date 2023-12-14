@@ -11,6 +11,7 @@ const handleResponse = async (response: Response, successStatus = 200) => {
     }
 
     const responseBody = await response.json();
+    console.log(responseBody)
     return new Response(JSON.stringify(responseBody), {
       status: response.ok ? successStatus : response.status,
       headers: {"Content-Type": "application/json"}
