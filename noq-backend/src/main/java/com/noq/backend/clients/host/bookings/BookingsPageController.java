@@ -1,6 +1,6 @@
 package com.noq.backend.clients.host.bookings;
 
-import com.noq.backend.clients.host.bookings.reqBody.BookingApprovalReqBody;
+import com.noq.backend.clients.host.bookings.reqBody.BookingApprovalDTO;
 import com.noq.backend.models.*;
 import com.noq.backend.services.BookingService;
 import com.noq.backend.services.HostService;
@@ -23,6 +23,7 @@ public class BookingsPageController {
     private final HostService hostService;
     private final UserService userService;
 
+
     @GetMapping
     // FIXME to @GetMapping("/{hostId}") after removing Hardcoding of 550e8400-e29b-41d4-a716-446655440000
     public ResponseEntity<BookingsPageDTO> getBookingsPageForHost(/*@PathVariable String hostId*/) {
@@ -30,27 +31,19 @@ public class BookingsPageController {
         // TODO Remove this Hardcoding. Frontend should send correct hostId
         String hostId = "550e8400-e29b-41d4-a716-446655440000";
         // FIXME Error when Host does not exist
-        BookingsPageDTO dto = toDTO(hostId);
+        Host host = hostService.findHostById(UUID.fromString(hostId));
+        List<Booking> allBookingsForHost = bookingService.findBookingsForHost(UUID.fromString(hostId));
+        BookingsPageDTO dto = BookingsPageDTO.builder()
+                .id(hostId)
+                .approvedBookings(allBookingsForHost.stream()
+                        .filter(booking -> booking.getBookingStatus() == BookingStatus.APPROVED).map(this::createBookingDTO).toArray(BookingsPageDTO.BookingDTO[]::new))
+                .disapprovedBookings(allBookingsForHost.stream().filter(booking -> booking.getBookingStatus() == BookingStatus.DENIED).map(this::createBookingDTO).toArray(BookingsPageDTO.BookingDTO[]::new))
+                .pendingBookings(allBookingsForHost.stream().filter(booking -> booking.getBookingStatus() == BookingStatus.PENDING).map(this::createBookingDTO).toArray(BookingsPageDTO.BookingDTO[]::new))
+                .build();
         return ResponseEntity.ok(dto);
     }
 
-    @PostMapping("approve")
-    public ResponseEntity<BookingsPageDTO> approve(@RequestBody BookingApprovalReqBody reqBody) {
-        String hostId = "550e8400-e29b-41d4-a716-446655440000";
-        bookingService.decideApproval(UUID.fromString(reqBody.bookingId()), ApprovalStatus.APPROVE);
-        var dto = toDTO(hostId);
-        return ResponseEntity.ok(dto);
-    }
-
-    @PostMapping("deny")
-    public ResponseEntity<BookingsPageDTO> deny(@RequestBody BookingApprovalReqBody reqBody) {
-        String hostId = "550e8400-e29b-41d4-a716-446655440000";
-        bookingService.decideApproval(UUID.fromString(reqBody.bookingId()), ApprovalStatus.DENY);
-        var dto = toDTO(hostId);
-        return ResponseEntity.ok(dto);
-    }
-
-    private BookingsPageDTO.BookingDTO toDTO(Booking booking) {
+    private BookingsPageDTO.BookingDTO createBookingDTO(Booking booking) {
         // FIXME Add UNOKOD property on the Booking Object in addition to the Id
         User userById = userService.getUserById(booking.getUserId());
         var unokod = userById.getUnokod();
@@ -68,14 +61,14 @@ public class BookingsPageController {
                 .build();
     }
 
-    private BookingsPageDTO toDTO(String hostId) {
-        List<Booking> allBookingsForHost = bookingService.findBookingsForHost(UUID.fromString(hostId));
-        return BookingsPageDTO.builder()
-                .id(hostId)
-                .approvedBookings(allBookingsForHost.stream()
-                        .filter(booking -> booking.getBookingStatus() == BookingStatus.APPROVED).map(this::toDTO).toArray(BookingsPageDTO.BookingDTO[]::new))
-                .disapprovedBookings(allBookingsForHost.stream().filter(booking -> booking.getBookingStatus() == BookingStatus.DENIED).map(this::toDTO).toArray(BookingsPageDTO.BookingDTO[]::new))
-                .pendingBookings(allBookingsForHost.stream().filter(booking -> booking.getBookingStatus() == BookingStatus.PENDING).map(this::toDTO).toArray(BookingsPageDTO.BookingDTO[]::new))
-                .build();
+    @PostMapping("/{hostId}/approve")
+    public ResponseEntity<String> approve(@PathVariable UUID hostId, @RequestBody BookingApprovalDTO bookingApprovalDTO) {
+        try {
+            bookingService.decideApproval(UUID.fromString(bookingApprovalDTO.getBookingId()), ApprovalStatus.valueOf(bookingApprovalDTO.getApprovalStatus()));
+            return ResponseEntity.ok("Booking approval status for %s updated successfully as: %s"
+                    .formatted(bookingApprovalDTO.getBookingId(), bookingApprovalDTO.getApprovalStatus()));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
     }
 }
