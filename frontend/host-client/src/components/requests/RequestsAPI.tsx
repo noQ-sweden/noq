@@ -13,6 +13,7 @@ export const fetchPage = async (token: string, hostId: string): Promise<Requests
     next: {tags: ["requests"]},
     headers: {Authorization: "Bearer " + token},
   }).then(res => {
+    console.log(res)
     if (res.ok) return res.json();
     return Promise.reject(res)
   }).catch(reason => {

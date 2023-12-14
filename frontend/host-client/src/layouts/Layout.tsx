@@ -17,7 +17,7 @@ const Layout = ({children}: Props) => {
   }, []);
 
   return (
-      <div aria-label={"mobile_drawer_wrapper"} style={{minHeight: '100vh'}} className={"flex flex-col"}>
+      <div aria-label={"mobile_drawer_wrapper"} style={{minHeight: '100vh'}} className={"flex flex-col bg-white"}>
         <div className="drawer">
           <input id="my-drawer" type="checkbox" className="drawer-toggle"/>
           <div className="drawer-content">

@@ -35,8 +35,8 @@ const SideMenuLargeScreen = (props: SideMenuLargeScreenProps) => {
                       props.setSelected("/requests")
                       await revalidateCache("requests")
                     }}
-                    className={`btn w-full border-none border-indigo-500 font-normal rounded-none no-animation text-emerald-700 justify-start
-                    ${props.selected.includes("/requests") ? "bg-emerald-700 hover:bg-emerald-700 text-white" : "hover:bg-zinc-100 bg-zinc-50"}`}
+                    className={`btn w-full border-none border-indigo-500 font-normal rounded-none no-animation justify-start
+                    ${props.selected.includes("/requests") ? "bg-primary hover:bg-primary text-white" : "hover:bg-zinc-100 bg-zinc-50 text-primary "}`}
               >
                 Förfrågningar
               </Link>
