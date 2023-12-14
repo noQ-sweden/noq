@@ -1,5 +1,6 @@
 "use client"
 
+import Image from 'next/image'; 
 import Link from "next/link";
 
 interface HeaderProps {
@@ -20,7 +21,12 @@ const Header = (props: HeaderProps) => {
         </div>
         <div className="flex-1">
           <Link href={"/"} onClick={() => props.setSelected("")} className="btn btn-ghost normal-case text-xl">
-            NoQ
+          <Image 
+              src="/logo.png"
+              alt="Logo" 
+              width={50}
+              height={50} 
+            />
           </Link>
         </div>
         <div className="flex-none gap-2">

@@ -23,8 +23,8 @@ const SideMenuLargeScreen = (props: SideMenuLargeScreenProps) => {
                     await revalidateCache("available-hosts")
                   }}
                   className={`
-                  btn w-full border-none border-indigo-500 font-normal rounded-none no-animation text-emerald-700 justify-start
-                  ${props.selected.includes("/available-hosts") ? "bg-emerald-700 hover:bg-emerald-700 text-white" : "hover:bg-zinc-100 bg-zinc-50"}`}
+                  btn w-full border-none border-indigo-500 font-normal rounded-none no-animation justify-start
+                  ${props.selected.includes("/available-hosts") ? "bg-primary hover:bg-primary text-white" : "hover:bg-zinc-100 text-primary bg-zinc-50"}`}
               >
                 Boka Boende
               </Link>
@@ -35,8 +35,8 @@ const SideMenuLargeScreen = (props: SideMenuLargeScreenProps) => {
                       props.setSelected("/my-bookings")
                       await revalidateCache("my-bookings")
                     }}
-                    className={`btn w-full border-none border-indigo-500 font-normal rounded-none no-animation text-emerald-700 justify-start
-                    ${props.selected.includes("/my-bookings") ? "bg-emerald-700 hover:bg-emerald-700 text-white" : "hover:bg-zinc-100 bg-zinc-50"}`}
+                    className={`btn w-full border-none border-indigo-500 font-normal rounded-none no-animation  justify-start
+                    ${props.selected.includes("/my-bookings") ? "bg-primary hover:primary text-white" : "hover:bg-zinc-100 text-primary bg-zinc-50"}`}
               >
                 Mina Bokningar
               </Link>

@@ -39,6 +39,9 @@ const config: Config = {
       'body': ['"Open Sans"'],
     },
     extend: {
+      colors: {
+        primary: '#005C57',
+      },
       spacing: {
         '128': '32rem',
         '144': '36rem',
