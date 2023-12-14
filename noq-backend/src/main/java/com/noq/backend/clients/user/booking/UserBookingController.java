@@ -1,13 +1,11 @@
 package com.noq.backend.clients.user.booking;
 
-import com.noq.backend.clients.user.booking.reqbody.UserCreateBookingRequestDTO;
 import com.noq.backend.models.Booking;
 import com.noq.backend.models.Host;
 import com.noq.backend.services.BookingService;
 import com.noq.backend.services.HostService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,16 +16,17 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
 @Slf4j
 @RestController
 @RequestMapping("/api/user/booking")
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class UserBookingController {
 
-    private final BookingService bookingService;
-    private final HostService hostService;
-
-    String userId = "550e8400-e29b-41d4-a716-446655440010";
+    @Autowired
+    private BookingService bookingService;
+    private HostService hostService;
 
     @GetMapping("{hostId}")
     public ResponseEntity<UserBookingPageDTO> getBookingPage(@PathVariable UUID hostId) {
@@ -37,12 +36,12 @@ public class UserBookingController {
         return ResponseEntity.ok(toDTO);
     }
 
-    @PutMapping("create-booking")
-    public ResponseEntity<String> createBooking(@RequestBody UserCreateBookingRequestDTO reqBody) {
+    @PutMapping(consumes = APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> createBooking(@RequestBody UserCreateBookingRequestDto userCreateBookingRequestDto) {
         log.info("createBooking");
-        log.info("reqBody: {}", reqBody);
+        log.info("createBookingRequestDto: {}", userCreateBookingRequestDto);
         try {
-            var booking = bookingService.createBooking(UUID.fromString(reqBody.hostId()), UUID.fromString(userId), LocalDateTime.now());
+            var booking = bookingService.createBooking(userCreateBookingRequestDto.hostId(), userCreateBookingRequestDto.userId(), LocalDateTime.now());
             return ResponseEntity.ok("Booking created with ID: " + booking.getBookingId());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
