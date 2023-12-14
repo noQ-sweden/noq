@@ -15,7 +15,7 @@ const AvailableBookingItem = (props: RequestItemProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const onClickHost = (id: string) => {
-    console.log(id);
+    // console.log(id);
   };
 
   return (
