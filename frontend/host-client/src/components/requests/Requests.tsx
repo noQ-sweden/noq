@@ -18,17 +18,28 @@ const Requests = (props: RequestsProps) => {
     },
   })
 
-  function onBtnDenied(id: string, userId: string) {
-    console.log("onBtnDenied");
-    console.log(id);
-    console.log(userId);
-  }
+  const [requestsPageDTO, setRequestsPageDTO] = useState<RequestsPageDTO>(data)
 
-  function onBtnApprove(id: string, userId: string) {
-    console.log("onBtnApprove");
-    console.log(id);
-    console.log(userId);
-  }
+  useEffect(() => {
+    setRequestsPageDTO(data)
+  }, [data]);
+
+  const onBtnDenied = (reservationId: string, userId: string) => {
+    const bookingReqBody: BookingReqBody = {
+      hostId: "",
+      bookingId: reservationId
+    }
+    fetchDenyRequest("", bookingReqBody).then(setRequestsPageDTO)
+
+  };
+
+  const onBtnApprove = (reservationId: string, userId: string) => {
+    const bookingReqBody: BookingReqBody = {
+      hostId: "",
+      bookingId: reservationId
+    }
+    fetchApproveRequest("", bookingReqBody).then(setRequestsPageDTO)
+  };
 
   return (
     <div className="bg-white rounded  p-4 m-4">
@@ -54,7 +65,7 @@ const Requests = (props: RequestsProps) => {
             <section className={"flex flex-col gap-1 border-t-2 border-zinc-500 p-4"}>
               <h2 className={"text-lg font-semibold"}>Godkända</h2>
 
-              {data && data.approvedBookings.map((reservation: any) => {
+              {requestsPageDTO && requestsPageDTO.approvedBookings.map((reservation: any) => {
                 return (
                     <div key={reservation.id} className={"border-2 rounded border-zinc-500 p-1"}>
                       <p>Namn: {reservation.name}</p>
@@ -64,9 +75,9 @@ const Requests = (props: RequestsProps) => {
               })}
             </section>
 
-            <section className={"flex flex-col gap-1 border-t-2  border-zinc-500 p-4"}>
-            <h2 className={"text-lg font-semibold"}>Nekade</h2>
-              {data && data.disapprovedBookings.map((reservation: any) => {
+            <section className={"flex flex-col gap-1 border-2 rounded border-zinc-500 p-4"}>
+              <h1 className={"text-2xl"}>Nekade</h1>
+              {requestsPageDTO && requestsPageDTO.disapprovedBookings.map((reservation: any) => {
                 return (
                     <div key={reservation.id} className={"border-2 rounded border-zinc-500 p-1"}>
                       <p>Namn: {reservation.name}</p>
@@ -75,6 +86,26 @@ const Requests = (props: RequestsProps) => {
                 )
               })}
             </section>
+
+            <section className={"flex flex-col gap-1"}>
+              <h1 className={"text-2xl"}>Förfrågningar</h1>
+              {requestsPageDTO && requestsPageDTO.pendingBookings.map((reservation: any) => {
+                return (
+                    <div key={reservation.id} className={"flex flex-col border-2 rounded border-zinc-500 p-1 gap-1"}>
+                      <p>Namn: {reservation.name}</p>
+                      <p>Unokod: {reservation.unoCode}</p>
+                      <div className={"flex flex-col gap-1 sm:flex-row"}>
+                        <Button1 title={"Godkänn"} isLoading={false}
+                                 onClick={() => onBtnApprove(reservation.id, reservation.userId)}/>
+                        <Button1Error title={"Neka"} isLoading={false}
+                                      onClick={() => onBtnDenied(reservation.id, reservation.userId)}/>
+                      </div>
+                    </div>
+                )
+              })}
+            </section>
+          </>}
+
         </main>
       </div>
   );
