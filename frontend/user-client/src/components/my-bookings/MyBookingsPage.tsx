@@ -15,7 +15,6 @@ const MyBookingsPage = (props: RequestsProps) => {
     fetchPage("token").then(setBookingViewModel)
   }, []);
 
-  console.log(bookingViewModel)
   return (
       <div>
         <main className={"flex mt-1 xxs:justify-center md:justify-start"}>

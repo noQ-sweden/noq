@@ -6,15 +6,15 @@ interface Button2Props {
   isLoading: boolean
 }
 
-const Button2 = (props: Button2Props) => {
+const Button1Error = (props: Button2Props) => {
   return (
       <button onClick={() => props.onClick()}
-              className="btn bg-emerald-700 w-44 hover:bg-emerald-700">
-        <p className={`${props.isLoading ? "hidden" : "block text-white text-sm"}`}>{props.title}</p>
+              className="btn bg-transparent border-red-500 w-36 hover:bg-transparent hover:border-red-500">
+        <p className={`${props.isLoading ? "hidden" : "block text-red-600 text-sm"}`}>{props.title}</p>
         <span
             className={`${props.isLoading ? "block" : "hidden"} loading loading-spinner loading-xs`}></span>
       </button>
   );
 };
 
-export default Button2;
+export default Button1Error;

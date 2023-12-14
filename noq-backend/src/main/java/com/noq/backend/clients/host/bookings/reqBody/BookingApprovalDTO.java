@@ -1,4 +1,4 @@
-package com.noq.backend.clients.host.myLocations.reqBody;
+package com.noq.backend.clients.host.bookings.reqBody;
 
 import lombok.Builder;
 import lombok.Value;

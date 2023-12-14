@@ -15,20 +15,20 @@ const SideMenuLargeScreen = (props: SideMenuLargeScreenProps) => {
         <section className={""}>
 
           <ul className="bg-transparent">
-            <li>
-              <Link
-                  href={"/my-locations"}
-                  onClick={async () => {
-                    props.setSelected("/my-locations")
-                    await revalidateCache("my-locations")
-                  }}
-                  className={`
-                  btn w-full border-none border-indigo-500 font-normal rounded-none no-animation text-emerald-700 justify-start
-                  ${props.selected.includes("/my-locations") ? "bg-emerald-700 hover:bg-emerald-700 text-white" : "hover:bg-zinc-100 bg-zinc-50"}`}
-              >
-                Mina Boenden
-              </Link>
-            </li>
+            {/*<li>*/}
+            {/*  <Link*/}
+            {/*      href={"/my-locations"}*/}
+            {/*      onClick={async () => {*/}
+            {/*        props.setSelected("/my-locations")*/}
+            {/*        await revalidateCache("my-locations")*/}
+            {/*      }}*/}
+            {/*      className={`*/}
+            {/*      btn w-full border-none border-indigo-500 font-normal rounded-none no-animation text-emerald-700 justify-start*/}
+            {/*      ${props.selected.includes("/my-locations") ? "bg-emerald-700 hover:bg-emerald-700 text-white" : "hover:bg-zinc-100 bg-zinc-50"}`}*/}
+            {/*  >*/}
+            {/*    Mina Boenden*/}
+            {/*  </Link>*/}
+            {/*</li>*/}
             <li>
               <Link href={"/requests"}
                     onClick={async () => {

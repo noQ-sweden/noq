@@ -2,13 +2,13 @@
 
 import {AvailableHostsDTO} from "@/components/available-hosts/AvailableHostsDTO";
 
-const CLIENT_DOMAIN = process.env.CLIENT_DOMAIN
+const BACKEND_URL_ENDPOINT = process.env.BACKEND_URL_ENDPOINT
 
 export const fetchPage = async (token: string): Promise<AvailableHostsDTO> => {
-  return fetch(`${CLIENT_DOMAIN}/api/user/available-hosts`, {
+  return fetch(`${BACKEND_URL_ENDPOINT}/api/user/available-hosts`, {
     method: "GET",
     cache: "no-store",
-    next: {tags: ["bookings"]},
+    next: {tags: ["available-hosts"]},
     headers: {Authorization: "Bearer " + token},
   }).then(res => {
     if (res.ok) return res.json();

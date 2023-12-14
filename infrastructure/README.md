@@ -61,6 +61,9 @@ Infrastructure resources are deployed using GitHub Actions. The following steps 
 - `Provision backend container app` - Deploy backend app container to container apps environment.
 
 User: https://ca-noq-user-client.thankfulglacier-35d24b26.swedencentral.azurecontainerapps.io
+
 Host: https://ca-noq-host-client.thankfulglacier-35d24b26.swedencentral.azurecontainerapps.io
+
 Admin: https://ca-noq-admin-client.thankfulglacier-35d24b26.swedencentral.azurecontainerapps.io
+
 Backend: https://ca-noq-backend.thankfulglacier-35d24b26.swedencentral.azurecontainerapps.io
