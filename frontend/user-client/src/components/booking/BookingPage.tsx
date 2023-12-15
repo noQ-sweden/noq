@@ -37,22 +37,31 @@ const BookingPage = (props: BookingProps) => {
             </section>
 
             <section>
-              <p className={"font-bold"}>Välj önskat boställe</p>
-              <p>Välj boställe i listan för att fråga om en sängplats för natten</p>
+            <p className={"font-bold m-4"}>
+                Vill du skicka förfrågan om sänmgplats till följande boede?
+              </p>
             </section>
 
             <section className={""}>
-              <div className={"border-2 border-zinc-300 p-1 rounded"}>
-                <div className={"flex flex-col"}>
-                  <p>{bookingPageDTO.name}</p>
-                  <p>{bookingPageDTO.address1}</p>
-                  <p>{bookingPageDTO.address2}</p>
-                  <p>{bookingPageDTO.countOfAvailablePlaces} / {bookingPageDTO.totalAvailablePlaces}</p>
+            <div className="max-w-md rounded overflow-hidden shadow-lg bg-white p-4 m-4">
+                <div className="grid grid-cols-2 p-2">
+                  <div className="place-self-center">
+                    <h3 className="text-lg font-semibold">
+                      {bookingPageDTO.name}
+                    </h3>
+                    <p className="text-gray-700 text-base">
+                      {bookingPageDTO.address1}
+                    </p>
+                    <p className="text-gray-700 text-base">
+                      {bookingPageDTO.address2}
+                    </p>
+                  </div>
                 </div>
+
               </div>
             </section>
 
-            <section>
+            <section className="mt-4">
               <Button1 title={"Skicka Förfrågan"} isLoading={false}
                        onClick={() => onClickSendHostRequest(bookingPageDTO.userId, bookingPageDTO.hostId)}/>
             </section>

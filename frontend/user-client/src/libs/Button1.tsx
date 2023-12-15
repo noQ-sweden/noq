@@ -9,7 +9,7 @@ interface Button1Props {
 const Button1 = (props: Button1Props) => {
   return (
       <button onClick={() => props.onClick()}
-              className="btn bg-emerald-700 w-36 hover:bg-emerald-700">
+      className="bg-primary hover:bg-teal-600 text-white font-bold py-2 px-4 rounded">
         <p className={`${props.isLoading ? "hidden" : "block text-white text-sm"}`}>{props.title}</p>
         <span
             className={`${props.isLoading ? "block" : "hidden"} loading loading-spinner loading-xs`}></span>
