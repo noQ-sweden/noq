@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { RequestsPageDTO } from "@/components/requests/RequestsPageDTO";
-import { fetchPage } from "@/components/requests/RequestsAPI";
+import {BookingReqBody, RequestsPageDTO} from "@/components/requests/RequestsPageDTO";
+import {fetchApproveRequest, fetchDenyRequest, fetchPage} from "@/components/requests/RequestsAPI";
 import Button1 from "@/libs/Button1";
 import Button1Error from "@/libs/ButtonError";
 import { useQuery } from "@tanstack/react-query";
@@ -10,24 +10,33 @@ import LoadingSpinner from "@/libs/LoadingSpinner";
 interface RequestsProps {}
 
 const Requests = (props: RequestsProps) => {
+  const [requestsPageDTO, setRequestsPageDTO] = useState<RequestsPageDTO>()
+
   const { isPending, isError, data, error } = useQuery({
     queryKey: [""],
     queryFn: () => {
-      return fetchPage("", "hostId");
+      return fetchPage("", "hostId").then(res => {
+        setRequestsPageDTO(res)
+        return res
+      });
     },
   });
 
-  function onBtnDenied(id: string, userId: string) {
-    console.log("onBtnDenied");
-    console.log(id);
-    console.log(userId);
-  }
+  const onBtnDenied = (reservationId: string, userId: string) => {
+    const bookingReqBody: BookingReqBody = {
+      hostId: "",
+      bookingId: reservationId
+    }
+    fetchDenyRequest("", bookingReqBody).then(setRequestsPageDTO)
+  };
 
-  function onBtnApprove(id: string, userId: string) {
-    console.log("onBtnApprove");
-    console.log(id);
-    console.log(userId);
-  }
+  const onBtnApprove = (reservationId: string, userId: string) => {
+    const bookingReqBody: BookingReqBody = {
+      hostId: "",
+      bookingId: reservationId
+    }
+    fetchApproveRequest("", bookingReqBody).then(setRequestsPageDTO)
+  };
 
   return (
     <div className="bg-white rounded  p-4 m-4">
@@ -38,8 +47,7 @@ const Requests = (props: RequestsProps) => {
           <>
             <section className="flex flex-col gap-4 border-t-2 border-zinc-500 p-4">
               <h1 className="text-lg font-semibold">Förfrågningar</h1>
-              {data &&
-                data.pendingBookings.map((reservation: any) => {
+              {requestsPageDTO && requestsPageDTO.pendingBookings.map((reservation: any) => {
                   return (
                     <div
                       key={reservation.id}
@@ -76,8 +84,7 @@ const Requests = (props: RequestsProps) => {
         >
           <h2 className={"text-lg font-semibold"}>Godkända</h2>
 
-          {data &&
-            data.approvedBookings.map((reservation: any) => {
+          {requestsPageDTO && requestsPageDTO.approvedBookings.map((reservation: any) => {
               return (
                 <div
                   key={reservation.id}
@@ -93,8 +100,7 @@ const Requests = (props: RequestsProps) => {
           className={"flex flex-col gap-1 border-t-2  border-zinc-500 p-4"}
         >
           <h2 className={"text-lg font-semibold"}>Nekade</h2>
-          {data &&
-            data.disapprovedBookings.map((reservation: any) => {
+          {requestsPageDTO && requestsPageDTO.disapprovedBookings.map((reservation: any) => {
               return (
                 <div
                   key={reservation.id}
