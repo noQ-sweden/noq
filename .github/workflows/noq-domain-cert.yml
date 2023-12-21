@@ -26,4 +26,4 @@ jobs:
 
       - name: Generate cert
         run: |
-          sudo certbot certonly dev.noq.nu -m martin@jonsing.se --config-dir . --cert-path . --manual --preferred-challenges=dns --non-interactive --agree-tos
+          sudo certbot certonly -d dev.noq.nu -m martin@jonsing.se --config-dir . --cert-path . --manual --preferred-challenges=dns --non-interactive --agree-tos
