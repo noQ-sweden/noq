@@ -2,10 +2,8 @@ name: Create noQ domain certs
 
 # Controls when the workflow will run
 on:
-  # Triggers the workflow on a timer. This particular timer runs on the first day of the month. CertBot certs are renewable every 30 days, so this should work for that purpose.
   # schedule:
   #   - cron:  '0 5 */31 * *'
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
   push:
     branches:
@@ -14,15 +12,18 @@ on:
 jobs:
   create_cert:
     # env:
-      # These environmental variables values are set from repository secrets. The sample script references these values for authenticating against Cloudflare and Azure
       # DOMAIN: ${{ secrets.DOMAIN }}  
     name: Cert dev.noq.nu
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2.3.2
-        
+
       - name: Install certbot
         run: |
           echo "Install dependencies"
           sudo apt install -y certbot openssl
+
+      - name: Generate cert
+        run: |
+          sudo certbot certonly dev.noq.nu -m martin@jonsing.se --config-dir . --cert-path . --manual --preferred-challenges=dns --non-interactive --agree-tos
