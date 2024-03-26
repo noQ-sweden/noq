@@ -7,17 +7,17 @@ assignees: ''
 
 ---
 
-**Beskrivning**
+###Beskrivning
 Som en [användare/vem] behöver jag ha [funktion/hur] så att [varför/värde].
 
-**Acceptance Criteria**
+###Acceptance Criteria
 Förutsatt [läge/plats/status]
 När [handling]
 Då [resultat/output]
 
-**Subtasks**
+###Subtasks
 
-**Definition of Done**
+###Definition of Done
 OK from wingmate
 Code checked in
 All subtasks done or cancelled
