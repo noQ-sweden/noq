@@ -1,11 +1,3 @@
----
-name: User Story
-about: Template for user stories
-title: ''
-labels: ''
-assignees: ''
-
----
 
 _För hjälp med hur vi skriver tickets i GitHub finns ett avsnitt om detta i vår [playbook] (https://docs.google.com/document/d/1ou6wr1sI9IJZaGGSMn_SJvFru5FJQKMDRZY16kBmx5Y/edit#heading=h.cg0m06jyj586). Tag bort denna text (och all annan kursiv stödtext) när du förstått detta._
 
