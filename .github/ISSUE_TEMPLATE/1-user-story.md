@@ -1,5 +1,5 @@
 ---
-name: User Story
+name: 1-User Story
 about: Describe this issue template's purpose here.
 title: ''
 labels: ''
