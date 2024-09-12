@@ -16,7 +16,6 @@ We know this is true when the following metrics has been ticked off:
 **Metrics**
 - [ ]  X% [impact] latest YYMMDD
 
-
 **Acceptance Criteria**
 * Given we have all metrics measured
 * When we look attt the output
