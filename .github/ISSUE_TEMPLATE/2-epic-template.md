@@ -1,6 +1,6 @@
 ---
 name: 2-EPIC template
-about: Vilket större problem du vill lösa
+about: Epics are planning items that we break down to work items (stories)
 title: 'EPIC: '
 labels: ''
 assignees: ''
@@ -21,18 +21,17 @@ Vi vet att denna hypotes är sann när följande mätbara mål uppfyllts:
 1. [mål 1] uppfyllt till minst [80%] senast [datum]
 2. [mål 2] uppfyllt till minst [80%] senast [datum]
 
-**Acceptance Criteria**
-_Här anges vilka förväntningar som är på denna epic så vi kan testa detta vid In review._
+**Hypothesis**
+We believe that if [the user] will get a better [feature/epic title/output]
+The [the user] will get [outcome/impact].
+To differ from today when [the user] do [current status/process]
+This epic will create [new status/process].
+We know this hypothesis is true hene following metrics is fulfilled
 
-AC1:
-[ ] Förutsatt att vi känner oss nöjda med denna epic
-[ ] När vi tittar på de mätbara målens utfall
-[ ] Då kan vi verifiera hypotesen som sann/falsk
+- [ ] x % is done latest YYMMDD
 
-**Subtasks/stories**
-_Här listar vi eventuella subtasks/stories som är nedbrytningen av denna epic:_
-* 
+- [ ]  **Definition of Ready OK?**
+Also called DoR, our generic process for checking if this is ready for start. See our Playbook here for details: https://docs.google.com/document/d/1ou6wr1sI9IJZaGGSMn_SJvFru5FJQKMDRZY16kBmx5Y/edit#heading=h.3rdcrjn
 
-**Definition of Done**
-_Eller DoD, är vår generiska process för alla epics att vi gjort denna på rätt sätt.
-Läs i vår [playbook] (https://docs.google.com/document/d/1ou6wr1sI9IJZaGGSMn_SJvFru5FJQKMDRZY16kBmx5Y/edit#heading=h.23ckvvd) om detta._
+- [ ]  **Definition of Done OK?**
+Also called DoD, our generic process for checking this is done in the right way. See our Playbook here for details: https://docs.google.com/document/d/1ou6wr1sI9IJZaGGSMn_SJvFru5FJQKMDRZY16kBmx5Y/edit#heading=h.23ckvvd
