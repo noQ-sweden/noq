@@ -28,7 +28,7 @@ AC2:
 * When [action]
 * Then [result/output]
 
-**Other info**
+**Other info: **
 Ex: Links, Solutions, best practices etc.
 
 - [ ]  **Definition of Ready OK?**
