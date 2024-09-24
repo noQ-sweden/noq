@@ -21,6 +21,14 @@ We know this is true when the following metrics has been ticked off:
 * When we look attt the output
 * Then we can decide if this hypothesis was true or false
 
+**Sub issues/tickets:** 
+* One
+* Two
+* Three
+
+**Other info:** 
+Ex: Links, Solutions, best practices etc.
+
 
 - [ ]  **Definition of Ready OK?**
 Also called DoR, our generic process for checking if this is ready for start. See our Playbook here for details: https://docs.google.com/document/d/1ou6wr1sI9IJZaGGSMn_SJvFru5FJQKMDRZY16kBmx5Y/edit#heading=h.3rdcrjn
