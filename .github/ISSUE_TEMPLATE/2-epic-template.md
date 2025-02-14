@@ -35,3 +35,10 @@ Also called DoR, our generic process for checking if this is ready for start. Se
 
 - [ ]  **Definition of Done OK?**
 Also called DoD, our generic process for checking this is done in the right way. See our Playbook here for details: https://docs.google.com/document/d/1ou6wr1sI9IJZaGGSMn_SJvFru5FJQKMDRZY16kBmx5Y/edit#heading=h.23ckvvd
+
+- [ ]  **Trinity Approach**
+These three people are responsible for the lifecycle of the epic and starts with a discovery phase where we
+UX / QA: A desirable solution, one that your customer really needs.
+Tech/Architect Expert: A feasible solution, building on the strengths of your current operational capabilities.
+PO: A viable (profitable) solution, with a sustainable business model.
+https://docs.google.com/document/d/1nbKJWM_FspoZzlSmbCFTnHwqOSiT1lfsvzozmtopduY/edit?tab=t.0#heading=h.jwl49ixv16ap
