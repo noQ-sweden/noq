@@ -19,12 +19,15 @@ public class UserService {
 
     private final UserRepository userRepository;
 
+    private final EmailService emailService;
+
     // FIXME Generate a unokodCache on Server Startup, so that new unokods can be created without risk of duplication
     private final Set<String> unokodCache;
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
         this.unokodCache = new HashSet<>();
+        this.emailService = emailService;
     }
 
     public List<User> getAllUsers() {
@@ -43,11 +46,30 @@ public class UserService {
     }
 
     public User createUser(User user) {
-        userRepository.save(user.toBuilder()
-                .unokod(generateUnoKod(user.getFirstName(), user.getLastName(), user.getDateOfBirth()))
-                .build());
-        return user;
+    // Generate a new UNOKOD and build the user with it
+    User newUser = user.toBuilder()
+            .unokod(generateUnoKod(user.getFirstName(), user.getLastName(), user.getDateOfBirth()))
+            .build();
+
+    // Save the user
+    userRepository.save(newUser);
+
+    // Send confirmation email
+    if (newUser.getEmail() != null && !newUser.getEmail().isBlank()) {
+        String subject = "noQ Confirmation Email";
+        String body = String.format(
+                "Hi!\n\nWelcome to noQ!\n\nThanks for joining us!\n- The noQ Team",
+                newUser.getFirstName(),
+                newUser.getUnokod()
+        );
+        emailService.sendConfirmationEmail(newUser.getEmail(), subject, body);
+    } else {
+        log.warn("Invalid email. Unable to send confirmation email for user: {}", newUser.getId());
     }
+
+    return newUser;
+}
+
 
     /**
      * Custom Business Logic to Generate New UNOKOD.
