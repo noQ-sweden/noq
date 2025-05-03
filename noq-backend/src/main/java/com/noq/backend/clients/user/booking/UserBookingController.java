@@ -31,39 +31,38 @@ public class UserBookingController {
 
     @GetMapping("{hostId}")
     public ResponseEntity<UserBookingPageDTO> getBookingPage(@PathVariable UUID hostId) {
-        log.info("getBookingPage");
-        log.info("hostId: {}", hostId);
-        UserBookingPageDTO toDTO = buildDTO(hostId);
-        return ResponseEntity.ok(toDTO);
+        log.info("getBookingPage - Feature temporarily disabled");
+        return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
+                .body(new UserBookingPageDTO(
+                        "550e8400-e29b-41d4-a716-446655440011",
+                        hostId.toString(),
+                        "Feature Temporarily Disabled",
+                        "N/A",
+                        "N/A",
+                        "N/A",
+                        "N/A",
+                        0,
+                        0));
     }
 
     @PutMapping("create-booking")
     public ResponseEntity<String> createBooking(@RequestBody UserCreateBookingRequestDTO reqBody) {
-        log.info("createBooking");
-        log.info("reqBody: {}", reqBody);
-        try {
-            var booking = bookingService.createBooking(UUID.fromString(reqBody.hostId()), UUID.fromString(userId), LocalDateTime.now());
-            return ResponseEntity.ok("Booking created with ID: " + booking.getBookingId());
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-        }
+        log.info("createBooking - Feature temporarily disabled");
+        return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
+                .body("Shelter booking feature is temporarily disabled for the demo and soft launch.");
     }
 
     @GetMapping("/user/{userId}")
     public List<Booking> findBookingsForUser(@PathVariable UUID userId) {
-        log.info("Finding Bookings for UserId: {}", userId);
-        return bookingService.findBookingsForUser(userId);
+        log.info("findBookingsForUser - Feature temporarily disabled");
+        return List.of();
     }
 
     @PostMapping("/user/{userId}/cancel/{bookingId}")
     public ResponseEntity<String> cancel(@PathVariable UUID userId, @PathVariable UUID bookingId) {
-        try {
-            // TODO Don't Cancel Booking if Does not belong to this User
-            bookingService.cancelBooking(bookingId);
-            return ResponseEntity.ok("Booking approval status updated successfully.");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-        }
+        log.info("cancel - Feature temporarily disabled");
+        return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
+                .body("Shelter booking feature is temporarily disabled for the demo and soft launch.");
     }
 
     public UserBookingPageDTO buildDTO(UUID hostId) {
@@ -83,18 +82,16 @@ public class UserBookingController {
                 dtoBuilder.getHost().getAddressPostcode(),
                 dtoBuilder.getHost().getCity(),
                 dtoBuilder.getHost().getCountOfAvailablePlaces(),
-                dtoBuilder.getHost().getTotalPlaces()
-        );
+                dtoBuilder.getHost().getTotalPlaces());
     }
 
     @Data
     static class DTOBuilder {
-//        User user;
+        // User user;
         Host host;
 
-//        public DTOBuilder(User user) {
-//            this.user = user;
-//        }
+        // public DTOBuilder(User user) {
+        // this.user = user;
+        // }
     }
 }
-

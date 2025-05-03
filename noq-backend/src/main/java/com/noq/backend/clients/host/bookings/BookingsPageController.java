@@ -24,30 +24,24 @@ public class BookingsPageController {
     private final UserService userService;
 
     @GetMapping
-    // FIXME to @GetMapping("/{hostId}") after removing Hardcoding of 550e8400-e29b-41d4-a716-446655440000
-    public ResponseEntity<BookingsPageDTO> getBookingsPageForHost(/*@PathVariable String hostId*/) {
-        log.info("Loading BookingsPageDTO");
-        // TODO Remove this Hardcoding. Frontend should send correct hostId
-        String hostId = "550e8400-e29b-41d4-a716-446655440000";
-        // FIXME Error when Host does not exist
-        BookingsPageDTO dto = toDTO(hostId);
-        return ResponseEntity.ok(dto);
+    public ResponseEntity<BookingsPageDTO> getBookingsPageForHost() {
+        log.info("getBookingsPageForHost - Feature temporarily disabled");
+        return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
+                .body(new BookingsPageDTO(List.of()));
     }
 
     @PostMapping("approve")
     public ResponseEntity<BookingsPageDTO> approve(@RequestBody BookingApprovalReqBody reqBody) {
-        String hostId = "550e8400-e29b-41d4-a716-446655440000";
-        bookingService.decideApproval(UUID.fromString(reqBody.bookingId()), ApprovalStatus.APPROVE);
-        var dto = toDTO(hostId);
-        return ResponseEntity.ok(dto);
+        log.info("approve - Feature temporarily disabled");
+        return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
+                .body(new BookingsPageDTO(List.of()));
     }
 
     @PostMapping("deny")
     public ResponseEntity<BookingsPageDTO> deny(@RequestBody BookingApprovalReqBody reqBody) {
-        String hostId = "550e8400-e29b-41d4-a716-446655440000";
-        bookingService.decideApproval(UUID.fromString(reqBody.bookingId()), ApprovalStatus.DENY);
-        var dto = toDTO(hostId);
-        return ResponseEntity.ok(dto);
+        log.info("deny - Feature temporarily disabled");
+        return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
+                .body(new BookingsPageDTO(List.of()));
     }
 
     private BookingsPageDTO.BookingDTO toDTO(Booking booking) {
@@ -65,17 +59,6 @@ public class BookingsPageController {
                 // FIXME Implementation for Queuing of Bookings
                 .queuingPlace(0)
                 .status(booking.getBookingStatus().name())
-                .build();
-    }
-
-    private BookingsPageDTO toDTO(String hostId) {
-        List<Booking> allBookingsForHost = bookingService.findBookingsForHost(UUID.fromString(hostId));
-        return BookingsPageDTO.builder()
-                .id(hostId)
-                .approvedBookings(allBookingsForHost.stream()
-                        .filter(booking -> booking.getBookingStatus() == BookingStatus.APPROVED).map(this::toDTO).toArray(BookingsPageDTO.BookingDTO[]::new))
-                .disapprovedBookings(allBookingsForHost.stream().filter(booking -> booking.getBookingStatus() == BookingStatus.DENIED).map(this::toDTO).toArray(BookingsPageDTO.BookingDTO[]::new))
-                .pendingBookings(allBookingsForHost.stream().filter(booking -> booking.getBookingStatus() == BookingStatus.PENDING).map(this::toDTO).toArray(BookingsPageDTO.BookingDTO[]::new))
                 .build();
     }
 }
