@@ -1,6 +1,6 @@
 ---
-name: 3-Bug report
-about: Create a report to help us improve
+name: 3-Bug template
+about: A report when we find something not working as accepted in our app.
 title: 'BUG: '
 labels: ''
 assignees: ''

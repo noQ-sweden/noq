@@ -1,5 +1,5 @@
 ---
-name: 2-EPIC template
+name: 2-Epic template
 about: Epics are planning items that we break down to work items (stories)
 title: 'EPIC: '
 labels: ''

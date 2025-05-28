@@ -1,8 +1,8 @@
 ---
-name: 1-User Story
+name: 1-User story template
 about: A story is a new requirement for a feature that provides direct value to the
   end user of it.
-title: ''
+title: 'STORY: '
 labels: ''
 assignees: ''
 
