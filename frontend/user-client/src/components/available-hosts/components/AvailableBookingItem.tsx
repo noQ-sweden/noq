@@ -45,13 +45,9 @@ const AvailableBookingItem = (props: RequestItemProps) => {
               {props.availableHost.countOfAvailablePlaces}
             </p>
             <div className="text-right mt-4">
-              <Link href={`/booking/${props.availableHost.hostId}`}>
-                <Button1
-                  title={"Välj boställe"}
-                  isLoading={isLoading}
-                  onClick={() => onClickHost(props.availableHost.hostId)}
-                />
-              </Link>
+              <div className="bg-gray-100 p-2 rounded text-sm text-gray-600">
+                Booking temporarily disabled
+              </div>
             </div>
           </div>
         </div>
