@@ -1,7 +1,7 @@
 ---
 name: 1-User story template
 about: A story is a new requirement for a feature that provides direct value to the
-  end user of it.
+  end user of it. Probably a slice of an epic.
 title: 'STORY: '
 labels: ''
 assignees: ''
