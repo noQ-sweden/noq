@@ -1,6 +1,7 @@
 ---
 name: 2-Epic template
-about: Epics are big planning items that we slice into work items (stories). For each slice we create a subissue.
+about: Epics are big planning items that we slice into work items (stories). For each
+  slice we create a subissue.
 title: 'EPIC: '
 labels: ''
 assignees: ''
